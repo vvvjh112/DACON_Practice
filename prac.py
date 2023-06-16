@@ -56,4 +56,10 @@ train_na_col = train_isna[train_isna > 0].index
 #train 프레임의 결측치를 평균값으로 대체
 train = train.fillna(train.mean())
 
-print(train.isna().sum())  # 결측치가 사라진 것 확인가능.
+# print(train.isna().sum())  # 결측치가 사라진 것 확인가능.
+# print(test['hour_bef_precipitation'].value_counts())
+
+
+### test 프레임 ###
+test['hour_bef_precipitation'].fillna(value = '0', inplace=True)
+print(test.isna().sum())
