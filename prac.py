@@ -122,7 +122,7 @@ xfets = train[xfet].columns
 # 모델 import
 from sklearn.linear_model import LinearRegression               #선형회귀
 from sklearn.ensemble import RandomForestRegressor              #랜덤포레스트
-from sklearn.model_selection import GridSearchCV                #GVsearch
+from sklearn.model_selection import GridSearchCV                #GVsearch  -- 머신러닝 모델에서 성능향상 / 최적의 하이퍼 파라미터 찾음
 from sklearn.model_selection import RandomizedSearchCV          #RandomizedSearch
 from sklearn.ensemble import GradientBoostingRegressor          #그래디언트 부스팅
 
@@ -143,3 +143,53 @@ lr_predict = lr.predict(X_test)
 #submission 파일에 예측값 대입 및 내보내기
 submission['count'] = lr_predict
 submission.to_csv('lr.csv', index=False)
+
+#랜덤포레스트
+rf = RandomForestRegressor()
+
+rf_model = RandomForestRegressor(n_estimators=100)
+
+rf_model.fit(X_train,y_train)
+
+rf_predict = rf_model.predict(X_test)
+
+submission['count'] = rf_predict
+submission.to_csv('rf.csv', index=False)
+
+
+#GridSearchCV
+
+param = {'min_samples_split': range(1,5),
+        'max_depth':range(8,12,2),
+        'n_estimators': range(250,450,50)} # 찾고자 하는 파라미터
+
+gs = GridSearchCV(estimator=rf, param_grid=param, scoring='neg_mean_squared_error',cv=3)  #cv = fold 횟수  scoring 은 회귀분석이기 때문에 "neg~~"
+
+gs.fit(X_train,y_train)
+
+print('최고 정확도 : ', gs.best_score_)
+print('최고 파라미터 : ', gs.best_params_)
+
+
+rf_gs_predict = gs.predict(X_test)
+submission['count'] = rf_gs_predict
+submission.to_csv('rf_gs.csv', index=False)
+
+
+# 랜덤포레스트 최적화
+rs_model = RandomForestRegressor()
+param = {'min_samples_split': range(12,15),
+        'max_depth': range(8,11),
+        'n_estimators': range(222,225)}
+
+rs = RandomizedSearchCV(estimator=rs_model, param_distributions=param, scoring = 'neg_mean_squared_error', cv=3)
+
+rs.fit(X_train, y_train)
+
+print('최고 정확도 : ', rs.best_score_)
+print('최고 파라미터 : ', rs.best_params_)
+
+rf_rs_predict = rs.predict(X_test)
+
+submission['count'] = rf_rs_predict
+submission.to_csv('rf_rs.csv', index=False)
