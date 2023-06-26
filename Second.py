@@ -43,17 +43,28 @@ model_dict = {'DT':DecisionTreeRegressor(),
 # K-FOLD
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
-k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
+# k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
+#
+# score = {}
+#
+# for model_name in model_dict.keys():
+#     model = model_dict[model_name]
+#
+#     score[model_name] = np.mean(
+#         cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
+#
+#
+# pd.Series(score).plot(kind = 'bar')
 
-score = {}
+# plt.show()
 
-for model_name in model_dict.keys():
-    model = model_dict[model_name]
-
-    score[model_name] = np.mean(
-        cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
-
-
-pd.Series(score).plot(kind = 'bar')
-
-plt.show()
+# 예측
+# LGB = lgb.LGBMRegressor()
+# LGB.fit(X_train, y_train)
+#
+#
+# LGB_predict = LGB.predict(X_test)
+#
+# # submission 파일에 예측값 대입 및 내보내기
+# submission['count'] = LGB_predict
+# submission.to_csv('LGB.csv', index=False)
