@@ -112,7 +112,7 @@ fill_bicycle_na(train, 'hour_bef_precipitation')
 # model_7 = KNeighborsRegressor(n_jobs = -1, n_neighbors = 7)
 # model_9 = KNeighborsRegressor(n_jobs = -1, n_neighbors = 9)
 #
-# kfold = KFold(n_splits = 5, shuffle = True, random_state = 10)
+kfold = KFold(n_splits = 5, shuffle = True, random_state = 10)
 #
 # print(np.mean(cross_val_score(model_5, X_train, y_train, cv = kfold, scoring = 'neg_mean_squared_error')))
 # #-2154.0119004848657
@@ -130,3 +130,59 @@ fill_bicycle_na(train, 'hour_bef_precipitation')
 # model.fit(X_train, y_train)
 # submission['count'] = model.predict(X_test)
 # submission.to_csv('knn_5.csv', index = False)
+
+
+#랜덤포레스트
+from sklearn.model_selection import GridSearchCV
+model = RandomForestRegressor()
+X_train = train.drop(['id', 'count'], axis = 1)
+y_train = train['count']
+X_test = test.drop('id', axis = 1)
+
+param = {'min_samples_split': [30, 50, 70],
+        'max_depth': [5, 6, 7],
+        'n_estimators': [50, 150, 250]}
+
+gs = GridSearchCV(estimator=model, param_grid=param, scoring = 'neg_mean_squared_error', cv = 3)
+
+# gs.fit(X_train, y_train)
+#
+# submission['count'] = gs.predict(X_test)
+# submission.to_csv('gridsearch.csv', index = False)
+
+# print(gs.best_params_)
+#{'max_depth': 7, 'min_samples_split': 30, 'n_estimators': 150}
+models = {}
+models["model_100"] = RandomForestRegressor(n_estimators=100, n_jobs = -1, random_state=10)
+models["model_200"] = RandomForestRegressor(n_estimators=200, n_jobs = -1, random_state=10)
+models["model_300"] = RandomForestRegressor(n_estimators=300, n_jobs = -1, random_state=10)
+models["model_500"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10)
+
+
+pd.DataFrame({'n_estimators':[100, 200, 300, 500], 'score':[-1546, -1537, -1529, -1521]}).plot('n_estimators', 'score')
+
+# for i in models.keys():
+#     score = cross_val_score(models[i], X_train, y_train, cv=kfold, scoring='neg_mean_squared_error')
+#     print(np.mean(score))
+#-1546.8865621858963
+#-1537.2335820896296
+#-1529.93820386781
+#-1521.7993785402248
+
+#분류기가 500일때 젤 좋음
+models2={}
+models2["model_sam_30"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30)
+models2["model_sam_50"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=50)
+models2["model_sam_100"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=100)
+
+# for i in models2.keys():
+#     score = cross_val_score(models2[i], X_train, y_train, cv=kfold, scoring='neg_mean_squared_error')
+#     print(np.mean(score))
+# -1647.5599150463909
+# -1746.5733867422455
+# -2009.23405613022
+
+final_model = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30)
+final_model.fit(X_train, y_train)
+submission['count'] = final_model.predict(X_test)
+submission.to_csv('estimators_500_samples_30.csv', index = False)
