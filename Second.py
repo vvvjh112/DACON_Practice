@@ -183,6 +183,27 @@ models2["model_sam_100"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, 
 # -2009.23405613022
 
 final_model = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30)
-final_model.fit(X_train, y_train)
-submission['count'] = final_model.predict(X_test)
-submission.to_csv('estimators_500_samples_30.csv', index = False)
+# final_model.fit(X_train, y_train)
+# submission['count'] = final_model.predict(X_test)
+# submission.to_csv('estimators_500_samples_30.csv', index = False)
+
+
+models3={}
+models3["rf_maxf_02"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30, max_features=0.2)
+models3["rf_maxf_04"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30, max_features=0.4)
+models3["rf_maxf_06"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30, max_features=0.6)
+models3["rf_maxf_08"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30, max_features=0.8)
+
+# for i in models3.keys():
+#     score = cross_val_score(models3[i], X_train, y_train, cv=kfold, scoring='neg_mean_squared_error')
+#     print(np.mean(score))
+
+# -2253.430187736337
+# -1830.923118087825
+# -1714.0867530230257
+# -1673.787363204249
+
+real = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30, max_features=0.8)
+real.fit(X_train, y_train)
+submission['count'] = real.predict(X_test)
+submission.to_csv('estimators_500_samples_30_feat8.csv', index = False)
