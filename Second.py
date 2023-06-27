@@ -40,6 +40,9 @@ model_dict = {'DT':DecisionTreeRegressor(),
              'XGB':xgb.XGBRegressor(),
              'KNN':KNeighborsRegressor()}
 
+#시각화는 생략.
+
+
 # K-FOLD
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
@@ -68,3 +71,6 @@ from sklearn.model_selection import cross_val_score
 # # submission 파일에 예측값 대입 및 내보내기
 # submission['count'] = LGB_predict
 # submission.to_csv('LGB.csv', index=False)
+
+
+
