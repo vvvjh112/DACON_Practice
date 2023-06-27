@@ -74,3 +74,59 @@ from sklearn.model_selection import cross_val_score
 
 
 
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+
+#결측치 처리
+train_isna_sum = train.isna().sum()
+na_columns = train_isna_sum[train_isna_sum != 0].index
+
+test_isna_sum = test.isna().sum()
+na_columns1 = test_isna_sum[test_isna_sum != 0].index
+
+def fill_bicycle_na(df, column):
+    df[column] = df[column].fillna(value=df[column].mean())
+
+for col in na_columns:
+    fill_bicycle_na(train, col)
+
+for col in na_columns1:
+    fill_bicycle_na(test, col)
+
+fill_bicycle_na(train, 'hour_bef_precipitation')
+# print(X_train.isna().sum())
+#
+
+# #KNN
+# model = KNeighborsRegressor(n_jobs = -1)
+#
+# #대여시각과 기온을 요인으로 대여량 예측
+# column = ['hour', 'hour_bef_temperature']
+# X_train = train[column]
+# y_train = train['count']
+# X_test = test[column]
+#
+# #이웃 수를 여러가지로 평가를 위해
+# model_5 = KNeighborsRegressor(n_jobs = -1, n_neighbors = 5)
+# model_7 = KNeighborsRegressor(n_jobs = -1, n_neighbors = 7)
+# model_9 = KNeighborsRegressor(n_jobs = -1, n_neighbors = 9)
+#
+# kfold = KFold(n_splits = 5, shuffle = True, random_state = 10)
+#
+# print(np.mean(cross_val_score(model_5, X_train, y_train, cv = kfold, scoring = 'neg_mean_squared_error')))
+# #-2154.0119004848657
+# print(np.mean(cross_val_score(model_7, X_train, y_train, cv = kfold, scoring = 'neg_mean_squared_error')))
+# #-2053.407982413414
+# print(np.mean(cross_val_score(model_9, X_train, y_train, cv = kfold, scoring = 'neg_mean_squared_error')))
+# #-1987.690754979273
+#
+# # model_9가 오차가 젤 적다
+# model_9.fit(X_train, y_train)
+# submission['count'] = model_9.predict(X_test)
+# submission.to_csv('knn_9.csv', index = False)
+#
+#
+# model.fit(X_train, y_train)
+# submission['count'] = model.predict(X_test)
+# submission.to_csv('knn_5.csv', index = False)
