@@ -43,23 +43,23 @@ model_dict = {'DT':DecisionTreeRegressor(),
 #시각화는 생략.
 
 
-# K-FOLD
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-# k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
+# # K-FOLD
+# from sklearn.model_selection import KFold
+# from sklearn.model_selection import cross_val_score
+# # k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
+# #
+# # score = {}
+# #
+# # for model_name in model_dict.keys():
+# #     model = model_dict[model_name]
+# #
+# #     score[model_name] = np.mean(
+# #         cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
+# #
+# #
+# # pd.Series(score).plot(kind = 'bar')
 #
-# score = {}
-#
-# for model_name in model_dict.keys():
-#     model = model_dict[model_name]
-#
-#     score[model_name] = np.mean(
-#         cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
-#
-#
-# pd.Series(score).plot(kind = 'bar')
-
-# plt.show()
+# # plt.show()
 
 # 예측
 # LGB = lgb.LGBMRegressor()
@@ -135,10 +135,13 @@ kfold = KFold(n_splits = 5, shuffle = True, random_state = 10)
 #랜덤포레스트
 from sklearn.model_selection import GridSearchCV
 model = RandomForestRegressor()
-X_train = train.drop(['id', 'count'], axis = 1)
+# X_train = train.drop(['id', 'count'], axis = 1)
+columns = ['hour', 'hour_bef_temperature', 'hour_bef_precipitation', 'hour_bef_windspeed', 'hour_bef_humidity']     #요인
+X_train = train[columns]
+print(X_train)
 y_train = train['count']
-X_test = test.drop('id', axis = 1)
-
+# X_test = test.drop('id', axis = 1)
+X_test = test[columns]
 param = {'min_samples_split': [30, 50, 70],
         'max_depth': [5, 6, 7],
         'n_estimators': [50, 150, 250]}
@@ -206,4 +209,4 @@ models3["rf_maxf_08"] = RandomForestRegressor(n_estimators=500, n_jobs = -1, ran
 real = RandomForestRegressor(n_estimators=500, n_jobs = -1, random_state=10, min_samples_split=30, max_features=0.8)
 real.fit(X_train, y_train)
 submission['count'] = real.predict(X_test)
-submission.to_csv('estimators_500_samples_30_feat8.csv', index = False)
+submission.to_csv('estimators_500_samples_30_feat81.csv', index = False)
