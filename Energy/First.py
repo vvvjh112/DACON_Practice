@@ -1,42 +1,71 @@
+## 전처리는 baseline을 바탕으로 랜덤포레스트 및 gridSearchCV 사용해서 점수 올려볼 계획
+
 import pandas as pd
 import numpy as np
+import os
+import glob
+import random
 
-train = pd.read_csv('train/train.csv')
-submission = pd.read_csv('sample_submission.csv')
-submission.set_index('id',inplace=True)
+import warnings
+warnings.filterwarnings("ignore")
 
 #출력 설정
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 
-def transform(dataset, target, start_index, end_index, history_size, target_size, step):
-    data = []
-    labels = []
-    start_index = start_index + history_size
-    if end_index is None:
-        end_index = len(dataset) - target_size
-    for i in range(start_index, end_index, 48):
-        indices = range(i-history_size, i, step)
-        data.append(np.ravel(dataset[indices].T))
-        labels.append(target[i:i+target_size])
-    data = np.array(data)
-    labels = np.array(labels)
-    return data, labels
+train = pd.read_csv('train/train.csv')
+submission = pd.read_csv('sample_submission.csv')
 
-# x_col =['DHI','DNI','WS','RH','T','TARGET']
-x_col =['TARGET']
-y_col = ['TARGET']
 
-dataset = train.loc[:,x_col].values
-label = np.ravel(train.loc[:,y_col].values)
+def preprocess_data(data, is_train=True):
+    temp = data.copy()
+    temp = temp[['Hour', 'TARGET', 'DHI', 'DNI', 'WS', 'RH', 'T']]
 
-past_history = 48 * 2
-future_target = 48 * 2
+    if is_train == True:
 
-### transform train
-train_data, train_label = transform(dataset, label, 0,None, past_history,future_target, 1)
+        temp['Target1'] = temp['TARGET'].shift(-48).fillna(method='ffill')
+        temp['Target2'] = temp['TARGET'].shift(-48 * 2).fillna(method='ffill')
+        temp = temp.dropna()
 
-print(train_data)
-print(train_label)
+        return temp.iloc[:-96]
 
-print(train.head())
+    elif is_train == False:
+
+        temp = temp[['Hour', 'TARGET', 'DHI', 'DNI', 'WS', 'RH', 'T']]
+
+        return temp.iloc[-48:, :]
+
+
+df_train = preprocess_data(train)
+
+df_test = []
+
+for i in range(81):
+    file_path = 'test/' + str(i) + '.csv'
+    temp = pd.read_csv(file_path)
+    temp = preprocess_data(temp, is_train=False)
+    df_test.append(temp)
+
+X_test = pd.concat(df_test)
+
+
+#학습 데이터 df_train / 테스트 데이터 X_test
+
+from sklearn import ensemble
+
+N_ESTIMATORS = 1000
+rf = ensemble.RandomForestRegressor(n_estimators=N_ESTIMATORS,
+                                    max_features=1, random_state=0,
+                                    max_depth = 5,
+                                    verbose=True,
+                                    n_jobs=-1)
+rf.fit(df_train, X_test)
+
+rf_preds = []
+for estimator in rf.estimators_:
+    rf_preds.append(estimator.predict(test))
+rf_preds = np.array(rf_preds)
+
+for i, q in enumerate(np.arange(0.1, 1, 0.1)):
+    y_pred = np.percentile(rf_preds, q * 100, axis=0)
+    submission.iloc[:, i] = np.ravel(y_pred)
