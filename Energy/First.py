@@ -1,65 +1,65 @@
 ## 전처리는 baseline을 바탕으로 랜덤포레스트 및 gridSearchCV 사용해서 점수 올려볼 계획
-
 import pandas as pd
 import numpy as np
-import os
-import glob
-import random
+from sklearn.model_selection import GridSearchCV
 
-import warnings
-warnings.filterwarnings("ignore")
-
-#출력 설정
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 
 train = pd.read_csv('train/train.csv')
 submission = pd.read_csv('sample_submission.csv')
+submission.set_index('id',inplace=True)
+def transform(dataset, target, start_index, end_index, history_size,
+                      target_size, step):
+    data = []
+    labels = []
+    start_index = start_index + history_size
+    if end_index is None:
+        end_index = len(dataset) - target_size
+    for i in range(start_index, end_index, 48):
+        indices = range(i-history_size, i, step)
+        data.append(np.ravel(dataset[indices].T))
+        labels.append(target[i:i+target_size])
+    data = np.array(data)
+    labels = np.array(labels)
+    return data, labels
+
+# x_col =['DHI','DNI','WS','RH','T','TARGET']
+x_col =['TARGET']
+y_col = ['TARGET']
+
+dataset = train.loc[:,x_col].values
+label = np.ravel(train.loc[:,y_col].values)
 
 
-def preprocess_data(data, is_train=True):
-    temp = data.copy()
-    temp = temp[['Hour', 'TARGET', 'DHI', 'DNI', 'WS', 'RH', 'T']]
 
-    if is_train == True:
+past_history = 48 * 2
+future_target = 48 * 2
 
-        temp['Target1'] = temp['TARGET'].shift(-48).fillna(method='ffill')
-        temp['Target2'] = temp['TARGET'].shift(-48 * 2).fillna(method='ffill')
-        temp = temp.dropna()
+### transform train
+train_data, train_label = transform(dataset, label, 0,None, past_history,future_target, 1)
+print(train_data, "//",train_label)
 
-        return temp.iloc[:-96]
-
-    elif is_train == False:
-
-        temp = temp[['Hour', 'TARGET', 'DHI', 'DNI', 'WS', 'RH', 'T']]
-
-        return temp.iloc[-48:, :]
-
-
-df_train = preprocess_data(train)
-
-df_test = []
-
+### transform test
+test = []
 for i in range(81):
-    file_path = 'test/' + str(i) + '.csv'
-    temp = pd.read_csv(file_path)
-    temp = preprocess_data(temp, is_train=False)
-    df_test.append(temp)
-
-X_test = pd.concat(df_test)
-
-
-#학습 데이터 df_train / 테스트 데이터 X_test
+    data = []
+    tmp = pd.read_csv(f'test/{i}.csv')
+    tmp = tmp.loc[:, x_col].values
+    tmp = tmp[-past_history:,:]
+    data.append(np.ravel(tmp.T))
+    data = np.array(data)
+    test.append(data)
+test = np.concatenate(test, axis=0)
 
 from sklearn import ensemble
-
 N_ESTIMATORS = 1000
 rf = ensemble.RandomForestRegressor(n_estimators=N_ESTIMATORS,
                                     max_features=1, random_state=0,
                                     max_depth = 5,
                                     verbose=True,
                                     n_jobs=-1)
-rf.fit(df_train, X_test)
+rf.fit(train_data, train_label)
 
 rf_preds = []
 for estimator in rf.estimators_:
@@ -69,3 +69,38 @@ rf_preds = np.array(rf_preds)
 for i, q in enumerate(np.arange(0.1, 1, 0.1)):
     y_pred = np.percentile(rf_preds, q * 100, axis=0)
     submission.iloc[:, i] = np.ravel(y_pred)
+
+# submission.to_csv(f'submission.csv')
+
+#GridSearchCV
+# param = {'min_samples_split': range(1,5),
+#         'max_depth':range(8,12,2),
+#         'n_estimators': range(250,450,50)} # 찾고자 하는 파라미터
+#
+# gs = GridSearchCV(estimator=rf, param_grid=param, scoring='neg_mean_squared_error',cv=3)  #cv = fold 횟수  scoring 은 회귀분석이기 때문에 "neg~~"
+#
+# gs.fit(train_data, train_label)
+#
+# print('최고 정확도 : ', gs.best_score_)
+# print('최고 파라미터 : ', gs.best_params_)
+
+
+rf = ensemble.RandomForestRegressor(n_estimators=400,
+                                    max_features=1, random_state=0,
+                                    max_depth = 10,
+                                    verbose=True,
+                                    n_jobs=-1, min_samples_split=3)
+rf.fit(train_data, train_label)
+
+rf_preds = []
+for estimator in rf.estimators_:
+    rf_preds.append(estimator.predict(test))
+rf_preds = np.array(rf_preds)
+
+for i, q in enumerate(np.arange(0.1, 1, 0.1)):
+    y_pred = np.percentile(rf_preds, q * 100, axis=0)
+    submission.iloc[:, i] = np.ravel(y_pred)
+
+submission.to_csv(f'rf_gs.csv')
+
+#RandomizedSearchCV 를 이용해서 더 튜닝 해보기
