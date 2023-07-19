@@ -87,19 +87,30 @@ rf = RandomForestRegressor()
 # param = {'min_samples_split': range(2,7),
 #         'max_depth':range(2,12,2),
 #         'n_estimators': range(150,450,50)} # 찾고자 하는 파라미터
-#
-# gs = GridSearchCV(estimator=rf, param_grid=param, scoring='neg_median_absolute_error',cv=3)  #cv = fold 횟수  scoring 은 회귀분석이기 때문에 "neg~~"
-#
+
+param = {'min_samples_split': range(2,7),           #두번째 튜닝시도  최고 파라미터 :  {'max_features': 50, 'min_samples_split': 6, 'n_estimators': 900}, -127.89147492041997
+        # 'max_depth':range(2,12,2),
+         'max_features' : range(20,60,10),
+        'n_estimators': range(400,1050,100)}
+
+# gs = GridSearchCV(estimator=rf, param_grid=param, scoring='neg_mean_absolute_error',cv=3)  #cv = fold 횟수  scoring 은 회귀분석이기 때문에 "neg~~"
+
 # gs.fit(X_train_new, y_train)
 #
 # print('최고 정확도 : ', gs.best_score_)
 # print('최고 파라미터 : ', gs.best_params_)
 
 # rf = RandomForestRegressor(max_depth=8,min_samples_split=6,n_estimators=150)
-#
-# rf.fit(X_train_new,y_train)
-# pred = rf.predict(test_new)
+rf = RandomForestRegressor(max_depth=8,min_samples_split=6,n_estimators=900, max_features=50)        #2차 튜닝
 
+rf.fit(X_train_new,y_train)
+pred = rf.predict(test_new)
+
+sample_submission = pd.read_csv('./sample_submission.csv')
+sample_submission['착과량(int)'] = pred
+sample_submission.to_csv("./rf_Second.csv", index = False)
+
+################################# baseline 코드
 
 # from sklearn.tree import DecisionTreeRegressor
 #
@@ -111,3 +122,6 @@ rf = RandomForestRegressor()
 # sample_submission = pd.read_csv('./sample_submission.csv')
 # sample_submission['착과량(int)'] = pred
 # sample_submission.to_csv("./DT.csv", index = False)
+
+
+############################
