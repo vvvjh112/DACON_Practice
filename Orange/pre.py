@@ -101,13 +101,13 @@ rf = RandomForestRegressor()
 # pred = rf.predict(test_new)
 
 
-from sklearn.tree import DecisionTreeRegressor
-
-model = DecisionTreeRegressor()
-
-model.fit(X_train_new, y_train)
-pred = model.predict(test_new)
-
-sample_submission = pd.read_csv('./sample_submission.csv')
-sample_submission['착과량(int)'] = pred
-sample_submission.to_csv("./DT.csv", index = False)
+# from sklearn.tree import DecisionTreeRegressor
+#
+# model = DecisionTreeRegressor()
+#
+# model.fit(X_train_new, y_train)
+# pred = model.predict(test_new)
+#
+# sample_submission = pd.read_csv('./sample_submission.csv')
+# sample_submission['착과량(int)'] = pred
+# sample_submission.to_csv("./DT.csv", index = False)
