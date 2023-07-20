@@ -101,14 +101,14 @@ param = {'min_samples_split': range(2,7),           #두번째 튜닝시도  최
 # print('최고 파라미터 : ', gs.best_params_)
 
 # rf = RandomForestRegressor(max_depth=8,min_samples_split=6,n_estimators=150)
-rf = RandomForestRegressor(max_depth=8,min_samples_split=6,n_estimators=900, max_features=50)        #2차 튜닝
-
-rf.fit(X_train_new,y_train)
-pred = rf.predict(test_new)
-
-sample_submission = pd.read_csv('./sample_submission.csv')
-sample_submission['착과량(int)'] = pred
-sample_submission.to_csv("./rf_Second.csv", index = False)
+# rf = RandomForestRegressor(max_depth=8,min_samples_split=6,n_estimators=900, max_features=50)        #2차 튜닝
+#
+# rf.fit(X_train_new,y_train)
+# pred = rf.predict(test_new)
+#
+# sample_submission = pd.read_csv('./sample_submission.csv')
+# sample_submission['착과량(int)'] = pred
+# sample_submission.to_csv("./rf_Second.csv", index = False)
 
 ################################# baseline 코드
 
@@ -125,3 +125,21 @@ sample_submission.to_csv("./rf_Second.csv", index = False)
 
 
 ############################
+#private 8위 팀 copy 연습
+#여러가지 머신러닝 기법들을 train/val 8:2 비율로 mae 점수 비교했을 때 아래 2모델이 점수가 높았음.
+
+et_reg = ExtraTreesRegressor(n_estimators=1000, min_samples_leaf=9, min_samples_split=6, max_features=40)
+rf_reg = RandomForestRegressor(n_estimators=1000, min_samples_leaf=9, min_samples_split=6, max_features=20)
+
+voting_reg = VotingRegressor(
+    estimators=[
+        ('et', et_reg),
+        ('rf', rf_reg)
+    ]
+)
+voting_reg.fit(X_train_new, y_train)
+
+pred = voting_reg.predict(test_new)
+sample_submission = pd.read_csv('./sample_submission.csv')
+sample_submission['착과량(int)'] = pred
+sample_submission.to_csv("./voting.csv", index = False)
