@@ -124,6 +124,7 @@ param = {'min_samples_split': range(2,7),           #두번째 튜닝시도  최
 # sample_submission.to_csv("./DT.csv", index = False)
 
 
+
 ############################
 #private 8위 팀 copy 연습
 #여러가지 머신러닝 기법들을 train/val 8:2 비율로 mae 점수 비교했을 때 아래 2모델이 점수가 높았음.
