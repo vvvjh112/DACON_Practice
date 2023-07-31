@@ -119,3 +119,25 @@ model_dict = {'DT':DecisionTreeRegressor(),
 # plt.show()
 
 #DT, RF, XGB가 비슷 LGB가 좀 떨어짐 KNN은 나가리
+
+from sklearn.model_selection import GridSearchCV
+
+
+def get_best_params(model, param):
+    grid_model = GridSearchCV(model, param_grid=param, scoring='neg_mean_squared_error', cv=5, n_jobs=-1)
+    grid_model.fit(X_train, y_train)
+    rmse = np.sqrt(-1* grid_model.best_score_)
+    print('최적 평균 RMSE 값:', np.round(rmse, 4))
+    print('최적 파라미터:', grid_model.best_params_)
+    return grid_model.best_estimator_
+
+xg_param = {
+         'max_depth':range(2,10,2),
+
+        'n_estimators': range(400,1050,100)}
+
+xgb = xgb.XGBRegressor()
+
+best_xgb = get_best_params(xgb,xg_param)
+
+print(best_xgb)
