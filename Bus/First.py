@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
 #데이터를 바탕으로 도착시간을 예측해야 함
 pd.set_option('display.max_columns', None) ## 모든 열을 출력한다.
 pd.set_option('display.max_rows', None)
@@ -52,12 +54,68 @@ def dist_check(df):
     for i in range(df.shape[0]):
         temp['hot'][i] = tmp(temp,i)
 
+        tmmp = temp['now_arrive_time'][i]
+        tmmp = tmmp[:2]
+        temp['now_arrive_time'][i] = int(tmmp)
+
     return temp
 
 tmp = df_del(train)
 tmp = dist_check(tmp)
 tmp = tmp.drop(['now_latitude','now_longitude','next_latitude','next_longitude'],axis=1)
 print(tmp.columns)
+
+
+X_train = tmp.drop(['id', 'next_arrive_time'],axis=1)
+#데이터타입 변경
+X_train.set_index('now_arrive_time',inplace=True)
+X_train = X_train.astype('int64')
+X_train.reset_index(inplace=True)
+
+
+print("데이터 타입" , X_train.dtypes)
+y_train = tmp['next_arrive_time']
 #Index(['id', 'now_arrive_time', 'distance', 'next_arrive_time', 'hot'], dtype='object')
+#테스트
+print(tmp.head())
+# print("\n")
+# print(X_train.head())
 
 #이상값 체크 및 모델 스코어 비교 해보자
+
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+import lightgbm as lgb
+import xgboost as xgb
+from sklearn.neighbors import KNeighborsRegressor
+
+import numpy as np
+
+model_dict = {'DT':DecisionTreeRegressor(),
+             'RF':RandomForestRegressor(),
+             'LGB':lgb.LGBMRegressor(),
+             'XGB':xgb.XGBRegressor(),
+             'KNN':KNeighborsRegressor()}
+
+#시각화는 생략.
+
+
+
+# from sklearn.model_selection import KFold
+# from sklearn.model_selection import cross_val_score
+# k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
+#
+# score = {}
+#
+# for model_name in model_dict.keys():
+#     model = model_dict[model_name]
+#
+#     score[model_name] = np.mean(
+#         cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
+#
+#
+# pd.Series(score).plot(kind = 'bar')
+#
+# plt.show()
+
+#DT, RF, XGB가 비슷 LGB가 좀 떨어짐 KNN은 나가리
