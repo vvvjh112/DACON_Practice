@@ -81,6 +81,13 @@ print(tmp.head())
 # print("\n")
 # print(X_train.head())
 
+##### 내가한 전처리는 효과가 별로인 것 같음..
+#2차시도
+#핫플은 유지하고  음..
+
+
+
+
 #이상값 체크 및 모델 스코어 비교 해보자
 
 from sklearn.tree import DecisionTreeRegressor
@@ -132,11 +139,17 @@ def get_best_params(model, param):
     return grid_model.best_estimator_
 
 xg_param = {
-         'max_depth':range(2,10,2),
+        #  'max_depth':range(2,10,2),
+        #
+        # 'n_estimators': range(400,1050,100)
+        'n_estimators' : [100,200,300,400,500],
+        # 'learning_rate' : [0.01,0.05,0.1,0.15],
+        # 'max_depth' : [3,5,7,10,15],
+        # 'gamma' : [0,1,2,3],
+        # 'colsample_bytree' : [0.8,0.9],
+}
 
-        'n_estimators': range(400,1050,100)}
-
-xgb = xgb.XGBRegressor()
+xgb = xgb.XGBRegressor(colsample_bytree= 0.8, gamma= 0, learning_rate= 0.15, max_depth= 10)
 
 best_xgb = get_best_params(xgb,xg_param)
 
