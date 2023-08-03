@@ -106,13 +106,24 @@ train_data['next_arrive_time'].hist()
 
 train_data['date'] = pd.to_datetime(train_data['date']) # date 값을 datetime으로
 train_data['weekday'] = train_data['date'].dt.weekday  # Monday 0, Sunday 6
-train_data['weekday'] = train_data['weekday'].apply(lambda x: int(0) if x <= 5 else int(1))
+train_data['weekday'] = train_data['weekday'].apply(lambda x: int(0) if x < 5 else int(1))
 # 0 ~ 5 는 월요일 ~ 금요일이므로 평일이면 0, 주말이면 1을 설정하였다
 
 train_data = pd.get_dummies(train_data, columns=['weekday']) # 평일/주말에 대해 One-hot Encoding
 
 train_data = train_data.drop('date', axis=1) # 필요없는 date 칼럼을 drop
 # print(train_data.head())
+
+## test data
+# 시험데이터도 마찬가지로 처리해준다.
+
+test_data['date'] = pd.to_datetime(test_data['date'])
+test_data['weekday'] = test_data['date'].dt.weekday  # Monday 0, Sunday 6
+test_data['weekday'] = test_data['weekday'].apply(lambda x: 0 if x < 5 else 1)
+test_data = pd.get_dummies(test_data, columns=['weekday'])
+
+test_data = test_data.drop('date', axis=1)
+test_data.head()
 
 train_data['time_group']='group' #time_group 변수를 미리 생성
 
@@ -151,11 +162,20 @@ test_data = test_data.drop(['route_nm', 'next_latitude', 'next_longitude',
 print(train_data.head())
 print(test_data.head())
 
+
+# 학습 데이터 칼럼에서 목표치인 next_arrive_time만 제거하여 선택한다.
+input_var = list(train_data.columns)
+input_var.remove('next_arrive_time')
+
+Xtrain = train_data[input_var] # 학습 데이터 선택
+Ytrain = train_data['next_arrive_time'] # target 값인 Y 데이터 선택
+
+Xtest = test_data[input_var] # 시험 데이터도 선택
 #이상값 체크 및 모델 스코어 비교 해보자
 
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
-import lightgbm as lgb
+# import lightgbm as lgb
 import xgboost as xgb
 from sklearn.neighbors import KNeighborsRegressor
 
@@ -163,7 +183,7 @@ import numpy as np
 
 model_dict = {'DT':DecisionTreeRegressor(),
              'RF':RandomForestRegressor(),
-             'LGB':lgb.LGBMRegressor(),
+             # 'LGB':lgb.LGBMRegressor(),
              'XGB':xgb.XGBRegressor(),
              'KNN':KNeighborsRegressor()}
 
@@ -171,49 +191,50 @@ model_dict = {'DT':DecisionTreeRegressor(),
 
 
 
-# from sklearn.model_selection import KFold
-# from sklearn.model_selection import cross_val_score
-# k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
-#
-# score = {}
-#
-# for model_name in model_dict.keys():
-#     model = model_dict[model_name]
-#
-#     score[model_name] = np.mean(
-#         cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
-#
-#
-# pd.Series(score).plot(kind = 'bar')
-#
-# plt.show()
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+k_fold = KFold(n_splits=5, shuffle= True, random_state=10)
+
+score = {}
+
+for model_name in model_dict.keys():
+    model = model_dict[model_name]
+
+    score[model_name] = np.mean(
+        cross_val_score(model, Xtrain, Ytrain, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
+
+
+pd.Series(score).plot(kind = 'bar')
+plt.ylim(0,5000)
+plt.show()
 
 #DT, RF, XGB가 비슷 LGB가 좀 떨어짐 KNN은 나가리
 
 from sklearn.model_selection import GridSearchCV
 
 #
-# def get_best_params(model, param):
-#     grid_model = GridSearchCV(model, param_grid=param, scoring='neg_mean_squared_error', cv=5, n_jobs=-1)
-#     grid_model.fit(X_train, y_train)
-#     rmse = np.sqrt(-1* grid_model.best_score_)
-#     print('최적 평균 RMSE 값:', np.round(rmse, 4))
-#     print('최적 파라미터:', grid_model.best_params_)
-#     return grid_model.best_estimator_
+def get_best_params(model, param):
+    grid_model = GridSearchCV(model, param_grid=param, scoring='neg_mean_squared_error', cv=5, n_jobs=-1)
+    grid_model.fit(Xtrain, Ytrain)
+    rmse = np.sqrt(-1* grid_model.best_score_)
+    print('최적 평균 RMSE 값:', np.round(rmse, 4))
+    print('최적 파라미터:', grid_model.best_params_)
+    return grid_model.best_estimator_
 #
-# xg_param = {
-#         #  'max_depth':range(2,10,2),
-#         #
-#         # 'n_estimators': range(400,1050,100)
-#         'n_estimators' : [100,200,300,400,500],
-#         # 'learning_rate' : [0.01,0.05,0.1,0.15],
-#         # 'max_depth' : [3,5,7,10,15],
-#         # 'gamma' : [0,1,2,3],
-#         # 'colsample_bytree' : [0.8,0.9],
-# }
+xg_param = {
+        #  'max_depth':range(2,10,2),
+        #
+        # 'n_estimators': range(400,1050,100)
+        # 'n_estimators' : [100,200,300,400,500],
+        'learning_rate' : [0.01,0.05,0.1,0.15],
+        'max_depth' : [3,5,7,10,15],
+        'gamma' : [0,1,2,3],
+        'colsample_bytree' : [0.8,0.9],
+}
 #
 # xgb = xgb.XGBRegressor(colsample_bytree= 0.8, gamma= 0, learning_rate= 0.15, max_depth= 10)
 #
-# best_xgb = get_best_params(xgb,xg_param)
+xgb = xgb.XGBRegressor()
+best_xgb = get_best_params(xgb,xg_param)
 #
-# print(best_xgb)
+print(best_xgb)
