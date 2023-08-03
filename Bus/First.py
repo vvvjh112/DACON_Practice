@@ -139,7 +139,7 @@ test_data = dist_check(test_data)
 
 train_data = pd.get_dummies(train_data, columns=['hot']) # 핫플 통과 여부에 대해 One-hot Encoding
 # train_data = train_data.drop('hot', axis=1) # 필요없는 칼럼을 drop
-
+#
 test_data = pd.get_dummies(test_data, columns=['hot']) # 핫플 통과 여부에 대해 One-hot Encoding
 # test_data = test_data.drop('hot', axis=1) # 필요없는 칼럼을 drop
 
