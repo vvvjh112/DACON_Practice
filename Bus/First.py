@@ -101,7 +101,7 @@ test_data['now_station'] = station_encoder.transform(test_data['now_station'])
 test_data['next_station'] = station_encoder.transform(test_data['next_station'])
 # print(train_data.head())
 
-train_data['next_arrive_time'].hist()
+# train_data['next_arrive_time'].hist()
 # plt.show()
 
 ## train data
@@ -208,8 +208,8 @@ for model_name in model_dict.keys():
         cross_val_score(model, Xtrain, Ytrain, scoring='neg_mean_squared_error', n_jobs=-1, cv=k_fold))*-1
 
 
-pd.Series(score).plot(kind = 'bar')
-plt.ylim(0,5000)
+# pd.Series(score).plot(kind = 'bar')
+# plt.ylim(0,5000)
 # plt.show()
 
 #DT, RF, XGB가 비슷 LGB가 좀 떨어짐 KNN은 나가리
