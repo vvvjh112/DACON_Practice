@@ -85,6 +85,8 @@ def dist_check(df):
 ##### 내가한 전처리는 효과가 별로인 것 같음..
 #2차시도
 #핫플은 유지하고  음..
+
+print(train_data.head())
 station_encoder = LabelEncoder() # 인코더 생성
 
 _station = list(train_data['now_station'].values) + list(train_data['next_station'].values) # train_data 의 모든 정류장 이름
@@ -150,7 +152,7 @@ test_data = dist_check(test_data)
 
 train_data = pd.get_dummies(train_data, columns=['hot']) # 핫플 통과 여부에 대해 One-hot Encoding
 # train_data = train_data.drop('hot', axis=1) # 필요없는 칼럼을 drop
-#
+# #
 test_data = pd.get_dummies(test_data, columns=['hot']) # 핫플 통과 여부에 대해 One-hot Encoding
 # test_data = test_data.drop('hot', axis=1) # 필요없는 칼럼을 drop
 
@@ -158,6 +160,8 @@ train_data = train_data.drop(['id', 'route_nm', 'next_latitude', 'next_longitude
                               'now_latitude', 'now_longitude'], axis=1)
 test_data = test_data.drop(['route_nm', 'next_latitude', 'next_longitude',
                               'now_latitude', 'now_longitude'], axis=1)
+
+train_data = train_data[train_data['next_arrive_time'] <= 700]
 
 print(train_data.head())
 print(test_data.head())
@@ -206,7 +210,7 @@ for model_name in model_dict.keys():
 
 pd.Series(score).plot(kind = 'bar')
 plt.ylim(0,5000)
-plt.show()
+# plt.show()
 
 #DT, RF, XGB가 비슷 LGB가 좀 떨어짐 KNN은 나가리
 
@@ -227,14 +231,58 @@ xg_param = {
         # 'n_estimators': range(400,1050,100)
         # 'n_estimators' : [100,200,300,400,500],
         'learning_rate' : [0.01,0.05,0.1,0.15],
-        'max_depth' : [3,5,7,10,15],
+        'max_depth' : [4,6,8,10,15],
         'gamma' : [0,1,2,3],
         'colsample_bytree' : [0.8,0.9],
 }
 #
 # xgb = xgb.XGBRegressor(colsample_bytree= 0.8, gamma= 0, learning_rate= 0.15, max_depth= 10)
 #
-xgb = xgb.XGBRegressor()
-best_xgb = get_best_params(xgb,xg_param)
-#
-print(best_xgb)
+# xgb = xgb.XGBRegressor()
+# best_xgb = get_best_params(xgb,xg_param)
+# #
+# print(best_xgb)
+
+model = xgb.XGBRegressor(random_state=110, verbosity=0, nthread=23, n_estimators=980, max_depth=4)
+kfold = KFold(n_splits=8, shuffle=True, random_state=777)
+n_iter = 0
+cv_score = []
+
+def rmse(target, pred):
+    return np.sqrt(np.sum(np.power(target - pred, 2)) / np.size(pred))
+
+
+for train_index, test_index in kfold.split(Xtrain, Ytrain):
+    # K Fold가 적용된 train, test 데이터를 불러온다
+    X_train, X_test = Xtrain.iloc[train_index, :], Xtrain.iloc[test_index, :]
+    Y_train, Y_test = Ytrain.iloc[train_index], Ytrain.iloc[test_index]
+
+    # 모델 학습과 예측 수행
+    model.fit(X_train, Y_train)
+    pred = model.predict(X_test)
+    print(pred)
+
+    # 정확도 RMSE 계산
+    n_iter += 1
+    score = rmse(Y_test, pred)
+    print(score)
+    cv_score.append(score)
+print('\n교차 검증별 RMSE :', np.round(cv_score, 4))
+print('평균 검증 RMSE :', np.mean(cv_score))
+
+result = model.predict(Xtest) # 시험 데이터 예측
+
+test_data['next_arrive_time'] = result # next_arrive_time 예측 결과로 추가
+test_data[['id', 'next_arrive_time']].to_csv('Second_YJH_Edit.csv',index=False, float_format='%.14f') # csv로 변환
+
+# 변수 중요도 평가
+n_feature = X_train.shape[1] #주어진 변수들의 갯수를 구함
+index = np.arange(n_feature)
+
+plt.barh(index, model.feature_importances_, align='center') #
+plt.yticks(index, input_var)
+plt.ylim(-1, n_feature)
+plt.xlabel('feature importance', size=15)
+plt.ylabel('feature', size=15)
+plt.show()
+np.sum(model.feature_importances_)
