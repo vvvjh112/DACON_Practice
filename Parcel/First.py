@@ -1,13 +1,38 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 from sklearn.preprocessing import LabelEncoder
+
+matplotlib.rcParams['font.family'] ='Malgun Gothic'
+
+matplotlib.rcParams['axes.unicode_minus'] =False
+
+
 
 #데이터 불러오기
 train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
 submission = pd.read_csv('sample_submission.csv')
 
+def pre(df):
+    tmp = list(df['송하인_격자공간고유번호'])
+    tmp1 = list(df['수하인_격자공간고유번호'])
+
+    for i in range(len(tmp)):
+        a = str(tmp[i])
+        b = str(tmp1[i])
+        tmp[i] = int(a[0:5])
+        tmp1[i] = int(b[0:5])
+
+    df['송하인_격자공간고유번호'] = tmp
+    df['수하인_격자공간고유번호'] = tmp1
+
+    df = df.drop(['index'],axis=1)
+    return df
+
+train = pre(train)
+test = pre(test)
 
 #라벨링
 encoder = LabelEncoder() # 인코더 생성
@@ -68,7 +93,8 @@ score = {}
 #RandomSearch / GridSearch
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import GridSearchCV
-model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=8,min_child_weight=20,num_leaves=30)
+model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=7,min_child_samples=10,num_leaves=60)
+# model = lgb.LGBMRegressor()
 params = {
     'n_estimators': [30,50,60,70,80,90,100,200],
     # 'learning_rate': [0.1, 0.05, 0.01,0.005],
@@ -87,7 +113,7 @@ print("Best Param : ",grid_search.best_params_)
 
 
 #디폴트값으로 점수 측정
-model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=8,min_child_samples=10,num_leaves=30,n_estimators=100)
+model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=7,min_child_samples=10,num_leaves=60,n_estimators=50)
 kfold = KFold(n_splits=8, shuffle=True, random_state=777)
 n_iter = 0
 cv_score = []
@@ -109,31 +135,30 @@ for train_index, test_index in kfold.split(Xtrain, Ytrain):
     # 정확도 RMSE 계산
     n_iter += 1
     score = rmse(Y_test, pred)
-    print(score)
+    # print(score)
     cv_score.append(score)
 
 print('\n교차 검증별 RMSE :', np.round(cv_score, 4))
 print('평균 검증 RMSE :', np.mean(cv_score))
 #
 result = model.predict(test)
-print(len(result))
 submission['운송장_건수'] = result
-submission.to_csv('prac2.csv',index=False)
+submission.to_csv('prac5.csv',index=False)
 
 
 #중요도 시각화
-# input_var = list(train.columns)
-# input_var.remove('운송장_건수')
-#
-# print(input_var)
-#
-# n_feature = X_train.shape[1] #주어진 변수들의 갯수를 구함
-# index = np.arange(n_feature)
-#
-# plt.barh(index, model.feature_importances_, align='center') #
-# plt.yticks(index, input_var)
-# plt.ylim(-1, n_feature)
-# plt.xlabel('feature importance', size=15)
-# plt.ylabel('feature', size=15)
-# plt.show()
-# np.sum(model.feature_importances_)
+input_var = list(train.columns)
+input_var.remove('운송장_건수')
+
+print(input_var)
+
+n_feature = X_train.shape[1] #주어진 변수들의 갯수를 구함
+index = np.arange(n_feature)
+
+plt.barh(index, model.feature_importances_, align='center') #
+plt.yticks(index, input_var)
+plt.ylim(-1, n_feature)
+plt.xlabel('feature importance', size=15)
+plt.ylabel('feature', size=15)
+plt.show()
+np.sum(model.feature_importances_)
