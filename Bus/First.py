@@ -179,7 +179,7 @@ Xtest = test_data[input_var] # 시험 데이터도 선택
 
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
-# import lightgbm as lgb
+import lightgbm as lgb
 import xgboost as xgb
 from sklearn.neighbors import KNeighborsRegressor
 
@@ -187,7 +187,7 @@ import numpy as np
 
 model_dict = {'DT':DecisionTreeRegressor(),
              'RF':RandomForestRegressor(),
-             # 'LGB':lgb.LGBMRegressor(),
+             'LGB':lgb.LGBMRegressor(),
              'XGB':xgb.XGBRegressor(),
              'KNN':KNeighborsRegressor()}
 
