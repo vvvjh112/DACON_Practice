@@ -15,6 +15,10 @@ train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
 submission = pd.read_csv('sample_submission.csv')
 
+train['운송장_건수'].plot()
+plt.show()
+# idx = train[train['운송장_건수']>350].index
+# train = train.drop(idx)
 def pre(df):
     tmp = list(df['송하인_격자공간고유번호'])
     tmp1 = list(df['수하인_격자공간고유번호'])
@@ -93,8 +97,8 @@ score = {}
 #RandomSearch / GridSearch
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import GridSearchCV
-model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=7,min_child_samples=10,num_leaves=60)
-# model = lgb.LGBMRegressor()
+# model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=7,min_child_samples=10,num_leaves=60)
+model = lgb.LGBMRegressor()
 params = {
     'n_estimators': [30,50,60,70,80,90,100,200],
     # 'learning_rate': [0.1, 0.05, 0.01,0.005],
@@ -113,7 +117,7 @@ print("Best Param : ",grid_search.best_params_)
 
 
 #디폴트값으로 점수 측정
-model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=7,min_child_samples=10,num_leaves=60,n_estimators=50)
+model = lgb.LGBMRegressor(learning_rate=0.05,max_depth=7,min_child_samples=10,num_leaves=60,n_estimators=70)
 kfold = KFold(n_splits=8, shuffle=True, random_state=777)
 n_iter = 0
 cv_score = []
@@ -143,7 +147,7 @@ print('평균 검증 RMSE :', np.mean(cv_score))
 #
 result = model.predict(test)
 submission['운송장_건수'] = result
-submission.to_csv('prac5.csv',index=False)
+submission.to_csv('prac6.csv',index=False)
 
 
 #중요도 시각화
