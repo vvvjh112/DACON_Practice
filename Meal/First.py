@@ -115,5 +115,72 @@ train = train.drop(['중식메뉴','석식메뉴'],axis=1)
 test = test.drop(['중식메뉴','석식메뉴'],axis=1)
 
 
+#컬럼순서 변경
+train = train[['일자', '요일', '본사정원수', '본사휴가자수', '본사출장자수', '본사시간외근무명령서승인건수',
+       '현본사소속재택근무자수', '점심_밥', '점심_국', '점심_메인', '석식_밥',  '석식_국',  '석식_메인','중식계','석식계']]
+test = test[['일자', '요일', '본사정원수', '본사휴가자수', '본사출장자수', '본사시간외근무명령서승인건수',
+       '현본사소속재택근무자수', '점심_밥', '점심_국', '점심_메인', '석식_밥',  '석식_국',  '석식_메인']]
+
+
+# print(train.head())
+# print(test.head())
+
+#라벨링 하고 pyc뭐시기 써보자
+
+
+#라벨링
+def label_encoder(df):
+    encoder1 = LabelEncoder() # 인코더 생성
+    encoder2 = LabelEncoder()  # 인코더 생성
+    encoder3 = LabelEncoder()  # 인코더 생성
+    encoder4 = LabelEncoder()  # 인코더 생성
+    encoder5 = LabelEncoder()  # 인코더 생성
+    encoder6 = LabelEncoder()  # 인코더 생성
+
+    category1 = list(df['점심_밥'].values) # 카테고리
+    category2 = list(df['점심_국'].values) # 카테고리
+    category3 = list(df['점심_메인'].values) # 카테고리
+
+    category4 = list(df['석식_밥'].values) # 카테고리
+    category5 = list(df['석식_국'].values) # 카테고리
+    category6 = list(df['석식_메인'].values) # 카테고리
+
+    category_set1 = set(category1)
+    category_set2 = set(category2)
+    category_set3 = set(category3)
+
+    category_set4 = set(category4)
+    category_set5 = set(category5)
+    category_set6 = set(category6)
+
+    encoder1.fit(list(category_set1)) # 인코딩
+    encoder2.fit(list(category_set2)) # 인코딩
+    encoder3.fit(list(category_set3)) # 인코딩
+    encoder4.fit(list(category_set4)) # 인코딩
+    encoder5.fit(list(category_set5)) # 인코딩
+    encoder6.fit(list(category_set6)) # 인코딩
+
+    # 모든 학습, 시험 데이터의 정류장 정보 치환
+    df['점심_밥'] = encoder1.transform(df['점심_밥'])
+    df['점심_국'] = encoder2.transform(df['점심_국'])
+    df['점심_메인'] = encoder3.transform(df['점심_메인'])
+    df['석식_밥'] = encoder4.transform(df['석식_밥'])
+    df['석식_국'] = encoder5.transform(df['석식_국'])
+    df['석식_메인'] = encoder6.transform(df['석식_메인'])
+
+    return df
+
+train = label_encoder(train)
+test = label_encoder(test)
+
 print(train.head())
-print(test.head())
+# print(test.head())
+
+
+#pycaret
+from pycaret.regression import *
+Xtrain = train[['요일', '본사정원수','본사휴가자수','본사출장자수', '본사시간외근무명령서승인건수','현본사소속재택근무자수', '점심_밥','점심_국', '점심_메인', '중식계']]
+reg = setup(session_id = 1, data = Xtrain, target = '중식계', normalize = True, transformation=True)
+
+pycaret_regression_models = compare_models(n_select=25, sort='MAE', include = ['lr','lasso','ridge','en','lar','llar','omp','br','ard','par','ransac','tr',
+                                                                              'huber','kr','svm','knn','dt','rf','et','ada','gbr','mlp','xgboost','lightgbm','catboost'])
