@@ -64,33 +64,42 @@ train['석식메뉴'] = get_token(train['석식메뉴'])
 test['중식메뉴'] = get_token(test['중식메뉴'])
 test['석식메뉴'] = get_token(test['석식메뉴'])
 
-def main_menu(df,mode):
+idx = train[train['석식계']<1].index
+train = train.drop(idx)
 
+train = train.drop(586)
+
+# print(train.loc[[586],:])
+# print(train['석식메뉴'].head(566))
+def main_menu(df,mode):
     temp1 = list(df['중식메뉴'])
     temp2 = list(df['석식메뉴'])
+    # print(temp2[565])
+    # print(temp1[565])
     if (mode == 1):  #밥 추출
         for i in range(len(temp1)):
             temp1[i] = temp1[i][0]
-            temp2[i] = temp1[i][0]
+            temp2[i] = temp2[i][0]
 
         df['점심_밥'] = temp1
         df['석식_밥'] = temp2
         
     if (mode == 2):  #국 추출
         for i in range(len(temp1)):
-            temp1[i] = temp1[i][0]
-            temp2[i] = temp1[i][0]
+            temp1[i] = temp1[i][1]
+            temp2[i] = temp2[i][1]
 
         df['점심_국'] = temp1
         df['석식_국'] = temp2
 
     if (mode == 3):  #메인메뉴 추출
+        # +
         for i in range(len(temp1)):
-            temp1[i] = temp1[i][0]
-            temp2[i] = temp1[i][0]
+            temp1[i] = temp1[i][2]
+            temp2[i] = temp2[i][2]
 
-        df['점심_국'] = temp1
-        df['석식_국'] = temp2
+        df['점심_메인'] = temp1
+        df['석식_메인'] = temp2
     return df
 
 #메인메뉴는 두개긴 한데 우선 하나만 해서 점수 뽑아보자
@@ -98,13 +107,13 @@ train = main_menu(train,1)
 train = main_menu(train,2)
 train = main_menu(train,3)
 
+test = main_menu(test,1)
+test = main_menu(test,2)
+test = main_menu(test,3)
+
+train = train.drop(['중식메뉴','석식메뉴'],axis=1)
+test = test.drop(['중식메뉴','석식메뉴'],axis=1)
 
 
-
-
-
-# print(train[train['석식계']== 0])
-
-print(train['점심_밥'].head())
 print(train.head())
 print(test.head())
