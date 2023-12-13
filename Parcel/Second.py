@@ -3,7 +3,7 @@ import numpy as np
 
 train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
-
+submission = pd.read_csv('sample_submission.csv')
 
 train_lst= ['index', '송하인_격자공간고유번호', '수하인_격자공간고유번호', '물품_카테고리', '운송장_건수']
 test_lst = ['index', '송하인_격자공간고유번호', '수하인_격자공간고유번호', '물품_카테고리']
@@ -91,6 +91,15 @@ model5 = DecisionTreeRegressor()
 # print('best estimator:', grid3.best_estimator_)
 # print('best rmse :', sqrt(-(grid3.best_score_)))
 
+def pre(x):
+    tmp = str(x)
+    return int(tmp[:4])
+
+train1['수하인_격자공간고유번호'] = train1['수하인_격자공간고유번호'].apply(pre)
+train1['송하인_격자공간고유번호'] = train1['송하인_격자공간고유번호'].apply(pre)
+test1['수하인_격자공간고유번호'] = test1['수하인_격자공간고유번호'].apply(pre)
+test1['송하인_격자공간고유번호'] = test1['송하인_격자공간고유번호'].apply(pre)
+
 model = XGBRegressor(eta = 0.05, max_depth = 5, n_estimators = 300)
 x = train1.drop('운송장_건수',axis = 1)
 y = train1['운송장_건수']
@@ -101,6 +110,11 @@ pred = model.predict(teX)
 
 print(r2_score(teY,pred))
 print(mean_squared_error(teY,pred,squared=False))
+
+result = model.predict(test1)
+
+submission['운송장_건수'] = result
+submission.to_csv('prac10.csv',index=False)
 
 
 
