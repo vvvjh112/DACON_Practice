@@ -23,6 +23,8 @@ submission = pd.read_csv('sample_submission.csv')
 #        '50대(남자)', '60대(여자)', '60대(남자)', '70대(여자)', '70대(남자)', '80대(여자)',
 #        '80대(남자)', '90대(여자)', '90대(남자)', '100대(여자)', '100대(남자)']
 
+#평가지표 MAE
+
 # print(train.info())
 # print(train.head())
 
