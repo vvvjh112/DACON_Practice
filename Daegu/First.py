@@ -144,9 +144,8 @@ holiday_2021 = getholiday(2021)
 holiday_2022 = getholiday(2022)
 print(holiday_2019)
 def check_holiday(x):
-    print(type(x))
-    year = x.dt.year
-    date = x.dt.strftime('%Y%m%d')
+    year = x.year
+    date = x.strftime('%Y%m%d')
     if year == 2019:
         if date in holiday_2019:
             return 1
