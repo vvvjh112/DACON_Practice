@@ -31,26 +31,89 @@ for i in lst.keys():
 #안개가 test엔 없는것 확인 - 삭제
 train = train[train['기상상태']!= '안개']
 
-#기상상태, 요일별, 월별 ECLO 시각화해보기
+#날짜는 추후 편의를 위해 datetime 타입으로 변환
 train['사고일시'] = pd.to_datetime(train['사고일시'],format="%Y-%m-%d %H")
 test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
+
+#공휴일 체크
+# print(train['사고일시'].dt.year.unique())
+# print(test['사고일시'].dt.year.unique())
+# train[2019 2020 2021], test[2022]
+#공휴일 api를 통해 가져오기(대체휴무일때문)
+import requests
+from datetime import datetime
+import json
+from pandas import json_normalize
+
+def getholiday(year):
+    today_year = year
+
+    KEY = "JWgg0HGk6X1%2FiSamZNl29O5awvu46mP%2BwM%2Fj8WNoLfNNfMeo2zhjPECwNdheapXHpIKbEZ0GCg1sWUm%2BrTdBfg%3D%3D"
+    url = (
+        "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?_type=json&numOfRows=50&solYear="
+        + str(today_year)
+        + "&ServiceKey="
+        + str(KEY)
+    )
+    response = requests.get(url)
+    if response.status_code == 200:
+        json_ob = json.loads(response.text)
+        holidays_data = json_ob["response"]["body"]["items"]["item"]
+        dataframe = json_normalize(holidays_data)
+    # dateName = dataframe.loc[dataframe["locdate"] == int(today), "dateName"]
+    # print(dateName)
+    result = dataframe["locdate"].astype(str)
+    return result.to_list()
+
+holiday_2019 = getholiday(2019)
+holiday_2020 = getholiday(2020)
+holiday_2021 = getholiday(2021)
+holiday_2022 = getholiday(2022)
+
+def check_holiday(x):
+    year = x.year
+    date = x.strftime('%Y%m%d')
+    if year == 2019:
+        if date in holiday_2019:
+            return 1
+    elif year == 2020:
+        if date in holiday_2020:
+            return 1
+    elif year == 2021:
+        if date in holiday_2021:
+            return 1
+    elif year == 2022:
+        if date in holiday_2022:
+            return 1
+    return 0
+
+train['공휴일'] = train['사고일시'].apply(check_holiday)
+test['공휴일'] = test['사고일시'].apply(check_holiday)
+
+# print(train.head(20))
+# print(test.head(20))
+#평일이면 평일로구분 주말 or 공휴일이면 휴일로 구분하는것도 괜찮을듯 싶은데
+
+#기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 train['연'] = train['사고일시'].dt.year
 train['월'] = train['사고일시'].dt.month
 train['일'] = train['사고일시'].dt.day
 train['시간'] = train['사고일시'].dt.hour
-print(train.head())
+
+group_year = train.groupby(['연']).mean('ECLO')
+group_year = group_year[['ECLO']]
 
 group_month = train.groupby(['월']).mean('ECLO')
 group_month = group_month[['ECLO']]
-print(group_month.head(12))
 
 group_day = train.groupby(['일']).mean('ECLO')
 group_day = group_day[['ECLO']]
-print(group_day.head(12))
 
 group_hour = train.groupby(['시간']).mean('ECLO')
 group_hour = group_hour[['ECLO']]
-print(group_day.head(12))
+
+group_holi = train.groupby(['공휴일']).mean('ECLO')
+group_holi = group_holi[['ECLO']]
 
 def return_days(x):
     if x == '월요일':
@@ -90,8 +153,10 @@ group_days = group_days.reset_index()
 group_days['요일'] = group_days['요일'].apply(return_days)
 group_days = group_days.sort_values('요일',ascending=True)
 group_days['요일'] = group_days['요일'].apply(reverse_days)
-print(group_days.head(12))
 
+gy = group_year.plot(title='연별 평균',kind='line',marker='o')
+gy.set_xticks(group_year.index)
+# plt.show()
 
 gm = group_month.plot(title='월별 평균',kind='line',marker='o')
 gm.set_xticks(group_month.index)
@@ -108,65 +173,9 @@ gh.set_xticks(group_hour.index)
 gds = group_days.plot(title='요일별 평균',kind='line',marker='o',x='요일')
 # plt.show()
 
-#공휴일 체크
-print(train['사고일시'].dt.year.unique())
-print(test['사고일시'].dt.year.unique())
-# train[2019 2020 2021], test[2022]
-#공휴일 api를 통해 가져오기(대체휴무일때문)
-import requests
-from datetime import datetime
-import json
-from pandas import json_normalize
+gholi = group_holi.plot(title='공휴일 평균',kind='bar')
+# plt.show()
 
-def getholiday(year):
-    today_year = year
-
-    KEY = "JWgg0HGk6X1%2FiSamZNl29O5awvu46mP%2BwM%2Fj8WNoLfNNfMeo2zhjPECwNdheapXHpIKbEZ0GCg1sWUm%2BrTdBfg%3D%3D"
-    url = (
-        "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?_type=json&numOfRows=50&solYear="
-        + str(today_year)
-        + "&ServiceKey="
-        + str(KEY)
-    )
-    response = requests.get(url)
-    if response.status_code == 200:
-        json_ob = json.loads(response.text)
-        holidays_data = json_ob["response"]["body"]["items"]["item"]
-        dataframe = json_normalize(holidays_data)
-    # dateName = dataframe.loc[dataframe["locdate"] == int(today), "dateName"]
-    # print(dateName)
-    result = dataframe["locdate"].astype(str)
-    return result.to_list()
-
-holiday_2019 = getholiday(2019)
-holiday_2020 = getholiday(2020)
-holiday_2021 = getholiday(2021)
-holiday_2022 = getholiday(2022)
-print(holiday_2019)
-def check_holiday(x):
-    year = x.year
-    date = x.strftime('%Y%m%d')
-    if year == 2019:
-        if date in holiday_2019:
-            return 1
-    elif year == 2020:
-        if date in holiday_2020:
-            return 1
-    elif year == 2021:
-        if date in holiday_2021:
-            return 1
-    elif year == 2022:
-        if date in holiday_2022:
-            return 1
-    return 0
-print(train.info())
-train['공휴일'] = train['사고일시'].apply(check_holiday)
-test['공휴일'] = test['사고일시'].apply(check_holiday)
-
-print(train.head(20))
-print(test.head(20))
-
-#평일이면 평일로구분 주말 or 공휴일이면 휴일로 구분하는것도 괜찮을듯 싶은데
 
 #상관계수 (라벨링 후 해야할 듯)
 # 상관계수 계산
