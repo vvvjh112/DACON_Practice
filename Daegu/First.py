@@ -18,15 +18,14 @@ submission = pd.read_csv('sample_submission.csv')
 
 #test셋에는 없는 값들 확인
 train_column = train.columns
-test_column = ['기상상태','시군구','도로형태','노면상태','사고유형']
+test_column = test.columns
+# print(list(set(train_column)-set(test_column)))
+#['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
 lst = {}
 for i in test_column:
     set_train = set(train[i].unique())
     set_test = set(test[i].unique())
     lst[i] = set_train-set_test
-
-for i in lst.keys():
-    print(i,':',lst[i])
 
 #안개가 test엔 없는것 확인 - 삭제
 train = train[train['기상상태']!= '안개']
@@ -176,8 +175,9 @@ gds = group_days.plot(title='요일별 평균',kind='line',marker='o',x='요일'
 gholi = group_holi.plot(title='공휴일 평균',kind='bar')
 # plt.show()
 
+print(train.info())
 
-#상관계수 (라벨링 후 해야할 듯)
+#상관계수 (라벨링 후 해야할 듯) - 상관계수 의미없음 범주형 변수
 # 상관계수 계산
 import seaborn as sns
 #
@@ -203,5 +203,13 @@ import seaborn as sns
 #
 #     # 그래프 표시
 #     plt.show()
+#결측값 확인
+print(train.isna().sum())
+print(test.isna().sum())
 
+#test에는 없는 컬럼들 삭제해보고 진행해보자 우선.
+lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
+#요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
+#타겟인코딩, 라벨인코딩, 원핫인코딩
+#피처 중요도
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
