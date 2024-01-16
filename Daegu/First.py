@@ -238,12 +238,53 @@ test_1 = test.copy()
 lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
 
 #요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
-train_1 = train_1.drop(['연','월','일','사고일시'],axis=1)
+train_1 = train_1.drop(['연','월','일','사고일시','ID'],axis=1)
 train_1 = train_1.drop(lst,axis=1)
+test_1 = test_1.drop(['ID'],axis=1)
 print(train_1.info())
 
 #타겟인코딩, 라벨인코딩, 원핫인코딩
+#우선 라벨인코딩만
+from sklearn.preprocessing import LabelEncoder
+Label_lst = ['요일','기상상태','도로형태','노면상태','사고유형','도시','구','동']
+temp = []
+for i in Label_lst:
+    lb = LabelEncoder()
+    temp.append(lb)
+    train[i] = lb.fit_transform(train[i])
+    test[i] = lb.fit_transform(test[i])
+
+#모델링
+from pycaret.regression import *
+clf = setup(data=train_1, target='ECLO', train_size=0.8)
+best_model = compare_models()
+compare_models(n_select = 5, sort = 'RMSLE')
+#            RMSLE    MAPE  TT (Sec)
+# huber     0.4461  0.5274     0.795
+# gbr       0.4588  0.6225     0.654
+# br        0.4594  0.6230     0.176
+# ridge     0.4596  0.6230     0.122
+# lr        0.4599  0.6232     0.159
+# lightgbm  0.4600  0.6230     0.187
+# omp       0.4602  0.6247     0.127
+# catboost  0.4625  0.6247     1.604
+# lasso     0.4657  0.6332     0.125
+# en        0.4657  0.6332     0.124
+# llar      0.4657  0.6332     0.123
+# dummy     0.4657  0.6332     0.123
+# xgboost   0.4699  0.6327     0.883
+# lar       0.4909  0.7742     0.123
+# knn       0.5011  0.6567     0.250
+# rf        0.5072  0.6809     2.009
+# par       0.5428  0.6392     0.137
+# et        0.5477  0.7087     2.195
+# dt        0.6254  0.7800     0.159
+# ada       0.6855  1.3009     0.577
+
 
 #피처 중요도
+#model.feature_importances_
+
+
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
 #카메라랑 사고 그래프 보여주면서 카메라가 효과적 이런거
