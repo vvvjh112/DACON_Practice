@@ -16,6 +16,16 @@ test = pd.read_csv('test.csv')
 countrywide = pd.read_csv('external_open/countrywide_accident.csv') #대구 제외한 교통사고 정보
 submission = pd.read_csv('sample_submission.csv')
 
+# from sklearn.metrics import mean_squared_log_error, make_scorer
+# def rmsle(y_actual, y_pred):
+#     diff = np.log(y_pred + 1) - np.log(y_actual + 1)
+#     mean_error = np.mean(np.square(diff))
+#
+#     return np.sqrt(mean_error)
+#
+# rmsle_score = make_scorer(rmsle, greater_is_better=False)
+
+
 #test셋에는 없는 값들 확인
 train_column = train.columns
 test_column = test.columns
@@ -33,6 +43,18 @@ train = train[train['기상상태']!= '안개']
 #날짜는 추후 편의를 위해 datetime 타입으로 변환
 train['사고일시'] = pd.to_datetime(train['사고일시'],format="%Y-%m-%d %H")
 test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
+
+#시군구 분리
+print(train['시군구'].head(50))
+
+location_pattern = r'(\S+) (\S+) (\S+)'
+
+train[['도시', '구', '동']] = train['시군구'].str.extract(location_pattern)
+train = train.drop(columns=['시군구'])
+
+test[['도시', '구', '동']] = test['시군구'].str.extract(location_pattern)
+test = test.drop(columns=['시군구'])
+
 
 #공휴일 체크
 # print(train['사고일시'].dt.year.unique())
@@ -114,6 +136,19 @@ group_hour = group_hour[['ECLO']]
 group_holi = train.groupby(['공휴일']).mean('ECLO')
 group_holi = group_holi[['ECLO']]
 
+#기상상태, 노면상태, 사고유형, 도로형태 시각화
+group_weather = train.groupby(['기상상태']).mean('ECLO')
+group_weather = group_weather[['ECLO']]
+
+group_surface = train.groupby(['노면상태']).mean('ECLO')
+group_surface = group_surface[['ECLO']]
+
+group_acc = train.groupby(['사고유형']).mean('ECLO')
+group_acc = group_acc[['ECLO']]
+
+group_road = train.groupby(['도로형태']).mean('ECLO')
+group_road = group_road[['ECLO']]
+
 def return_days(x):
     if x == '월요일':
         return 0
@@ -175,41 +210,38 @@ gds = group_days.plot(title='요일별 평균',kind='line',marker='o',x='요일'
 gholi = group_holi.plot(title='공휴일 평균',kind='bar')
 # plt.show()
 
-print(train.info())
-
-#상관계수 (라벨링 후 해야할 듯) - 상관계수 의미없음 범주형 변수
-# 상관계수 계산
-import seaborn as sns
-#
-# correlation_matrix = train.drop(['ECLO','연','월','일'],axis=1).corr()
-# #
-# # # 히트맵 그리기
-# sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
-# #
-# # # 플롯 제목 추가
-# plt.title('Correlation Heatmap')
-# #
-# # # 그래프 표시
+gw = group_weather.plot(title='기상상태',kind = 'bar')
 # plt.show()
 
-# 컬럼별 상관계수 산점도 하나씩 보기
-# for i in (train.drop('단지코드',axis=1).columns):
-#
-#     #상관계수 산점도
-#     sns.scatterplot(x=i, y='등록차량수', data=train.drop('단지코드',axis=1))
-#
-#     # 플롯 제목 추가
-#     plt.title('Correlation Heatmap')
-#
-#     # 그래프 표시
-#     plt.show()
+gsurface = group_surface.plot(title='노면상태',kind = 'bar')
+# plt.show()
+
+gacc = group_acc.plot(title='사고형태',kind = 'bar')
+# plt.show()
+
+gr = group_road.plot(title='도로형태',kind = 'bar')
+# plt.show()
+
+print(train.info())
+print(test.info())
+
 #결측값 확인
-print(train.isna().sum())
-print(test.isna().sum())
+# print(train.isna().sum())
+# print(test.isna().sum())
+#결측값
+# 피해운전자 차종       991
+# 피해운전자 성별       991
+# 피해운전자 연령       991
+# 피해운전자 상해정도     991
 
 #test에는 없는 컬럼들 삭제해보고 진행해보자 우선.
 lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
+
 #요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
+# train = train.drop(['연','월','일'],axis=1)
+
 #타겟인코딩, 라벨인코딩, 원핫인코딩
+
 #피처 중요도
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
+#카메라랑 사고 그래프 보여주면서 카메라가 효과적 이런거
