@@ -45,8 +45,6 @@ train['사고일시'] = pd.to_datetime(train['사고일시'],format="%Y-%m-%d %H
 test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
 
 #시군구 분리
-print(train['시군구'].head(50))
-
 location_pattern = r'(\S+) (\S+) (\S+)'
 
 train[['도시', '구', '동']] = train['시군구'].str.extract(location_pattern)
@@ -54,7 +52,6 @@ train = train.drop(columns=['시군구'])
 
 test[['도시', '구', '동']] = test['시군구'].str.extract(location_pattern)
 test = test.drop(columns=['시군구'])
-
 
 #공휴일 체크
 # print(train['사고일시'].dt.year.unique())
@@ -234,11 +231,16 @@ print(test.info())
 # 피해운전자 연령       991
 # 피해운전자 상해정도     991
 
+#컬럼을 test에 맞춰 수정할것이기 때문에 카피해서 작업진행
+train_1 = train.copy()
+test_1 = test.copy()
 #test에는 없는 컬럼들 삭제해보고 진행해보자 우선.
 lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
 
 #요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
-# train = train.drop(['연','월','일'],axis=1)
+train_1 = train_1.drop(['연','월','일','사고일시'],axis=1)
+train_1 = train_1.drop(lst,axis=1)
+print(train_1.info())
 
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 
