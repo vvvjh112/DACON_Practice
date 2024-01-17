@@ -363,8 +363,8 @@ print(model_lgbm.feature_importances_)
 # title = 'reuslt_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
 
-
-
+#다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
+#다른 지역 추가해보자 우선 광역시 위주로
 
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
 #카메라랑 사고 그래프 보여주면서 카메라가 효과적 이런거
