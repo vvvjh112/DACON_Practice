@@ -57,36 +57,42 @@ test = test.drop(columns=['시군구'])
 # print(train['사고일시'].dt.year.unique())
 # print(test['사고일시'].dt.year.unique())
 # train[2019 2020 2021], test[2022]
+
 #공휴일 api를 통해 가져오기(대체휴무일때문)
-import requests
-from datetime import datetime
-import json
-from pandas import json_normalize
+# import requests
+# from datetime import datetime
+# import json
+# from pandas import json_normalize
+#
+# def getholiday(year):
+#     today_year = year
+#
+#     KEY = "JWgg0HGk6X1%2FiSamZNl29O5awvu46mP%2BwM%2Fj8WNoLfNNfMeo2zhjPECwNdheapXHpIKbEZ0GCg1sWUm%2BrTdBfg%3D%3D"
+#     url = (
+#         "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?_type=json&numOfRows=50&solYear="
+#         + str(today_year)
+#         + "&ServiceKey="
+#         + str(KEY)
+#     )
+#     response = requests.get(url)
+#     if response.status_code == 200:
+#         json_ob = json.loads(response.text)
+#         holidays_data = json_ob["response"]["body"]["items"]["item"]
+#         dataframe = json_normalize(holidays_data)
+#     # dateName = dataframe.loc[dataframe["locdate"] == int(today), "dateName"]
+#     # print(dateName)
+#     result = dataframe["locdate"].astype(str)
+#     return result.to_list()
+#
+# holiday_2019 = getholiday(2019)
+# holiday_2020 = getholiday(2020)
+# holiday_2021 = getholiday(2021)
+# holiday_2022 = getholiday(2022)
 
-def getholiday(year):
-    today_year = year
-
-    KEY = "JWgg0HGk6X1%2FiSamZNl29O5awvu46mP%2BwM%2Fj8WNoLfNNfMeo2zhjPECwNdheapXHpIKbEZ0GCg1sWUm%2BrTdBfg%3D%3D"
-    url = (
-        "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?_type=json&numOfRows=50&solYear="
-        + str(today_year)
-        + "&ServiceKey="
-        + str(KEY)
-    )
-    response = requests.get(url)
-    if response.status_code == 200:
-        json_ob = json.loads(response.text)
-        holidays_data = json_ob["response"]["body"]["items"]["item"]
-        dataframe = json_normalize(holidays_data)
-    # dateName = dataframe.loc[dataframe["locdate"] == int(today), "dateName"]
-    # print(dateName)
-    result = dataframe["locdate"].astype(str)
-    return result.to_list()
-
-holiday_2019 = getholiday(2019)
-holiday_2020 = getholiday(2020)
-holiday_2021 = getholiday(2021)
-holiday_2022 = getholiday(2022)
+holiday_2019 = ['20190101', '20190204', '20190205', '20190206', '20190301', '20190505', '20190506', '20190512', '20190606', '20190815', '20190912', '20190913', '20190914', '20191003', '20191009', '20191225']
+holiday_2020 = ['20200101', '20200124', '20200125', '20200126', '20200127', '20200301', '20200415', '20200430', '20200505', '20200606', '20200815', '20200817', '20200930', '20201001', '20201002', '20201003', '20201009', '20201225']
+holiday_2021 = ['20210101', '20210211', '20210212', '20210213', '20210301', '20210505', '20210519', '20210606', '20210815', '20210816', '20210920', '20210921', '20210922', '20211003', '20211004', '20211009', '20211011', '20211225']
+holiday_2022 = ['20220101', '20220131', '20220201', '20220202', '20220301', '20220309', '20220505', '20220508', '20220601', '20220606', '20220815', '20220909', '20220910', '20220911', '20220912', '20221003', '20221009', '20221010', '20221225']
 
 def check_holiday(x):
     year = x.year
@@ -117,6 +123,7 @@ train['연'] = train['사고일시'].dt.year
 train['월'] = train['사고일시'].dt.month
 train['일'] = train['사고일시'].dt.day
 train['시간'] = train['사고일시'].dt.hour
+test['시간'] = test['사고일시'].dt.hour
 
 group_year = train.groupby(['연']).mean('ECLO')
 group_year = group_year[['ECLO']]
@@ -219,9 +226,6 @@ gacc = group_acc.plot(title='사고형태',kind = 'bar')
 gr = group_road.plot(title='도로형태',kind = 'bar')
 # plt.show()
 
-print(train.info())
-print(test.info())
-
 #결측값 확인
 # print(train.isna().sum())
 # print(test.isna().sum())
@@ -240,8 +244,9 @@ lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정
 #요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
 train_1 = train_1.drop(['연','월','일','사고일시','ID'],axis=1)
 train_1 = train_1.drop(lst,axis=1)
-test_1 = test_1.drop(['ID'],axis=1)
-print(train_1.info())
+test_1 = test_1.drop(['ID','사고일시'],axis=1)
+
+print(test_1.head(20))
 
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 #우선 라벨인코딩만
@@ -251,14 +256,16 @@ temp = []
 for i in Label_lst:
     lb = LabelEncoder()
     temp.append(lb)
-    train[i] = lb.fit_transform(train[i])
-    test[i] = lb.fit_transform(test[i])
+    train_1[i] = lb.fit_transform(train[i])
+    test_1[i] = lb.fit_transform(test[i])
 
+print(train_1.head())
+print(test_1.head())
 #모델링
 from pycaret.regression import *
-clf = setup(data=train_1, target='ECLO', train_size=0.8)
-best_model = compare_models()
-compare_models(n_select = 5, sort = 'RMSLE')
+# clf = setup(data=train_1, target='ECLO', train_size=0.8)
+# best_model = compare_models()
+# compare_models(n_select = 5, sort = 'RMSLE')
 #            RMSLE    MAPE  TT (Sec)
 # huber     0.4461  0.5274     0.795
 # gbr       0.4588  0.6225     0.654
@@ -281,9 +288,66 @@ compare_models(n_select = 5, sort = 'RMSLE')
 # dt        0.6254  0.7800     0.159
 # ada       0.6855  1.3009     0.577
 
+# RMSLE 계산 함수 정의
+from sklearn.metrics import make_scorer
+def rmsle(y_true, y_pred):
+    return np.sqrt(np.mean(np.square(np.log1p(y_pred) - np.log1p(y_true))))
+
+
+from lightgbm import LGBMRegressor
+model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
+# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
+x = train_1.drop('ECLO',axis = 1)
+y = train_1['ECLO']
+
+from sklearn.model_selection import train_test_split
+trainX,testX,trainY,testY = train_test_split(x,y,test_size=0.2,random_state=2023)
+
+lgbm_param = {'num_leaves': [31, 40, 50],
+    'learning_rate': [0.01, 0.05 ,0.1],
+    'n_estimators': [300,400,500,600],
+    'min_child_samples': [20,30,40],
+    'reg_alpha': [0.0, 0.1, 0.5],
+    'reg_lambda': [0.0, 0.1, 0.5]}
+
+# RMSLE를 스코어 함수로 만들기
+rmsle_scorer = make_scorer(rmsle, greater_is_better=False)
+
+from sklearn.model_selection import GridSearchCV
+
+#LGBM
+# lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
+# lgbm_grid.fit(trainX,trainY)
+# best_lgbm = lgbm_grid.best_estimator_
+# print('최적의 하이퍼 파라미터는:', model_grid.best_params_)
+# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
+
+
+
 
 #피처 중요도
 #model.feature_importances_
+#lgbm
+model_lgbm.fit(trainX,trainY)
+print(model_lgbm.feature_importances_)
+# [1466    297      1455     233       716     0    1386    3477   289      2681]
+#  요일   기상상태   도로형태   노면상태   사고유형  도시    구      동    공휴일     시간
+
+#모델링 후 예측
+# model_lgbm.fit(trainX,trainY)
+# pred_lgbm = model_lgbm.predict(testX)
+#
+# from sklearn.metrics import mean_squared_log_error
+# print(mean_squared_log_error(testY,pred_lgbm,squared=False))
+#
+# #실제예측
+# pred_lgbm1 = model_lgbm.predict(test_1)
+# submission['ECLO'] = pred1
+# import datetime
+# title = 'reuslt '+str(datetime.datetime.now())+'.csv'
+# submission.to_csv(title,index=False)
+#
+
 
 
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
