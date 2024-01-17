@@ -354,13 +354,14 @@ print(model_lgbm.feature_importances_)
 # pred_lgbm = model_lgbm.predict(testX)
 #
 # from sklearn.metrics import mean_squared_log_error
-# print(mean_squared_log_error(testY,pred_lgbm,squared=False))
+# score = mean_squared_log_error(testY,pred_lgbm,squared=False)
+# print(score)
 #
 # #실제예측
 # pred_lgbm1 = model_lgbm.predict(test_1)
 # submission['ECLO'] = pred_lgbm1
 # import datetime
-# title = 'reuslt_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = score+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
