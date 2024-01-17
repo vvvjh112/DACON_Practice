@@ -45,13 +45,23 @@ train['사고일시'] = pd.to_datetime(train['사고일시'],format="%Y-%m-%d %H
 test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
 
 #시군구 분리
-location_pattern = r'(\S+) (\S+) (\S+)'
+pattern = r'(\S+) (\S+) (\S+)'
 
-train[['도시', '구', '동']] = train['시군구'].str.extract(location_pattern)
+train[['도시', '구', '동']] = train['시군구'].str.extract(pattern)
 train = train.drop(columns=['시군구'])
 
-test[['도시', '구', '동']] = test['시군구'].str.extract(location_pattern)
+test[['도시', '구', '동']] = test['시군구'].str.extract(pattern)
 test = test.drop(columns=['시군구'])
+
+#도로형태 분리
+pattern = '(.+) - (.+)'
+
+train[['도로형태1', '도로형태2']] = train['도로형태'].str.extract(pattern)
+test[['도로형태1', '도로형태2']] = test['도로형태'].str.extract(pattern)
+
+train = train.drop('도로형태',axis = 1)
+test = test.drop('도로형태',axis = 1)
+
 
 #공휴일 체크
 # print(train['사고일시'].dt.year.unique())
@@ -150,8 +160,11 @@ group_surface = group_surface[['ECLO']]
 group_acc = train.groupby(['사고유형']).mean('ECLO')
 group_acc = group_acc[['ECLO']]
 
-group_road = train.groupby(['도로형태']).mean('ECLO')
-group_road = group_road[['ECLO']]
+group_road1 = train.groupby(['도로형태1']).mean('ECLO')
+group_road1 = group_road1[['ECLO']]
+
+group_road2 = train.groupby(['도로형태2']).mean('ECLO')
+group_road2 = group_road2[['ECLO']]
 
 def return_days(x):
     if x == '월요일':
@@ -223,7 +236,10 @@ gsurface = group_surface.plot(title='노면상태',kind = 'bar')
 gacc = group_acc.plot(title='사고형태',kind = 'bar')
 # plt.show()
 
-gr = group_road.plot(title='도로형태',kind = 'bar')
+gr1 = group_road1.plot(title='도로형태1',kind = 'bar')
+# plt.show()
+
+gr2 = group_road2.plot(title='도로형태2',kind = 'bar')
 # plt.show()
 
 #결측값 확인
@@ -251,7 +267,7 @@ print(test_1.head(20))
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 #우선 라벨인코딩만
 from sklearn.preprocessing import LabelEncoder
-Label_lst = ['요일','기상상태','도로형태','노면상태','사고유형','도시','구','동']
+Label_lst = ['요일','기상상태','도로형태1','도로형태2','노면상태','사고유형','도시','구','동']
 temp = []
 for i in Label_lst:
     lb = LabelEncoder()
@@ -330,8 +346,8 @@ from sklearn.model_selection import GridSearchCV
 #lgbm
 model_lgbm.fit(trainX,trainY)
 print(model_lgbm.feature_importances_)
-# [1466    297      1455     233       716     0    1386    3477   289      2681]
-#  요일   기상상태   도로형태   노면상태   사고유형  도시    구      동    공휴일     시간
+# [1403    329      244       707    0    1322    3480    496      1076      280      2663]
+#  요일   기상상태  노면상태   사고유형  도시    구      동    도로형태1  도로형태2   공휴일     시간
 
 #모델링 후 예측
 # model_lgbm.fit(trainX,trainY)
@@ -342,11 +358,11 @@ print(model_lgbm.feature_importances_)
 #
 # #실제예측
 # pred_lgbm1 = model_lgbm.predict(test_1)
-# submission['ECLO'] = pred1
+# submission['ECLO'] = pred_lgbm1
 # import datetime
-# title = 'reuslt '+str(datetime.datetime.now())+'.csv'
+# title = 'reuslt_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
-#
+
 
 
 
