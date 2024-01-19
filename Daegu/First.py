@@ -262,7 +262,7 @@ train_1 = train_1.drop(['연','월','일','사고일시','ID'],axis=1)
 train_1 = train_1.drop(lst,axis=1)
 test_1 = test_1.drop(['ID','사고일시'],axis=1)
 
-print(test_1.head(20))
+# print(test_1.head(20))
 
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 #우선 라벨인코딩만
@@ -275,10 +275,11 @@ for i in Label_lst:
     train_1[i] = lb.fit_transform(train[i])
     test_1[i] = lb.fit_transform(test[i])
 
-print(train_1.head())
-print(test_1.head())
+# print(train_1.head())
+# print(test_1.head())
 #모델링
 from pycaret.regression import *
+#2024.01.19 pycaret
 # clf = setup(data=train_1, target='ECLO', train_size=0.8)
 # best_model = compare_models()
 # compare_models(n_select = 5, sort = 'RMSLE')
@@ -303,21 +304,79 @@ from pycaret.regression import *
 # et        0.5477  0.7087     2.195
 # dt        0.6254  0.7800     0.159
 # ada       0.6855  1.3009     0.577
+# model_py_1 = create_model('huber')
+# tuned_huber = tune_model(model_py_1,optimize = 'RMSLE')
+# print(tuned_huber)
+# final_model = finalize_model(tuned_huber)
+# prediction = predict_model(final_model, data = test_1)
+# result = prediction['prediction_label']
+# submission['ECLO'] = result
+#0.43585
+
+#2024.01.19 2차
+# clf = setup(data=train_1, target='ECLO', train_size=0.8)
+# best_model = compare_models()
+# compare_models(n_select = 5, sort = 'RMSLE')
+#            RMSLE    MAPE  TT (Sec)
+# huber     0.4545  0.5356     0.200
+# gbr       0.4589  0.6251     0.298
+# lightgbm  0.4606  0.6261     0.077
+# catboost  0.4625  0.6263     1.632
+# lar       0.4637  0.6349     0.011
+# br        0.4637  0.6348     0.015
+# lr        0.4637  0.6349     0.015
+# ridge     0.4637  0.6349     0.012
+# en        0.4663  0.6357     0.012
+# lasso     0.4663  0.6357     0.013
+# llar      0.4663  0.6357     0.013
+# omp       0.4663  0.6357     0.013
+# dummy     0.4663  0.6356     0.013
+# xgboost   0.4708  0.6339     0.331
+# rf        0.5090  0.6847     1.049
+# knn       0.5102  0.6773     0.043
+# et        0.5429  0.7019     0.810
+# ada       0.5653  0.9575     0.067
+# dt        0.6237  0.7756     0.029
+# par       0.7689  1.4496     0.022
+
+# model_py_2 = create_model('gbr')
+# tuned_gbr = tune_model(model_py_2,optimize = 'RMSLE')
+# print(tuned_gbr)
+# final_model = finalize_model(tuned_gbr)
+# prediction = predict_model(final_model, data = test_1)
+# result = prediction['prediction_label']
+# submission['ECLO'] = result
+#0.44427
 
 # RMSLE 계산 함수 정의
 from sklearn.metrics import make_scorer
+from sklearn.metrics import mean_squared_log_error
 def rmsle(y_true, y_pred):
     return np.sqrt(np.mean(np.square(np.log1p(y_pred) - np.log1p(y_true))))
 
+# RMSLE를 스코어 함수로 만들기
+rmsle_scorer = make_scorer(rmsle, greater_is_better=False)
 
-from lightgbm import LGBMRegressor
-model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
-# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
+
+#모델링
 x = train_1.drop('ECLO',axis = 1)
 y = train_1['ECLO']
 
 from sklearn.model_selection import train_test_split
 trainX,testX,trainY,testY = train_test_split(x,y,test_size=0.2,random_state=2023)
+
+from sklearn.model_selection import GridSearchCV
+
+#LGBM
+# lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
+# lgbm_grid.fit(trainX,trainY)
+# best_lgbm = lgbm_grid.best_estimator_
+# print('최적의 하이퍼 파라미터는:', lgbm_grid.best_params_)
+# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
+
+from lightgbm import LGBMRegressor
+# model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
+# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
 
 lgbm_param = {'num_leaves': [31, 40, 50],
     'learning_rate': [0.01, 0.05 ,0.1],
@@ -326,42 +385,68 @@ lgbm_param = {'num_leaves': [31, 40, 50],
     'reg_alpha': [0.0, 0.1, 0.5],
     'reg_lambda': [0.0, 0.1, 0.5]}
 
-# RMSLE를 스코어 함수로 만들기
-rmsle_scorer = make_scorer(rmsle, greater_is_better=False)
+#Linear Rgeression
+from sklearn.linear_model import LinearRegression
+# model_lr = LinearRegression()
+# model_lr.fit(trainX,trainY)
 
-from sklearn.model_selection import GridSearchCV
+#huber
+from sklearn.linear_model import HuberRegressor
+# model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
+# model_huber.fit(trainX,trainY)
+huber_param = {
+    'epsilon': [1.0, 1.5, 2.0],  # 적절한 값으로 조정
+    'alpha': [0.0001, 0.001, 0.01],  # 적절한 값으로 조정
+    'max_iter': [500,1000,1500]  # 적절한 값으로 조정
+}
+# huber_grid = GridSearchCV(model_huber,param_grid=huber_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
+# huber_grid.fit(trainX,trainY)
+# best_huber = huber_grid.best_estimator_
+# print('최적의 하이퍼 파라미터는:', huber_grid.best_params_)
 
-#LGBM
-# lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
-# lgbm_grid.fit(trainX,trainY)
-# best_lgbm = lgbm_grid.best_estimator_
-# print('최적의 하이퍼 파라미터는:', model_grid.best_params_)
-# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
 
+#XGB
+from xgboost import XGBRegressor
 
 
 
 #피처 중요도
 #model.feature_importances_
 #lgbm
-model_lgbm.fit(trainX,trainY)
-print(model_lgbm.feature_importances_)
+# model_lgbm.fit(trainX,trainY)
+# print(model_lgbm.feature_importances_)
 # [1403    329      244       707    0    1322    3480    496      1076      280      2663]
 #  요일   기상상태  노면상태   사고유형  도시    구      동    도로형태1  도로형태2   공휴일     시간
 
 #모델링 후 예측
+#LGBM
 # model_lgbm.fit(trainX,trainY)
 # pred_lgbm = model_lgbm.predict(testX)
 #
-# from sklearn.metrics import mean_squared_log_error
-# score = mean_squared_log_error(testY,pred_lgbm,squared=False)
-# print(score)
-#
+
+# score_lgbm = mean_squared_log_error(testY,pred_lgbm,squared=False)
+# print(score_lgbm)
+# 0.44402
 # #실제예측
 # pred_lgbm1 = model_lgbm.predict(test_1)
 # submission['ECLO'] = pred_lgbm1
-# import datetime
+
+#LinearRegression
+# pred_lr = model_lr.predict(testX)
+# score_lr = mean_squared_log_error(testY,pred_lr,squared=False)
+# print(score_lr)
+#0.4614305671790214
+
+#Huber
+# pred_huber = model_huber.predict(testX)
+# score_huber = mean_squared_log_error(testY,pred_huber,squared=False)
+# print(score_huber)
+#0.44837727518222475
+
+# csv파일 도출
+import datetime
 # title = score+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
