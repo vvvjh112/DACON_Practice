@@ -37,21 +37,27 @@ for i in test_column:
     set_test = set(test[i].unique())
     lst[i] = set_train-set_test
 
-#안개가 test엔 없는것 확인 - 삭제
-train = train[train['기상상태']!= '안개']
-
-#날짜는 추후 편의를 위해 datetime 타입으로 변환
-train['사고일시'] = pd.to_datetime(train['사고일시'],format="%Y-%m-%d %H")
-test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
 
 #시군구 분리
 pattern = r'(\S+) (\S+) (\S+)'
+
+countrywide[['도시', '구', '동']] = countrywide['시군구'].str.extract(pattern)
+countrywide = countrywide.drop(columns=['시군구'])
 
 train[['도시', '구', '동']] = train['시군구'].str.extract(pattern)
 train = train.drop(columns=['시군구'])
 
 test[['도시', '구', '동']] = test['시군구'].str.extract(pattern)
 test = test.drop(columns=['시군구'])
+
+
+#광역시정보들을 train으로 결합시키기
+city = ['서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시', '대전광역시', '울산광역시']
+countrywide = countrywide[countrywide['도시'].isin(city)]
+
+train = pd.concat([train,countrywide])
+
+train = train.reset_index(drop=True)
 
 #도로형태 분리
 pattern = '(.+) - (.+)'
@@ -62,6 +68,12 @@ test[['도로형태1', '도로형태2']] = test['도로형태'].str.extract(patt
 train = train.drop('도로형태',axis = 1)
 test = test.drop('도로형태',axis = 1)
 
+#안개가 test엔 없는것 확인 - 삭제
+train = train[train['기상상태']!= '안개']
+
+#날짜는 추후 편의를 위해 datetime 타입으로 변환
+train['사고일시'] = pd.to_datetime(train['사고일시'],format="%Y-%m-%d %H")
+test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
 
 #공휴일 체크
 # print(train['사고일시'].dt.year.unique())
@@ -348,6 +360,35 @@ from pycaret.regression import *
 # submission['ECLO'] = result
 #0.44427
 
+#01.26 광역시 데이터 합친 후 1차
+# print(train_1.info())
+# clf = setup(data=train_1, target='ECLO', train_size=0.8)
+# best_model = compare_models()
+# compare_models(n_select = 5, sort = 'RMSLE')
+#            RMSLE    MAPE  TT (Sec)
+# lightgbm  0.4350  0.5696     0.402
+# gbr       0.4353  0.5706     5.006
+# catboost  0.4359  0.5688     9.726
+# xgboost   0.4372  0.5697     2.297
+# huber     0.4386  0.4853     1.611
+# lr        0.4404  0.5799     0.111
+# ridge     0.4404  0.5799     0.076
+# br        0.4404  0.5799     0.115
+# lar       0.4407  0.5802     0.077
+# omp       0.4428  0.5806     0.077
+# en        0.4428  0.5806     0.075
+# lasso     0.4428  0.5806     0.076
+# llar      0.4428  0.5806     0.077
+# dummy     0.4428  0.5806     0.073
+# rf        0.4840  0.6282    13.085
+# knn       0.4854  0.6155     0.425
+# et        0.5138  0.6400    11.291
+# dt        0.5964  0.7163     0.277
+# ada       0.6588  1.2769     2.145
+# par       0.9640  2.4552     0.187
+
+
+
 # RMSLE 계산 함수 정의
 from sklearn.metrics import make_scorer
 from sklearn.metrics import mean_squared_log_error
@@ -392,18 +433,18 @@ from sklearn.linear_model import LinearRegression
 
 #huber
 from sklearn.linear_model import HuberRegressor
-model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
-model_huber.fit(trainX,trainY)
+# model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter=1500)
+# model_huber.fit(trainX,trainY)
 huber_param = {
     'epsilon': [1.0, 1.5, 2.0],  # 적절한 값으로 조정
     'alpha': [0.0001, 0.001, 0.01],  # 적절한 값으로 조정
-    'max_iter': [500, 1000, 1500]  # 적절한 값으로 조정
+    'max_iter': [1500,2000,2500,3000]  # 적절한 값으로 조정
 }
 # huber_grid = GridSearchCV(model_huber,param_grid=huber_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
 # huber_grid.fit(trainX,trainY)
 # best_huber = huber_grid.best_estimator_
 # print('최적의 하이퍼 파라미터는:', huber_grid.best_params_)
-
+# alpha= 0.0001, epsilon= 1.5, max_iter=1500
 
 #XGB
 from xgboost import XGBRegressor
@@ -462,19 +503,19 @@ xgb_param = {
 #0.4614305671790214
 
 #Huber
-pred_huber_1 = model_huber.predict(testX)
-score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
-print(score_huber)
-#0.44837727518222475
-pred_huber_2= model_huber.predict(test_1)
-submission['ECLO'] = pred_huber_2
-#0.4334
+# pred_huber_1 = model_huber.predict(testX)
+# score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
+# print(score_huber)
+# # 0.4298873972115224
+# pred_huber_2= model_huber.predict(test_1)
+# submission['ECLO'] = pred_huber_2
+# 0.4339
 
 # csv파일 도출
 import datetime
-title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-submission.to_csv(title,index=False)
+# submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
@@ -482,6 +523,3 @@ submission.to_csv(title,index=False)
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
 #카메라랑 사고 그래프 보여주면서 카메라가 효과적 이런거
 
-
-#현재 huber가 제일 점수가 잘 나옴
-#현재 컬럼들은 세이브 하고, 학습에 다른 광역시 자료 추가해서 다음 파일로 진행.
