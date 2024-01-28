@@ -476,10 +476,9 @@ xgb_param = {
 # model_lgbm.fit(trainX,trainY)
 # pred_lgbm = model_lgbm.predict(testX)
 #
-
 # score_lgbm = mean_squared_log_error(testY,pred_lgbm,squared=False)
 # print(score_lgbm)
-# 0.44402
+
 # #실제예측
 # pred_lgbm1 = model_lgbm.predict(test_1)
 # submission['ECLO'] = pred_lgbm1
@@ -494,15 +493,15 @@ xgb_param = {
 # # 실제
 # pred_xgb_2 = model_xgb.predict(test_1)
 # submission['ECLO'] = pred_xgb_2
-#0.44026
+
 
 #LinearRegression
 # pred_lr = model_lr.predict(testX)
 # score_lr = mean_squared_log_error(testY,pred_lr,squared=False)
 # print(score_lr)
-#0.4614305671790214
 
-#Huber
+
+#Huber 2번째
 # pred_huber_1 = model_huber.predict(testX)
 # score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
 # print(score_huber)
@@ -523,3 +522,4 @@ import datetime
 #단지 예측 뿐 아니라 train 셋에 있는 데이터를 바탕으로 사고를 줄일 수 있는 방법 제시.
 #카메라랑 사고 그래프 보여주면서 카메라가 효과적 이런거
 
+#LGBM 하면됨
