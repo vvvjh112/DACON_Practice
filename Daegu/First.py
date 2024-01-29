@@ -16,15 +16,6 @@ test = pd.read_csv('test.csv')
 countrywide = pd.read_csv('external_open/countrywide_accident.csv') #대구 제외한 교통사고 정보
 submission = pd.read_csv('sample_submission.csv')
 
-# from sklearn.metrics import mean_squared_log_error, make_scorer
-# def rmsle(y_actual, y_pred):
-#     diff = np.log(y_pred + 1) - np.log(y_actual + 1)
-#     mean_error = np.mean(np.square(diff))
-#
-#     return np.sqrt(mean_error)
-#
-# rmsle_score = make_scorer(rmsle, greater_is_better=False)
-
 
 #test셋에는 없는 값들 확인
 train_column = train.columns
@@ -499,8 +490,8 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-submission.to_csv(title,index=False)
+# title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
