@@ -361,8 +361,8 @@ from pycaret.regression import *
 #0.44427
 
 #01.26 광역시 데이터 합친 후 1차
-# print(train_1.info())
-# clf = setup(data=train_1, target='ECLO', train_size=0.8)
+print(train_1.info())
+clf = setup(data=train_1, target='ECLO', train_size=0.8)
 # best_model = compare_models()
 # compare_models(n_select = 5, sort = 'RMSLE')
 #            RMSLE    MAPE  TT (Sec)
@@ -386,6 +386,18 @@ from pycaret.regression import *
 # dt        0.5964  0.7163     0.277
 # ada       0.6588  1.2769     2.145
 # par       0.9640  2.4552     0.187
+# model_py_3 = create_model('lightgbm')
+# tuned_lgbm = tune_model(model_py_3,optimize = 'RMSLE')
+# print(tuned_lgbm)
+# final_model = finalize_model(tuned_lgbm)
+# prediction = predict_model(final_model, data = test_1)
+# result = prediction['prediction_label']
+# submission['ECLO'] = result
+# LGBMRegressor(bagging_fraction=1.0, bagging_freq=1, feature_fraction=1.0,
+#               learning_rate=0.3, min_child_samples=96, min_split_gain=0.6,
+#               n_estimators=80, n_jobs=-1, num_leaves=8, random_state=1421,
+#               reg_alpha=0.05, reg_lambda=3)
+
 
 
 
@@ -410,14 +422,9 @@ from sklearn.model_selection import GridSearchCV
 
 #LGBM
 from lightgbm import LGBMRegressor
+model_lgbm = LGBMRegressor(learning_rate= 0.01, min_child_samples= 40, n_estimators= 600, num_leaves= 31, reg_alpha= 0.5, reg_lambda= 0.5)
 # model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
-# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
-
-# lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
-# lgbm_grid.fit(trainX,trainY)
-# best_lgbm = lgbm_grid.best_estimator_
-# print('최적의 하이퍼 파라미터는:', lgbm_grid.best_params_)
-# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
+# 최적의 하이퍼 파라미터는: {'learning_rate': 0.01, 'min_child_samples': 40, 'n_estimators': 600, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.5}
 
 lgbm_param = {'num_leaves': [31, 40, 50],
     'learning_rate': [0.01, 0.05 ,0.1],
@@ -425,6 +432,12 @@ lgbm_param = {'num_leaves': [31, 40, 50],
     'min_child_samples': [20,30,40],
     'reg_alpha': [0.0, 0.1, 0.5],
     'reg_lambda': [0.0, 0.1, 0.5]}
+
+# lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
+# lgbm_grid.fit(trainX,trainY)
+# best_lgbm = lgbm_grid.best_estimator_
+# print('최적의 하이퍼 파라미터는:', lgbm_grid.best_params_)
+
 
 #Linear Rgeression
 from sklearn.linear_model import LinearRegression
@@ -475,13 +488,15 @@ xgb_param = {
 #LGBM
 # model_lgbm.fit(trainX,trainY)
 # pred_lgbm = model_lgbm.predict(testX)
-#
+# #
 # score_lgbm = mean_squared_log_error(testY,pred_lgbm,squared=False)
 # print(score_lgbm)
+# 0.4352387859946522
 
 # #실제예측
 # pred_lgbm1 = model_lgbm.predict(test_1)
 # submission['ECLO'] = pred_lgbm1
+# 0.4585
 
 #XGB
 # model_xgb.fit(trainX,trainY)
@@ -512,8 +527,8 @@ xgb_param = {
 
 # csv파일 도출
 import datetime
-# title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = str(round(score_lgbm,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = 'pycaret'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
@@ -523,3 +538,4 @@ import datetime
 #카메라랑 사고 그래프 보여주면서 카메라가 효과적 이런거
 
 #LGBM 하면됨
+# ==> 사망자수, 중상자수, 경상자수, 부상자수 따로 모델링? ==> ECLO 따로 모델링 ?

@@ -462,18 +462,37 @@ xgb_param = {
 #0.4614305671790214
 
 #Huber
-pred_huber_1 = model_huber.predict(testX)
-score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
-print(score_huber)
+# pred_huber_1 = model_huber.predict(testX)
+# score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
+# print(score_huber)
 #0.44837727518222475
-pred_huber_2= model_huber.predict(test_1)
-submission['ECLO'] = pred_huber_2
+# pred_huber_2= model_huber.predict(test_1)
+# submission['ECLO'] = pred_huber_2
 #0.4334
+
+#AutoML
+from supervised.automl import AutoML
+
+automl = AutoML(
+    mode="Compete",
+    algorithms=['Random Forest', 'LightGBM', 'Xgboost', 'CatBoost', 'Neural Network', 'Extra Trees'],
+    n_jobs=-1,
+    total_time_limit=43200,
+    eval_metric="rmse",
+    ml_task="regression",
+    features_selection=True,  # 특성 선택 활성화
+    boost_on_errors=True,  # 오류에 대한 부스팅 활성화
+
+)
+automl.fit(trainX, trainY)
+pred_auto = automl.predict(test_1)
+submission['ECLO'] = pred_auto
+submission.loc[submission['ECLO'] < 0.0, 'ECLO'] = 0.0
 
 # csv파일 도출
 import datetime
-title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
@@ -485,3 +504,5 @@ submission.to_csv(title,index=False)
 
 #현재 huber가 제일 점수가 잘 나옴
 #현재 컬럼들은 세이브 하고, 학습에 다른 광역시 자료 추가해서 다음 파일로 진행.
+#추가데이터는 정확도가 떨어짐
+#앙상블 시도해보고 그래도 떨어지면 파생컬럼 추가 고려
