@@ -392,8 +392,8 @@ from sklearn.linear_model import LinearRegression
 
 #huber
 from sklearn.linear_model import HuberRegressor
-model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
-model_huber.fit(trainX,trainY)
+# model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
+# model_huber.fit(trainX,trainY)
 huber_param = {
     'epsilon': [1.0, 1.5, 2.0],  # 적절한 값으로 조정
     'alpha': [0.0001, 0.001, 0.01],  # 적절한 값으로 조정
@@ -433,14 +433,14 @@ xgb_param = {
 #모델링 후 예측
 #LGBM
 # model_lgbm.fit(trainX,trainY)
-# pred_lgbm = model_lgbm.predict(testX)
+# pred_lgbm_1 = model_lgbm.predict(testX)
 #
 
 # score_lgbm = mean_squared_log_error(testY,pred_lgbm,squared=False)
 # print(score_lgbm)
 # 0.44402
 # #실제예측
-# pred_lgbm1 = model_lgbm.predict(test_1)
+# pred_lgbm_2 = model_lgbm.predict(test_1)
 # submission['ECLO'] = pred_lgbm1
 
 #XGB
@@ -472,22 +472,29 @@ xgb_param = {
 
 #AutoML
 from supervised.automl import AutoML
+#
+# automl = AutoML(
+#     mode="Compete",
+#     algorithms=['LightGBM', 'Xgboost', 'CatBoost', 'Neural Network', 'Extra Trees'],
+#     n_jobs=-1,
+#     total_time_limit=43200,
+#     eval_metric="rmse",
+#     ml_task="regression",
+#     features_selection=True,  # 특성 선택 활성화
+#     boost_on_errors=True,  # 오류에 대한 부스팅 활성화
+#
+# )
+# automl.fit(trainX, trainY)
+# pred_auto = automl.predict(test_1)
+# submission['ECLO'] = pred_auto
+# submission.loc[submission['ECLO'] < 0.0, 'ECLO'] = 0.0
+# 0.4282 _1_29_15_47.csv
 
-automl = AutoML(
-    mode="Compete",
-    algorithms=['Random Forest', 'LightGBM', 'Xgboost', 'CatBoost', 'Neural Network', 'Extra Trees'],
-    n_jobs=-1,
-    total_time_limit=43200,
-    eval_metric="rmse",
-    ml_task="regression",
-    features_selection=True,  # 특성 선택 활성화
-    boost_on_errors=True,  # 오류에 대한 부스팅 활성화
 
-)
-automl.fit(trainX, trainY)
-pred_auto = automl.predict(test_1)
-submission['ECLO'] = pred_auto
-submission.loc[submission['ECLO'] < 0.0, 'ECLO'] = 0.0
+#XGB, LGBM, Huber 앙상블
+# final = (pred_lgbm_2 + pred_xgb_2 + pred_huber_2)/3
+# submission['ECLO'] = final
+# 점수 입력하자 1/30일에
 
 # csv파일 도출
 import datetime
@@ -505,4 +512,4 @@ submission.to_csv(title,index=False)
 #현재 huber가 제일 점수가 잘 나옴
 #현재 컬럼들은 세이브 하고, 학습에 다른 광역시 자료 추가해서 다음 파일로 진행.
 #추가데이터는 정확도가 떨어짐
-#앙상블 시도해보고 그래도 떨어지면 파생컬럼 추가 고려
+#앙상블 시도해보고 그래도 떨어지면 파생컬럼 추가 고려 / 제출 초과해서 내일 해봐야함
