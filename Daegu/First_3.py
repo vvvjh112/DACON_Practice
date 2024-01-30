@@ -39,10 +39,10 @@ test['사고일시'] = pd.to_datetime(test['사고일시'],format="%Y-%m-%d %H")
 pattern = r'(\S+) (\S+) (\S+)'
 
 train[['도시', '구', '동']] = train['시군구'].str.extract(pattern)
-train = train.drop(columns=['시군구'])
+train = train.drop(columns=['시군구','도시'])
 
 test[['도시', '구', '동']] = test['시군구'].str.extract(pattern)
-test = test.drop(columns=['시군구'])
+test = test.drop(columns=['시군구','도시'])
 
 #도로형태 분리
 pattern = '(.+) - (.+)'
@@ -53,43 +53,30 @@ test[['도로형태1', '도로형태2']] = test['도로형태'].str.extract(patt
 train = train.drop('도로형태',axis = 1)
 test = test.drop('도로형태',axis = 1)
 
+#시간
+train['연'] = train['사고일시'].dt.year
+train['월'] = train['사고일시'].dt.month
+train['일'] = train['사고일시'].dt.day
+train['시간'] = train['사고일시'].dt.hour
+test['월'] = test['사고일시'].dt.month
+test['시간'] = test['사고일시'].dt.hour
+
+#파생컬럼 계절 추가
+def season(x):
+    if 3 <= x['월'] <= 5:
+        return '봄'
+    elif 6 <= x['월'] <= 8:
+        return '여름'
+    elif 9 <= x['월'] <= 11:
+        return '가을'
+    else:
+        return '겨울'
+
+train['계절'] = train.apply(season,axis=1)
+test['계절'] = test.apply(season,axis=1)
+
 
 #공휴일 체크
-# print(train['사고일시'].dt.year.unique())
-# print(test['사고일시'].dt.year.unique())
-# train[2019 2020 2021], test[2022]
-
-#공휴일 api를 통해 가져오기(대체휴무일때문)
-# import requests
-# from datetime import datetime
-# import json
-# from pandas import json_normalize
-#
-# def getholiday(year):
-#     today_year = year
-#
-#     KEY = "JWgg0HGk6X1%2FiSamZNl29O5awvu46mP%2BwM%2Fj8WNoLfNNfMeo2zhjPECwNdheapXHpIKbEZ0GCg1sWUm%2BrTdBfg%3D%3D"
-#     url = (
-#         "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?_type=json&numOfRows=50&solYear="
-#         + str(today_year)
-#         + "&ServiceKey="
-#         + str(KEY)
-#     )
-#     response = requests.get(url)
-#     if response.status_code == 200:
-#         json_ob = json.loads(response.text)
-#         holidays_data = json_ob["response"]["body"]["items"]["item"]
-#         dataframe = json_normalize(holidays_data)
-#     # dateName = dataframe.loc[dataframe["locdate"] == int(today), "dateName"]
-#     # print(dateName)
-#     result = dataframe["locdate"].astype(str)
-#     return result.to_list()
-#
-# holiday_2019 = getholiday(2019)
-# holiday_2020 = getholiday(2020)
-# holiday_2021 = getholiday(2021)
-# holiday_2022 = getholiday(2022)
-
 holiday_2019 = ['20190101', '20190204', '20190205', '20190206', '20190301', '20190505', '20190506', '20190512', '20190606', '20190815', '20190912', '20190913', '20190914', '20191003', '20191009', '20191225']
 holiday_2020 = ['20200101', '20200124', '20200125', '20200126', '20200127', '20200301', '20200415', '20200430', '20200505', '20200606', '20200815', '20200817', '20200930', '20201001', '20201002', '20201003', '20201009', '20201225']
 holiday_2021 = ['20210101', '20210211', '20210212', '20210213', '20210301', '20210505', '20210519', '20210606', '20210815', '20210816', '20210920', '20210921', '20210922', '20211003', '20211004', '20211009', '20211011', '20211225']
@@ -118,14 +105,17 @@ test['공휴일'] = test['사고일시'].apply(check_holiday)
 # print(train.head(20))
 # print(test.head(20))
 #평일이면 평일로구분 주말 or 공휴일이면 휴일로 구분하는것도 괜찮을듯 싶은데
+#요일 + 공휴일 합쳐서 휴무 여부로 변경
+def restday(x):
+    if (x['공휴일'] == 1)or(x['요일']=='토요일')or(x['요일']=='일요일'):
+        return 1
+    else:
+        return 0
+
+# train['휴무여부'] = train.apply(restday, axis=1)
+# test['휴무여부'] = test.apply(restday, axis=1)
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
-train['연'] = train['사고일시'].dt.year
-train['월'] = train['사고일시'].dt.month
-train['일'] = train['사고일시'].dt.day
-train['시간'] = train['사고일시'].dt.hour
-test['시간'] = test['사고일시'].dt.hour
-
 group_year = train.groupby(['연']).mean('ECLO')
 group_year = group_year[['ECLO']]
 
@@ -242,23 +232,28 @@ gr2 = group_road2.plot(title='도로형태2',kind = 'bar')
 # 피해운전자 연령       991
 # 피해운전자 상해정도     991
 
+
+
+
 #컬럼을 test에 맞춰 수정할것이기 때문에 카피해서 작업진행
 train_1 = train.copy()
 test_1 = test.copy()
+
+
 #test에는 없는 컬럼들 삭제해보고 진행해보자 우선.
 lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
 
 #요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
-train_1 = train_1.drop(['연','월','일','사고일시','ID'],axis=1)
+train_1 = train_1.drop(['연','일','사고일시','ID'],axis=1)
 train_1 = train_1.drop(lst,axis=1)
 test_1 = test_1.drop(['ID','사고일시'],axis=1)
 
-# print(test_1.head(20))
+print(test_1.head())
 
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 #우선 라벨인코딩만
 from sklearn.preprocessing import LabelEncoder
-Label_lst = ['요일','기상상태','도로형태1','도로형태2','노면상태','사고유형','도시','구','동']
+Label_lst = ['요일','기상상태','도로형태1','도로형태2','노면상태','사고유형','구','동','계절']
 temp = []
 for i in Label_lst:
     lb = LabelEncoder()
@@ -339,6 +334,32 @@ from pycaret.regression import *
 # submission['ECLO'] = result
 #0.44427
 
+#3차
+# clf = setup(data=train_1, target='ECLO', train_size=0.8)
+# best_model = compare_models()
+# compare_models(n_select = 5, sort = 'RMSLE')
+#            RMSLE    MAPE  TT (Sec)
+# huber     0.4532  0.5319     0.193
+# gbr       0.4569  0.6198     0.378
+# lightgbm  0.4589  0.6220     0.086
+# ridge     0.4617  0.6298     0.012
+# lar       0.4617  0.6298     0.012
+# br        0.4617  0.6297     0.014
+# lr        0.4617  0.6298     0.015
+# catboost  0.4624  0.6238     1.612
+# en        0.4643  0.6306     0.013
+# omp       0.4643  0.6306     0.012
+# lasso     0.4643  0.6306     0.013
+# llar      0.4643  0.6306     0.012
+# dummy     0.4643  0.6306     0.013
+# xgboost   0.4730  0.6359     0.077
+# rf        0.4909  0.6786     1.300
+# knn       0.5088  0.6710     0.049
+# et        0.5107  0.6867     1.042
+# ada       0.5414  0.8801     0.076
+# dt        0.6484  0.8080     0.034
+# par       0.8049  1.9689     0.019
+
 # RMSLE 계산 함수 정의
 from sklearn.metrics import make_scorer
 from sklearn.metrics import mean_squared_log_error
@@ -361,20 +382,22 @@ from sklearn.model_selection import GridSearchCV
 #LGBM
 from lightgbm import LGBMRegressor
 # model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
-# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
-
+model_lgbm = LGBMRegressor(learning_rate=0.01,n_estimators=300, num_leaves=31, min_child_samples=40,reg_alpha=0.1,reg_lambda=0.0)
+lgbm_param = {
+    'num_leaves': [31, 40, 50],
+    'learning_rate': [0.01, 0.05 ,0.1],
+    'n_estimators': [300,400,500,600],
+    'min_child_samples': [20,30,40],
+    'reg_alpha': [0.0, 0.1, 0.5],
+    'reg_lambda': [0.0, 0.1, 0.5]
+    }
 # lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
 # lgbm_grid.fit(trainX,trainY)
 # best_lgbm = lgbm_grid.best_estimator_
 # print('최적의 하이퍼 파라미터는:', lgbm_grid.best_params_)
 # {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
 
-lgbm_param = {'num_leaves': [31, 40, 50],
-    'learning_rate': [0.01, 0.05 ,0.1],
-    'n_estimators': [300,400,500,600],
-    'min_child_samples': [20,30,40],
-    'reg_alpha': [0.0, 0.1, 0.5],
-    'reg_lambda': [0.0, 0.1, 0.5]}
+
 
 #Linear Rgeression
 from sklearn.linear_model import LinearRegression
@@ -383,7 +406,7 @@ from sklearn.linear_model import LinearRegression
 
 #huber
 from sklearn.linear_model import HuberRegressor
-# model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
+model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
 # model_huber.fit(trainX,trainY)
 huber_param = {
     'epsilon': [1.0, 1.5, 2.0],  # 적절한 값으로 조정
@@ -398,7 +421,7 @@ huber_param = {
 
 #XGB
 from xgboost import XGBRegressor
-# model_xgb = XGBRegressor(learning_rate = 0.01, max_depth = 5, n_estimators = 400)
+model_xgb = XGBRegressor(learning_rate = 0.01, max_depth = 3, n_estimators = 800)
 
 xgb_param = {
     'learning_rate' : [0.01,0.05,0.1],
@@ -411,28 +434,33 @@ xgb_param = {
 # xgb_grid.fit(trainX,trainY)
 # best_xgb = xgb_grid.best_estimator_
 # print('최적의 하이퍼 파라미터 : ', xgb_grid.best_params_)
-# 최적의 하이퍼 파라미터 :  {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 400}
+
 
 #피처 중요도
 #model.feature_importances_
 #lgbm
 # model_lgbm.fit(trainX,trainY)
+# model_xgb.fit(trainX,trainY)
 # print(model_lgbm.feature_importances_)
+# print(model_huber.feature_importances_)
+# print((model_xgb.feature_importances_)*100)
 # [1403    329      244       707    0    1322    3480    496      1076      280      2663]
 #  요일   기상상태  노면상태   사고유형  도시    구      동    도로형태1  도로형태2   공휴일     시간
+# [ 7.440489   4.2729135  6.7964053 42.735065   3.75589    4.9095335
+#   6.273524   5.5323863  4.342402   5.859895   4.264044   3.817453 ]
 
 #모델링 후 예측
 #LGBM
-# model_lgbm.fit(trainX,trainY)
-# pred_lgbm_1 = model_lgbm.predict(testX)
-#
+model_lgbm.fit(trainX,trainY)
+pred_lgbm_1 = model_lgbm.predict(testX)
 
-# score_lgbm = mean_squared_log_error(testY,pred_lgbm,squared=False)
-# print(score_lgbm)
-# 0.44402
+
+score_lgbm = mean_squared_log_error(testY,pred_lgbm_1,squared=False)
+print(score_lgbm)
+# 0.4566
 # #실제예측
-# pred_lgbm_2 = model_lgbm.predict(test_1)
-# submission['ECLO'] = pred_lgbm1
+pred_lgbm_2 = model_lgbm.predict(test_1)
+submission['ECLO'] = pred_lgbm_2
 
 #XGB
 # model_xgb.fit(trainX,trainY)
@@ -490,9 +518,9 @@ from supervised.automl import AutoML
 
 # csv파일 도출
 import datetime
-# title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+title = str(round(score_lgbm,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# submission.to_csv(title,index=False)
+submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
