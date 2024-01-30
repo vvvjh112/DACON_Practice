@@ -515,6 +515,7 @@ from supervised.automl import AutoML
 # final = (pred_lgbm_2 + pred_xgb_2 + pred_huber_2)/3
 # submission['ECLO'] = final
 # 0.4365 - ensemble1_29_15_50
+# 2차 점수 제출해봐야함
 
 
 # csv파일 도출
@@ -534,3 +535,5 @@ import datetime
 #현재 컬럼들은 세이브 하고, 학습에 다른 광역시 자료 추가해서 다음 파일로 진행.
 #추가데이터는 정확도가 떨어짐
 #앙상블 시도해보고 그래도 떨어지면 파생컬럼 추가 고려 / 제출 초과해서 내일 해봐야함
+
+#하나씩 각각 모델 우수한걸 뽑아서 예측해서 ECLO를 새로 계산
