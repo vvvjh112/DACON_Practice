@@ -407,7 +407,7 @@ from sklearn.linear_model import LinearRegression
 #huber
 from sklearn.linear_model import HuberRegressor
 model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
-# model_huber.fit(trainX,trainY)
+model_huber.fit(trainX,trainY)
 huber_param = {
     'epsilon': [1.0, 1.5, 2.0],  # 적절한 값으로 조정
     'alpha': [0.0001, 0.001, 0.01],  # 적절한 값으로 조정
@@ -439,11 +439,11 @@ xgb_param = {
 #피처 중요도
 #model.feature_importances_
 #lgbm
-# model_lgbm.fit(trainX,trainY)
-# model_xgb.fit(trainX,trainY)
-# print(model_lgbm.feature_importances_)
+model_lgbm.fit(trainX,trainY)
+model_xgb.fit(trainX,trainY)
+print(model_lgbm.feature_importances_)
 # print(model_huber.feature_importances_)
-# print((model_xgb.feature_importances_)*100)
+print((model_xgb.feature_importances_)*100)
 # [1403    329      244       707    0    1322    3480    496      1076      280      2663]
 #  요일   기상상태  노면상태   사고유형  도시    구      동    도로형태1  도로형태2   공휴일     시간
 # [ 7.440489   4.2729135  6.7964053 42.735065   3.75589    4.9095335
@@ -451,16 +451,17 @@ xgb_param = {
 
 #모델링 후 예측
 #LGBM
-model_lgbm.fit(trainX,trainY)
-pred_lgbm_1 = model_lgbm.predict(testX)
-
-
-score_lgbm = mean_squared_log_error(testY,pred_lgbm_1,squared=False)
-print(score_lgbm)
+# model_lgbm.fit(trainX,trainY)
+# pred_lgbm_1 = model_lgbm.predict(testX)
+#
+#
+# score_lgbm = mean_squared_log_error(testY,pred_lgbm_1,squared=False)
+# print(score_lgbm)
 # 0.4566
 # #실제예측
-pred_lgbm_2 = model_lgbm.predict(test_1)
-submission['ECLO'] = pred_lgbm_2
+# pred_lgbm_2 = model_lgbm.predict(test_1)
+# submission['ECLO'] = pred_lgbm_2
+#0.4439
 
 #XGB
 # model_xgb.fit(trainX,trainY)
@@ -468,8 +469,8 @@ submission['ECLO'] = pred_lgbm_2
 #
 # score_xgb = mean_squared_log_error(testY,pred_xgb_1,squared=False)
 # print(score_xgb)
-# # 0.4541256952152954
-# # 실제
+# 0.4567
+# 실제
 # pred_xgb_2 = model_xgb.predict(test_1)
 # submission['ECLO'] = pred_xgb_2
 #0.44026
@@ -484,10 +485,10 @@ submission['ECLO'] = pred_lgbm_2
 # pred_huber_1 = model_huber.predict(testX)
 # score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
 # print(score_huber)
-#0.44837727518222475
+# 0.4482
 # pred_huber_2= model_huber.predict(test_1)
 # submission['ECLO'] = pred_huber_2
-#0.4334
+#0.4333
 
 #AutoML
 from supervised.automl import AutoML
@@ -518,9 +519,9 @@ from supervised.automl import AutoML
 
 # csv파일 도출
 import datetime
-title = str(round(score_lgbm,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-submission.to_csv(title,index=False)
+# submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
