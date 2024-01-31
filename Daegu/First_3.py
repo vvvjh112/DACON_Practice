@@ -512,16 +512,18 @@ from supervised.automl import AutoML
 
 
 #XGB, LGBM, Huber 앙상블
-# final = (pred_lgbm_2 + pred_xgb_2 + pred_huber_2)/3
+# final = ((pred_lgbm_2*0.3) + (pred_xgb_2*0.3) + (pred_huber_2*0.4))
 # submission['ECLO'] = final
 # 0.4365 - ensemble1_29_15_50
-# 2차 점수 제출해봐야함
+# 2차 0.4370
+# 3차 0.4359
+
 
 
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = '_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = 'ensemble'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
@@ -537,3 +539,5 @@ import datetime
 #앙상블 시도해보고 그래도 떨어지면 파생컬럼 추가 고려 / 제출 초과해서 내일 해봐야함
 #앙상블 비율을 다르게 해서
 #하나씩 각각 모델 우수한걸 뽑아서 예측해서 ECLO를 새로 계산
+
+#출퇴근시간을 나누자 / 주말 주중으로 단순화 / 휴일여부에 주말 추가 / 원핫인코딩추가 / 옵튜나 최적화
