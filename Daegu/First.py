@@ -360,7 +360,7 @@ from sklearn.model_selection import GridSearchCV
 
 #LGBM
 from lightgbm import LGBMRegressor
-# model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
+model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
 # {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
 
 # lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
@@ -416,8 +416,8 @@ xgb_param = {
 #피처 중요도
 #model.feature_importances_
 #lgbm
-# model_lgbm.fit(trainX,trainY)
-# print(model_lgbm.feature_importances_)
+model_lgbm.fit(trainX,trainY)
+print(model_lgbm.feature_importances_)
 # [1403    329      244       707    0    1322    3480    496      1076      280      2663]
 #  요일   기상상태  노면상태   사고유형  도시    구      동    도로형태1  도로형태2   공휴일     시간
 

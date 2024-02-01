@@ -115,6 +115,21 @@ def restday(x):
 # train['휴무여부'] = train.apply(restday, axis=1)
 # test['휴무여부'] = test.apply(restday, axis=1)
 
+#출근시간 및 퇴근시간 체크
+def time_check(x):
+    if 8<= x['시간'] <=10:
+        return '출근'
+    elif 11<= x['시간'] <=16:
+        return '주중'
+    elif 17<= x['시간'] <= 19:
+        return '퇴근'
+    elif 20<= x['시간'] <= 22:
+        return '야간'
+    else:
+        return '심야'
+train['시간대'] = train.apply(time_check,axis=1)
+test['시간대'] = test.apply(time_check,axis=1)
+
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 group_year = train.groupby(['연']).mean('ECLO')
 group_year = group_year[['ECLO']]
@@ -253,7 +268,7 @@ print(test_1.head())
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 #우선 라벨인코딩만
 from sklearn.preprocessing import LabelEncoder
-Label_lst = ['요일','기상상태','도로형태1','도로형태2','노면상태','사고유형','구','동','계절']
+Label_lst = ['요일','기상상태','도로형태1','도로형태2','노면상태','사고유형','구','동','계절','시간대']
 temp = []
 for i in Label_lst:
     lb = LabelEncoder()
@@ -263,6 +278,7 @@ for i in Label_lst:
 
 # print(train_1.head())
 # print(test_1.head())
+
 #모델링
 from pycaret.regression import *
 #2024.01.19 pycaret
@@ -381,8 +397,8 @@ from sklearn.model_selection import GridSearchCV
 
 #LGBM
 from lightgbm import LGBMRegressor
-# model_lgbm = LGBMRegressor(learning_rate=0.01,min_child_samples=30,n_estimators=400,num_leaves=31,reg_alpha=0.5,reg_lambda=0)
-model_lgbm = LGBMRegressor(learning_rate=0.01,n_estimators=300, num_leaves=31, min_child_samples=40,reg_alpha=0.1,reg_lambda=0.0)
+# model_lgbm = LGBMRegressor(learning_rate=0.01,n_estimators=300, num_leaves=31, min_child_samples=40,reg_alpha=0.1,reg_lambda=0.0)
+model_lgbm = LGBMRegressor(learning_rate=0.01,n_estimators=300, num_leaves=31,min_child_samples=40,reg_alpha=0.5,reg_lambda=0.5)
 lgbm_param = {
     'num_leaves': [31, 40, 50],
     'learning_rate': [0.01, 0.05 ,0.1],
@@ -406,7 +422,7 @@ from sklearn.linear_model import LinearRegression
 
 #huber
 from sklearn.linear_model import HuberRegressor
-model_huber = HuberRegressor(alpha= 0.0001, epsilon= 1.5, max_iter= 500)
+model_huber = HuberRegressor(alpha= 0.001, epsilon= 1.5, max_iter= 500)
 model_huber.fit(trainX,trainY)
 huber_param = {
     'epsilon': [1.0, 1.5, 2.0],  # 적절한 값으로 조정
@@ -418,10 +434,46 @@ huber_param = {
 # best_huber = huber_grid.best_estimator_
 # print('최적의 하이퍼 파라미터는:', huber_grid.best_params_)
 
+#Optuna 이용
+import optuna
+from sklearn.metrics import mean_squared_error
+def huber_regressor_tuning(X_train, y_train, X_valid, y_valid):
+    def objective(trial):
+        param = {
+            'epsilon': trial.suggest_uniform('epsilon', 1.0, 2.0),
+            'max_iter': trial.suggest_int('max_iter', 100, 1000),
+            'alpha': trial.suggest_uniform('alpha', 0.0, 1.0),
+            'fit_intercept': trial.suggest_categorical('fit_intercept', [True, False]),
+            'tol': trial.suggest_loguniform('tol', 1e-6, 1e-3),
+            'warm_start': trial.suggest_categorical('warm_start', [True, False]),
+        }
+
+        model = HuberRegressor(**param)
+        model.fit(X_train, y_train)
+
+        preds = model.predict(X_valid)
+        loss = mean_squared_error(y_valid, preds)
+
+        return loss
+
+    # optuna 최적의파라미터: {'epsilon': 1.9973861946187805, 'max_iter': 420, 'alpha': 0.463494237398585}
+    study_huber = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
+    study_huber.optimize(objective, n_trials=90, show_progress_bar=True)
+
+    best_params = study_huber.best_params
+    print("optuna 최적의 파라미터 : ",best_params)
+    huber_reg = HuberRegressor(**best_params)
+    huber_reg.fit(X_train, y_train)
+
+    return huber_reg, study_huber
+
+huber,huber_study = huber_regressor_tuning(trainX,trainY,testX,testY)
+huber_predict = huber.predict(test_1)
+submission['ECLO'] = huber_predict
 
 #XGB
 from xgboost import XGBRegressor
-model_xgb = XGBRegressor(learning_rate = 0.01, max_depth = 3, n_estimators = 800)
+model_xgb = XGBRegressor(learning_rate = 0.1, max_depth = 3, n_estimators = 100)
 
 xgb_param = {
     'learning_rate' : [0.01,0.05,0.1],
@@ -442,6 +494,7 @@ xgb_param = {
 model_lgbm.fit(trainX,trainY)
 model_xgb.fit(trainX,trainY)
 print(model_lgbm.feature_importances_)
+print(train_1.columns)
 # print(model_huber.feature_importances_)
 print((model_xgb.feature_importances_)*100)
 # [1403    329      244       707    0    1322    3480    496      1076      280      2663]
@@ -485,17 +538,17 @@ print((model_xgb.feature_importances_)*100)
 # pred_huber_1 = model_huber.predict(testX)
 # score_huber = mean_squared_log_error(testY,pred_huber_1,squared=False)
 # print(score_huber)
-# 0.4482
+# 0.4483
 # pred_huber_2= model_huber.predict(test_1)
 # submission['ECLO'] = pred_huber_2
-#0.4333
+#0.4335 private 0.4332
 
 #AutoML
 from supervised.automl import AutoML
 #
 # automl = AutoML(
 #     mode="Compete",
-#     algorithms=['LightGBM', 'Xgboost', 'CatBoost', 'Neural Network', 'Extra Trees'],
+#     algorithms=['LightGBM', 'Xgboost', 'CatBoost'],
 #     n_jobs=-1,
 #     total_time_limit=43200,
 #     eval_metric="rmse",
@@ -523,8 +576,8 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = 'ensemble'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# submission.to_csv(title,index=False)
+title = 'optuna_huber'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
@@ -540,4 +593,4 @@ import datetime
 #앙상블 비율을 다르게 해서
 #하나씩 각각 모델 우수한걸 뽑아서 예측해서 ECLO를 새로 계산
 
-#출퇴근시간을 나누자 / 주말 주중으로 단순화 / 휴일여부에 주말 추가 / 원핫인코딩추가 / 옵튜나 최적화
+#출퇴근시간을 나누자 완료 / 주말 주중으로 단순화 / 휴일여부에 주말 추가 / 원핫인코딩추가 / 옵튜나 최적화
