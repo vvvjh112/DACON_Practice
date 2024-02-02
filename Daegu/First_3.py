@@ -75,6 +75,8 @@ def season(x):
 train['계절'] = train.apply(season,axis=1)
 test['계절'] = test.apply(season,axis=1)
 
+#요일
+
 
 #공휴일 체크
 holiday_2019 = ['20190101', '20190204', '20190205', '20190206', '20190301', '20190505', '20190506', '20190512', '20190606', '20190815', '20190912', '20190913', '20190914', '20191003', '20191009', '20191225']
@@ -466,10 +468,98 @@ def huber_regressor_tuning(X_train, y_train, X_valid, y_valid):
     huber_reg.fit(X_train, y_train)
 
     return huber_reg, study_huber
+#
+# huber,huber_study = huber_regressor_tuning(trainX,trainY,testX,testY)
+# huber_predict = huber.predict(test_1)
+# submission['ECLO'] = huber_predict
+#1차 0.4371
+#2차 0.4374
 
-huber,huber_study = huber_regressor_tuning(trainX,trainY,testX,testY)
-huber_predict = huber.predict(test_1)
-submission['ECLO'] = huber_predict
+
+from lightgbm import early_stopping
+# trainY = trainY['ECLO']
+# testY = testY['ECLO']
+# print(trainY.info())
+def lgbm_modeling(X_train, y_train, X_valid, y_valid):
+  def objective(trial):
+    param = {
+        'objective': 'regression',
+        'verbose': -1,
+        'metric': 'rmse',
+        'num_leaves': trial.suggest_int('num_leaves', 2, 1024, step=1, log=True),
+        'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+        'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+        'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+        'max_depth': trial.suggest_int('max_depth',3, 15),
+        'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+        'n_estimators': trial.suggest_int('n_estimators', 100, 3000),
+        'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
+        'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+    }
+
+    model = LGBMRegressor(**param, random_state=42, n_jobs=-1)
+    bst_lgbm = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmse',callbacks=[early_stopping(stopping_rounds=100)])
+
+    preds = bst_lgbm.predict(X_valid)
+    if (preds<0).sum()>0:
+      print('negative')
+      preds = np.where(preds>0,preds,0)
+    loss = mean_squared_log_error(y_valid,preds)
+
+    return np.sqrt(loss)
+
+  study_lgbm = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
+  study_lgbm.optimize(objective,n_trials=90,show_progress_bar=True)
+  print("lgbm 최적 파라미터",study_lgbm.best_params)
+  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, random_state=42, n_jobs=-1)
+  lgbm_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', callbacks=[early_stopping(stopping_rounds=100)])
+
+  return lgbm_reg,study_lgbm
+
+lgbm , lgbm_study = lgbm_modeling(trainX,trainY,testX,testY)
+lgbm_predict = lgbm.predict(test_1)
+submission['ECLO'] = lgbm_predict
+#1차 0.4438
+
+def xgb_modeling(X_train, y_train, X_valid, y_valid):
+  def objective(trial):
+    params = {
+        'learning_rate': trial.suggest_float('learning_rate', 0.0001, 0.1),
+        'min_child_weight': trial.suggest_int('min_child_weight', 1, 20),
+        'gamma': trial.suggest_float('gamma', 0.01, 1.0),
+        'reg_alpha': trial.suggest_float('reg_alpha', 0.01, 1.0),
+        'reg_lambda': trial.suggest_float('reg_lambda', 0.01, 1.0),
+        'max_depth': trial.suggest_int('max_depth', 3, 15), # Extremely prone to overfitting!
+        'n_estimators': trial.suggest_int('n_estimators', 300, 3000, 200), # Extremely prone to overfitting!
+        'eta': trial.suggest_float('eta', 0.007, 0.013), # Most important parameter.
+        'subsample': trial.suggest_discrete_uniform('subsample', 0.3, 1, 0.1),
+        'colsample_bytree': trial.suggest_discrete_uniform('colsample_bytree', 0.4, 0.9, 0.1),
+        'colsample_bylevel': trial.suggest_discrete_uniform('colsample_bylevel', 0.4, 0.9, 0.1),
+    }
+
+    model = XGBRegressor(**params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
+    bst_xgb = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
+
+    preds = bst_xgb.predict(X_valid)
+    if (preds<0).sum()>0:
+      print('negative')
+      preds = np.where(preds>0,preds,0)
+    loss = mean_squared_log_error(y_valid,preds)
+
+    return np.sqrt(loss)
+
+  study_xgb = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
+  study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
+
+  xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
+  xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
+
+  return xgb_reg,study_xgb
+
+# xgb , xgb_study = lgbm_modeling(trainX,trainY,testX,testY)
+# xgb_predict = xgb.predict(test_1)
+# submission['ECLO'] = xgb_predict
+
 
 #XGB
 from xgboost import XGBRegressor
@@ -576,7 +666,7 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-title = 'optuna_huber'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+title = 'lgbm'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
@@ -594,3 +684,4 @@ submission.to_csv(title,index=False)
 #하나씩 각각 모델 우수한걸 뽑아서 예측해서 ECLO를 새로 계산
 
 #출퇴근시간을 나누자 완료 / 주말 주중으로 단순화 / 휴일여부에 주말 추가 / 원핫인코딩추가 / 옵튜나 최적화
+# 추가데이터 cctv 고려해보자
