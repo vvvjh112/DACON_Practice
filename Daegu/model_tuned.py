@@ -102,16 +102,16 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
 
     return np.sqrt(loss)
 
-  study_xgb = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
+  study_xgb = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
   study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
 
   xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
 
-  return xgb_reg,study_xgb
+  return xgb_reg, study_xgb
 
 
-def grid_search(model,param,trainX,trainY):
+def grid_search(model, param, trainX, trainY):
     print(model," 그리드 서치 시작")
     grid = GridSearchCV(model,param_grid=param,n_jobs=-1,scoring='rmse',cv=4,verbose=1)
     grid.fit(trainX,trainY)

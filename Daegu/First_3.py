@@ -15,7 +15,7 @@ train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
 countrywide = pd.read_csv('external_open/countrywide_accident.csv') #대구 제외한 교통사고 정보
 submission = pd.read_csv('sample_submission.csv')
-cctv = pd.read_csv('external_open/대구 CCTV 정보.csv')
+cctv = pd.read_csv('external_open/대구 CCTV 정보.csv',encoding='euc-kr')
 
 
 #test셋에는 없는 값들 확인
@@ -134,7 +134,10 @@ train['시간대'] = train.apply(time_check,axis=1)
 test['시간대'] = test.apply(time_check,axis=1)
 
 #cctv 개수 데이터 추가
-
+print(cctv[['소재지도로명주소','소재지지번주소']].head(100))
+print(train[['구','동']].head(100))
+print(train['구'].unique())
+print(train['동'].unique())
 
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
@@ -256,8 +259,6 @@ gr2 = group_road2.plot(title='도로형태2',kind = 'bar')
 # 피해운전자 상해정도     991
 
 
-
-
 #컬럼을 test에 맞춰 수정할것이기 때문에 카피해서 작업진행
 train_1 = train.copy()
 test_1 = test.copy()
@@ -271,7 +272,6 @@ train_1 = train_1.drop(['연','일','사고일시','ID'],axis=1)
 train_1 = train_1.drop(lst,axis=1)
 test_1 = test_1.drop(['ID','사고일시'],axis=1)
 
-print(test_1.head())
 
 #타겟인코딩, 라벨인코딩, 원핫인코딩
 #우선 라벨인코딩만
