@@ -6,6 +6,7 @@ from xgboost import XGBRegressor
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
+from pycaret.regression import *
 
 def huber_regressor_tuning(X_train, y_train, X_valid, y_valid):
     def objective(trial):
@@ -118,3 +119,17 @@ def grid_search(model,param,trainX,trainY):
     print(model,' : 최적의 하이퍼 파라미터 : ', grid.best_params_)
 
     return grid
+
+def compare_model(train_set):
+    clf = setup(data=train_set, target='ECLO', train_size=0.8)
+    best_model = compare_models()
+    compare_models(n_select = 5, sort = 'RMSLE')
+
+def pycaret_predict(model,train_set):
+    model_py_1 = create_model(model)
+    tuned_md = tune_model(model_py_1,optimize = 'RMSLE')
+    print(tuned_md)
+    final_model = finalize_model(tuned_md)
+    prediction = predict_model(final_model, data = train_set)
+    result = prediction['prediction_label']
+    return result

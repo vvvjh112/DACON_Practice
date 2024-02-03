@@ -15,6 +15,7 @@ train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
 countrywide = pd.read_csv('external_open/countrywide_accident.csv') #대구 제외한 교통사고 정보
 submission = pd.read_csv('sample_submission.csv')
+cctv = pd.read_csv('external_open/대구 CCTV 정보.csv')
 
 
 #test셋에는 없는 값들 확인
@@ -132,6 +133,10 @@ def time_check(x):
 train['시간대'] = train.apply(time_check,axis=1)
 test['시간대'] = test.apply(time_check,axis=1)
 
+#cctv 개수 데이터 추가
+
+
+
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 group_year = train.groupby(['연']).mean('ECLO')
 group_year = group_year[['ECLO']]
@@ -243,6 +248,7 @@ gr2 = group_road2.plot(title='도로형태2',kind = 'bar')
 #결측값 확인
 # print(train.isna().sum())
 # print(test.isna().sum())
+
 #결측값
 # 피해운전자 차종       991
 # 피해운전자 성별       991
