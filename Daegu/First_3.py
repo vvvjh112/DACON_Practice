@@ -381,6 +381,8 @@ from pycaret.regression import *
 # RMSLE 계산 함수 정의
 from sklearn.metrics import make_scorer
 from sklearn.metrics import mean_squared_log_error
+from sklearn.metrics import mean_squared_error
+
 def rmsle(y_true, y_pred):
     return np.sqrt(np.mean(np.square(np.log1p(y_pred) - np.log1p(y_true))))
 
@@ -388,14 +390,17 @@ def rmsle(y_true, y_pred):
 rmsle_scorer = make_scorer(rmsle, greater_is_better=False)
 
 
-#모델링
+#학습 평가 데이터분리.
 x = train_1.drop('ECLO',axis = 1)
 y = train_1['ECLO']
 
 from sklearn.model_selection import train_test_split
 trainX,testX,trainY,testY = train_test_split(x,y,test_size=0.2,random_state=2023)
 
+
+#모델링
 from sklearn.model_selection import GridSearchCV
+import model_tuned as mt
 
 #LGBM
 from lightgbm import LGBMRegressor
@@ -409,11 +414,8 @@ lgbm_param = {
     'reg_alpha': [0.0, 0.1, 0.5],
     'reg_lambda': [0.0, 0.1, 0.5]
     }
-# lgbm_grid = GridSearchCV(model_lgbm,param_grid=lgbm_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
-# lgbm_grid.fit(trainX,trainY)
-# best_lgbm = lgbm_grid.best_estimator_
-# print('최적의 하이퍼 파라미터는:', lgbm_grid.best_params_)
-# {'learning_rate': 0.01, 'min_child_samples': 30, 'n_estimators': 400, 'num_leaves': 31, 'reg_alpha': 0.5, 'reg_lambda': 0.0}
+# lgbm_grid = mt.grid_search(model_lgbm,lgbm_param,trainX,trainY)
+# model_xgb = LGBMRegressor(**lgbm_grid.best_params_)
 
 
 
@@ -431,134 +433,8 @@ huber_param = {
     'alpha': [0.0001, 0.001, 0.01],  # 적절한 값으로 조정
     'max_iter': [500, 1000, 1500]  # 적절한 값으로 조정
 }
-# huber_grid = GridSearchCV(model_huber,param_grid=huber_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
-# huber_grid.fit(trainX,trainY)
-# best_huber = huber_grid.best_estimator_
-# print('최적의 하이퍼 파라미터는:', huber_grid.best_params_)
-
-#Optuna 이용
-import optuna
-from sklearn.metrics import mean_squared_error
-def huber_regressor_tuning(X_train, y_train, X_valid, y_valid):
-    def objective(trial):
-        param = {
-            'epsilon': trial.suggest_uniform('epsilon', 1.0, 2.0),
-            'max_iter': trial.suggest_int('max_iter', 100, 1000),
-            'alpha': trial.suggest_uniform('alpha', 0.0, 1.0),
-            'fit_intercept': trial.suggest_categorical('fit_intercept', [True, False]),
-            'tol': trial.suggest_loguniform('tol', 1e-6, 1e-3),
-            'warm_start': trial.suggest_categorical('warm_start', [True, False]),
-        }
-
-        model = HuberRegressor(**param)
-        model.fit(X_train, y_train)
-
-        preds = model.predict(X_valid)
-        loss = mean_squared_error(y_valid, preds)
-
-        return loss
-
-    # optuna 최적의파라미터: {'epsilon': 1.9973861946187805, 'max_iter': 420, 'alpha': 0.463494237398585}
-    study_huber = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
-    study_huber.optimize(objective, n_trials=90, show_progress_bar=True)
-
-    best_params = study_huber.best_params
-    print("optuna 최적의 파라미터 : ",best_params)
-    huber_reg = HuberRegressor(**best_params)
-    huber_reg.fit(X_train, y_train)
-
-    return huber_reg, study_huber
-#
-# huber,huber_study = huber_regressor_tuning(trainX,trainY,testX,testY)
-# huber_predict = huber.predict(test_1)
-# submission['ECLO'] = huber_predict
-#1차 0.4371
-#2차 0.4374
-
-
-from lightgbm import early_stopping
-# trainY = trainY['ECLO']
-# testY = testY['ECLO']
-# print(trainY.info())
-def lgbm_modeling(X_train, y_train, X_valid, y_valid):
-  def objective(trial):
-    param = {
-        'objective': 'regression',
-        'verbose': -1,
-        'metric': 'rmse',
-        'num_leaves': trial.suggest_int('num_leaves', 2, 1024, step=1, log=True),
-        'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
-        'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
-        'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
-        'max_depth': trial.suggest_int('max_depth',3, 15),
-        'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
-        'n_estimators': trial.suggest_int('n_estimators', 100, 3000),
-        'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
-        'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
-    }
-
-    model = LGBMRegressor(**param, random_state=42, n_jobs=-1)
-    bst_lgbm = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmse',callbacks=[early_stopping(stopping_rounds=100)])
-
-    preds = bst_lgbm.predict(X_valid)
-    if (preds<0).sum()>0:
-      print('negative')
-      preds = np.where(preds>0,preds,0)
-    loss = mean_squared_log_error(y_valid,preds)
-
-    return np.sqrt(loss)
-
-  study_lgbm = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
-  study_lgbm.optimize(objective,n_trials=90,show_progress_bar=True)
-  print("lgbm 최적 파라미터",study_lgbm.best_params)
-  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, random_state=42, n_jobs=-1)
-  lgbm_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', callbacks=[early_stopping(stopping_rounds=100)])
-
-  return lgbm_reg,study_lgbm
-
-lgbm , lgbm_study = lgbm_modeling(trainX,trainY,testX,testY)
-lgbm_predict = lgbm.predict(test_1)
-submission['ECLO'] = lgbm_predict
-#1차 0.4438
-
-def xgb_modeling(X_train, y_train, X_valid, y_valid):
-  def objective(trial):
-    params = {
-        'learning_rate': trial.suggest_float('learning_rate', 0.0001, 0.1),
-        'min_child_weight': trial.suggest_int('min_child_weight', 1, 20),
-        'gamma': trial.suggest_float('gamma', 0.01, 1.0),
-        'reg_alpha': trial.suggest_float('reg_alpha', 0.01, 1.0),
-        'reg_lambda': trial.suggest_float('reg_lambda', 0.01, 1.0),
-        'max_depth': trial.suggest_int('max_depth', 3, 15), # Extremely prone to overfitting!
-        'n_estimators': trial.suggest_int('n_estimators', 300, 3000, 200), # Extremely prone to overfitting!
-        'eta': trial.suggest_float('eta', 0.007, 0.013), # Most important parameter.
-        'subsample': trial.suggest_discrete_uniform('subsample', 0.3, 1, 0.1),
-        'colsample_bytree': trial.suggest_discrete_uniform('colsample_bytree', 0.4, 0.9, 0.1),
-        'colsample_bylevel': trial.suggest_discrete_uniform('colsample_bylevel', 0.4, 0.9, 0.1),
-    }
-
-    model = XGBRegressor(**params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
-    bst_xgb = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
-
-    preds = bst_xgb.predict(X_valid)
-    if (preds<0).sum()>0:
-      print('negative')
-      preds = np.where(preds>0,preds,0)
-    loss = mean_squared_log_error(y_valid,preds)
-
-    return np.sqrt(loss)
-
-  study_xgb = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
-  study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
-
-  xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
-  xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
-
-  return xgb_reg,study_xgb
-
-# xgb , xgb_study = lgbm_modeling(trainX,trainY,testX,testY)
-# xgb_predict = xgb.predict(test_1)
-# submission['ECLO'] = xgb_predict
+# huber_grid = mt.grid_search(model_huber,huber_param,trainX,trainY)
+# model_xgb = HuberRegressor(**huber_grid.best_params_)
 
 
 #XGB
@@ -570,12 +446,33 @@ xgb_param = {
     'n_estimators' : [100,400,600,800],
     'max_depth' : [3,5,7],
 }
+# xgb_grid = mt.grid_search(model_xgb,xgb_param,trainX,trainY)
+# model_xgb = XGBRegressor(**xgb_grid.best_params_)
 
-# print("xgb 그리드 서치 시작")
-# xgb_grid = GridSearchCV(model_xgb,param_grid=xgb_param,n_jobs=-1,scoring=rmsle_scorer,cv=4)
-# xgb_grid.fit(trainX,trainY)
-# best_xgb = xgb_grid.best_estimator_
-# print('최적의 하이퍼 파라미터 : ', xgb_grid.best_params_)
+#Optuna 이용
+# huber,huber_study = mt.huber_regressor_tuning(trainX,trainY,testX,testY)
+# huber_predict = huber.predict(test_1)
+# submission['ECLO'] = huber_predict
+#1차 0.4371
+#2차 0.4374
+
+
+from lightgbm import early_stopping
+# trainY = trainY['ECLO']
+# testY = testY['ECLO']
+# print(trainY.info())
+
+# lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+# lgbm_predict = lgbm.predict(test_1)
+# submission['ECLO'] = lgbm_predict
+#1차 0.4438
+
+
+
+# xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
+# xgb_predict = xgb.predict(test_1)
+# submission['ECLO'] = xgb_predict
+# 4.286
 
 
 #피처 중요도
@@ -666,8 +563,8 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-title = 'lgbm'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-submission.to_csv(title,index=False)
+# title = 'xgb'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
