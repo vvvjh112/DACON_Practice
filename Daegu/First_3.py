@@ -134,10 +134,23 @@ train['시간대'] = train.apply(time_check,axis=1)
 test['시간대'] = test.apply(time_check,axis=1)
 
 #cctv 개수 데이터 추가
-print(cctv[['소재지도로명주소','소재지지번주소']].head(100))
-print(train[['구','동']].head(100))
-print(train['구'].unique())
-print(train['동'].unique())
+# print(cctv.head())
+# print(cctv[['소재지도로명주소','소재지지번주소']].head(100))
+# print(train[['구','동']].head(100))
+# print(train['구'].unique())
+# print(train['동'].unique())
+
+# location_pattern = r'(\S+) (\S+) (\S+) (\S+)'
+# cctv[['도시', '구', '동', '번지']] = cctv['소재지지번주소'].str.extract(pattern)
+
+#cctv 단속 구분 - 1 : 속도 / 2 : 신호 / 4 : 불법주정차 / 99 : 기타
+
+print("소재지지번주소 결측값 출력 : ",cctv['소재지지번주소'].isna().sum())
+cctv = cctv.dropna(subset=['소재지지번주소'])
+
+cctv['소재지지번주소'] = cctv['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
+
+print(cctv.head(99))
 
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
