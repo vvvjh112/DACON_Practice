@@ -17,6 +17,7 @@ countrywide = pd.read_csv('external_open/countrywide_accident.csv') #대구 제�
 submission = pd.read_csv('sample_submission.csv')
 cctv = pd.read_csv('external_open/대구 CCTV 정보.csv',encoding='euc-kr')
 
+print(train.head(99))
 
 #test셋에는 없는 값들 확인
 train_column = train.columns
@@ -149,8 +150,19 @@ print("소재지지번주소 결측값 출력 : ",cctv['소재지지번주소'].
 cctv = cctv.dropna(subset=['소재지지번주소'])
 
 cctv['소재지지번주소'] = cctv['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
-
+cctv['소재지지번주소'] = cctv['소재지지번주소'].apply(lambda x: x[:-1] if len(x)==3 else x)
+# def split_column(x):
+#     if len(lst) == 3:
+#         return lst[:-1]
+#     else:
+#         return lst
+#
+#
+# cctv['소재지지번주소'] = cctv['소재지지번주소'].apply(split_column)
+# cctv[['구', '동']] = pd.DataFrame(cctv['소재지지번주소'].to_list(), index=cctv.index)
 print(cctv.head(99))
+print(cctv[cctv['소재지지번주소'].apply(len) == 1])
+#무인교통단속카메라관리번호가 21은 남산동 / H2341은 서성로1가 / G7514 는 능성동동
 
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
