@@ -181,11 +181,23 @@ for idx, row in train.iterrows():
     for i in camera_counts.keys():
         train.at[idx,i] = camera_counts[i]
 
+for idx, row in test.iterrows():
+    dong = row['동']
+
+    # 딕셔너리에서 값 가져오기
+    camera_counts = dic.get(dong, {})
+
+    # 값이 존재하는 경우, 데이터프레임에 추가
+    for i in camera_counts.keys():
+        test.at[idx,i] = camera_counts[i]
+
 
 # 결측값 처리
 for i in camera:
     train[i] = train[i].fillna(0)
     train[i] = train[i].astype(int)
+    test[i] = test[i].fillna(0)
+    test[i] = test[i].astype(int)
 
 print(train.head(99))
 print(dic)
