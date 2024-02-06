@@ -17,7 +17,6 @@ countrywide = pd.read_csv('external_open/countrywide_accident.csv') #대구 제�
 submission = pd.read_csv('sample_submission.csv')
 cctv = pd.read_csv('external_open/대구 CCTV 정보.csv',encoding='euc-kr')
 
-print(train.head(99))
 
 #test셋에는 없는 값들 확인
 train_column = train.columns
@@ -135,35 +134,61 @@ train['시간대'] = train.apply(time_check,axis=1)
 test['시간대'] = test.apply(time_check,axis=1)
 
 #cctv 개수 데이터 추가
-# print(cctv.head())
-# print(cctv[['소재지도로명주소','소재지지번주소']].head(100))
-# print(train[['구','동']].head(100))
-# print(train['구'].unique())
-# print(train['동'].unique())
-
-# location_pattern = r'(\S+) (\S+) (\S+) (\S+)'
-# cctv[['도시', '구', '동', '번지']] = cctv['소재지지번주소'].str.extract(pattern)
-
 #cctv 단속 구분 - 1 : 속도 / 2 : 신호 / 4 : 불법주정차 / 99 : 기타
-
+#결측값처리
 print("소재지지번주소 결측값 출력 : ",cctv['소재지지번주소'].isna().sum())
 cctv = cctv.dropna(subset=['소재지지번주소'])
 
-cctv['소재지지번주소'] = cctv['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
-cctv['소재지지번주소'] = cctv['소재지지번주소'].apply(lambda x: x[:-1] if len(x)==3 else x)
-# def split_column(x):
-#     if len(lst) == 3:
-#         return lst[:-1]
-#     else:
-#         return lst
-#
-#
-# cctv['소재지지번주소'] = cctv['소재지지번주소'].apply(split_column)
-# cctv[['구', '동']] = pd.DataFrame(cctv['소재지지번주소'].to_list(), index=cctv.index)
-print(cctv.head(99))
-print(cctv[cctv['소재지지번주소'].apply(len) == 1])
-#무인교통단속카메라관리번호가 21은 남산동 / H2341은 서성로1가 / G7514 는 능성동동
+cctv.loc[(cctv['무인교통단속카메라관리번호'] == '21') & (cctv['소재지도로명주소'] == '대구광역시 중구 명륜로23길93'), '소재지지번주소'] = '대구광역시 중구 봉산동 50'
+cctv.loc[(cctv['무인교통단속카메라관리번호'] == 'G7514') & (cctv['도로노선명'] == '팔공로'), '소재지지번주소'] = '대구광역시 동구 능성동 457'
+cctv.loc[(cctv['무인교통단속카메라관리번호'] == 'H2341') & (cctv['소재지도로명주소'] == '대구광역시 중구 서성로 66'), '소재지지번주소'] = '대구광역시 중구 서성로2가 00'
 
+#스플릿
+cctv['소재지지번주소'] = cctv['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
+cctv['소재지지번주소'] = cctv['소재지지번주소'].apply(lambda x: x[0:2] if len(x)>=3 else x)
+
+cctv[['구', '동']] = pd.DataFrame(cctv['소재지지번주소'].to_list(), index=cctv.index)
+
+cctv['단속구분'] = cctv['단속구분'].apply(lambda x: '속도' if x == 1 else '신호' if x == 2 else '불법주정차' if x == 4 else '기타')
+cctv = cctv[['구','동','단속구분']]
+result = cctv.groupby(['동', '단속구분']).size().reset_index(name='개수합계')
+print(result)
+camera = ['속도','신호','불법주정차','기타']
+dong = result['동'].unique()
+dic = {}
+for i in dong:
+    tmp = {}
+    for j in camera:
+        try:
+            # '동'과 '단속구분'이 일치하는 행을 선택하고 '개수합계' 열의 값을 합산
+            value = result.loc[(result['동'] == i) & (result['단속구분'] == j), '개수합계'].sum()
+
+            # 딕셔너리에 추가
+            tmp[j] = value
+        except IndexError:
+            # 인덱스 오류 발생 시, 해당 '동'과 '단속구분'이 없는 경우이므로 0으로 처리
+            tmp[j] = 0
+
+    dic[i] = tmp
+
+for idx, row in train.iterrows():
+    dong = row['동']
+
+    # 딕셔너리에서 값 가져오기
+    camera_counts = dic.get(dong, {})
+
+    # 값이 존재하는 경우, 데이터프레임에 추가
+    for i in camera_counts.keys():
+        train.at[idx,i] = camera_counts[i]
+
+
+# 결측값 처리
+for i in camera:
+    train[i] = train[i].fillna(0)
+    train[i] = train[i].astype(int)
+
+print(train.head(99))
+print(dic)
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 group_year = train.groupby(['연']).mean('ECLO')
