@@ -199,9 +199,6 @@ for i in camera:
     test[i] = test[i].fillna(0)
     test[i] = test[i].astype(int)
 
-print(train.head(99))
-print(dic)
-
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 group_year = train.groupby(['연']).mean('ECLO')
 group_year = group_year[['ECLO']]
