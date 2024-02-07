@@ -215,11 +215,20 @@ for idx, row in test.iterrows():
     except KeyError:
         test.at[idx, '보안등'] = 0
 
-# TODO 어린이보호구역 및 주차장 데이터 추가하기
+
 #어린이보호구역
+child = pd.read_csv('external_open/대구 어린이 보호 구역 정보.csv',encoding = 'euc-kr')
+child = child.dropna(subset=['소재지지번주소'])
+child['소재지지번주소'] = child['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
+child['소재지지번주소'] = child['소재지지번주소'].apply(lambda x: x[0:2] if len(x) >= 3 else x)
+child[['구', '동']] = pd.DataFrame(child['소재지지번주소'].to_list(), index=child.index)
+
+print(child)
 
 
 #주차장
+parking = pd.read_csv('external_open/대구 주차장 정보.csv',encoding = 'euc-kr')
+
 
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
