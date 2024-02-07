@@ -215,6 +215,7 @@ for idx, row in test.iterrows():
     except KeyError:
         test.at[idx, '보안등'] = 0
 
+# TODO 어린이보호구역 및 주차장 데이터 추가하기
 #어린이보호구역
 
 
