@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import model_tuned as mt
 
 #plt 한글출력
 plt.rcParams['font.family'] ='Malgun Gothic'
@@ -151,46 +152,32 @@ cctv[['구', '동']] = pd.DataFrame(cctv['소재지지번주소'].to_list(), ind
 
 cctv['단속구분'] = cctv['단속구분'].apply(lambda x: '속도' if x == 1 else '신호' if x == 2 else '불법주정차' if x == 4 else '기타')
 cctv = cctv[['구','동','단속구분']]
-result = cctv.groupby(['동', '단속구분']).size().reset_index(name='개수합계')
-print(result)
+cctv_group = cctv.groupby(['동', '단속구분']).size().reset_index(name='개수합계')
+
 camera = ['속도','신호','불법주정차','기타']
-dong = result['동'].unique()
+dong = cctv_group['동'].unique()
 dic = {}
 for i in dong:
     tmp = {}
     for j in camera:
         try:
-            # '동'과 '단속구분'이 일치하는 행을 선택하고 '개수합계' 열의 값을 합산
-            value = result.loc[(result['동'] == i) & (result['단속구분'] == j), '개수합계'].sum()
-
-            # 딕셔너리에 추가
+            value = cctv_group.loc[(cctv_group['동'] == i) & (cctv_group['단속구분'] == j), '개수합계'].sum()
             tmp[j] = value
         except IndexError:
-            # 인덱스 오류 발생 시, 해당 '동'과 '단속구분'이 없는 경우이므로 0으로 처리
             tmp[j] = 0
-
     dic[i] = tmp
 
 for idx, row in train.iterrows():
     dong = row['동']
-
-    # 딕셔너리에서 값 가져오기
     camera_counts = dic.get(dong, {})
-
-    # 값이 존재하는 경우, 데이터프레임에 추가
     for i in camera_counts.keys():
         train.at[idx,i] = camera_counts[i]
 
 for idx, row in test.iterrows():
     dong = row['동']
-
-    # 딕셔너리에서 값 가져오기
     camera_counts = dic.get(dong, {})
-
-    # 값이 존재하는 경우, 데이터프레임에 추가
     for i in camera_counts.keys():
         test.at[idx,i] = camera_counts[i]
-
 
 # 결측값 처리
 for i in camera:
@@ -198,6 +185,41 @@ for i in camera:
     train[i] = train[i].astype(int)
     test[i] = test[i].fillna(0)
     test[i] = test[i].astype(int)
+
+
+#보안등 정보
+light = pd.read_csv('external_open/대구 보안등 정보.csv',encoding = 'euc-kr')
+light = light[['설치개수','소재지지번주소']]
+
+#스플릿
+light['소재지지번주소'] = light['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
+light['소재지지번주소'] = light['소재지지번주소'].apply(lambda x: x[0:2] if len(x) >= 3 else x)
+light[['구', '동']] = pd.DataFrame(light['소재지지번주소'].to_list(), index=light.index)
+
+light_group = light.groupby('동')['설치개수'].sum().reset_index()
+dong = light_group['동'].unique()
+
+light_dic = {}
+for idx, row in light_group.iterrows():
+    light_dic[light_group.at[idx,'동']]=light_group.at[idx,'설치개수']
+
+for idx, row in train.iterrows():
+    try:
+        train.at[idx,'보안등'] = light_dic[train.at[idx,'동']]
+    except KeyError:
+        train.at[idx, '보안등'] = 0
+
+for idx, row in test.iterrows():
+    try:
+        test.at[idx,'보안등'] = light_dic[test.at[idx,'동']]
+    except KeyError:
+        test.at[idx, '보안등'] = 0
+
+#어린이보호구역
+
+
+#주차장
+
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 group_year = train.groupby(['연']).mean('ECLO')
@@ -443,6 +465,9 @@ from pycaret.regression import *
 # dt        0.6484  0.8080     0.034
 # par       0.8049  1.9689     0.019
 
+# mt.compare_model(train_1)
+# submission['ECLO'] = mt.pycaret_predict('gbr',test_1)
+
 # RMSLE 계산 함수 정의
 from sklearn.metrics import make_scorer
 from sklearn.metrics import mean_squared_log_error
@@ -465,7 +490,7 @@ trainX,testX,trainY,testY = train_test_split(x,y,test_size=0.2,random_state=2023
 
 #모델링
 from sklearn.model_selection import GridSearchCV
-import model_tuned as mt
+
 
 #LGBM
 from lightgbm import LGBMRegressor
@@ -515,29 +540,28 @@ xgb_param = {
 # model_xgb = XGBRegressor(**xgb_grid.best_params_)
 
 #Optuna 이용
-# huber,huber_study = mt.huber_regressor_tuning(trainX,trainY,testX,testY)
+#huber
+# huber,huber_study = mt.huber_modeling(trainX,trainY,testX,testY)
 # huber_predict = huber.predict(test_1)
 # submission['ECLO'] = huber_predict
 #1차 0.4371
 #2차 0.4374
 
 
-from lightgbm import early_stopping
-# trainY = trainY['ECLO']
-# testY = testY['ECLO']
-# print(trainY.info())
-
+#LGBM
 # lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test_1)
 # submission['ECLO'] = lgbm_predict
 #1차 0.4438
+#0.44383
 
 
-
+#XGB
 # xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
 # xgb_predict = xgb.predict(test_1)
 # submission['ECLO'] = xgb_predict
-# 4.286
+# 0.4286
+# 0.4283 / 0.4276
 
 
 #피처 중요도
@@ -628,8 +652,8 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = 'xgb'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# submission.to_csv(title,index=False)
+title = 'gbr'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
 #다른 지역 추가해보자 우선 광역시 위주로
@@ -646,5 +670,6 @@ import datetime
 #하나씩 각각 모델 우수한걸 뽑아서 예측해서 ECLO를 새로 계산
 
 #출퇴근시간을 나누자 완료 / 주말 주중으로 단순화 / 휴일여부에 주말 추가 / 원핫인코딩추가 / 옵튜나 최적화
-#옵튜나를 따로 py파일 만들어서 불러와서 쓰자 + 모델도
+
 # 추가데이터 cctv 고려해보자
+#이 상태에서 전국데이터 가져오고 해보자

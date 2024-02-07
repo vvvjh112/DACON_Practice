@@ -8,32 +8,30 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from pycaret.regression import *
 
-def huber_regressor_tuning(X_train, y_train, X_valid, y_valid):
+# @ignore_warnings(category=ConvergenceWarning)
+def huber_modeling(X_train, y_train, X_valid, y_valid):
     def objective(trial):
         param = {
-            'epsilon': trial.suggest_uniform('epsilon', 1.0, 2.0),
+            'epsilon': trial.suggest_uniform('epsilon', 1.0, 3.0),
+            'alpha': trial.suggest_uniform('alpha', 0.0001, 0.01),
             'max_iter': trial.suggest_int('max_iter', 100, 1000),
-            'alpha': trial.suggest_uniform('alpha', 0.0, 1.0),
-            'fit_intercept': trial.suggest_categorical('fit_intercept', [True, False]),
-            'tol': trial.suggest_loguniform('tol', 1e-6, 1e-3),
-            'warm_start': trial.suggest_categorical('warm_start', [True, False]),
+            'tol': trial.suggest_uniform('tol', 1e-6, 1e-3)
         }
 
         model = HuberRegressor(**param)
         model.fit(X_train, y_train)
-
         preds = model.predict(X_valid)
-        loss = mean_squared_log_error(y_valid, preds)
+        if (preds < 0).sum() > 0:
+            print('음수 발생')
+            preds = np.where(preds > 0, preds, 0)
+        loss = mean_squared_error(y_valid, preds)
 
         return np.sqrt(loss)
 
-    # model_tuned.py 최적의파라미터: {'epsilon': 1.9973861946187805, 'max_iter': 420, 'alpha': 0.463494237398585}
     study_huber = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
     study_huber.optimize(objective, n_trials=90, show_progress_bar=True)
-
-    best_params = study_huber.best_params
-    print("model_tuned.py 최적의 파라미터 : ",best_params)
-    huber_reg = HuberRegressor(**best_params)
+    print("퓨버 최적 파라미터", study_huber.best_params)
+    huber_reg = HuberRegressor(**study_huber.best_params)
     huber_reg.fit(X_train, y_train)
 
     return huber_reg, study_huber
@@ -103,7 +101,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
     return np.sqrt(loss)
 
   study_xgb = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
-  study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
+  study_xgb.optimize(objective,n_trials=90,show_progress_bar=True)
 
   xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
@@ -125,11 +123,11 @@ def compare_model(train_set):
     best_model = compare_models()
     compare_models(n_select = 5, sort = 'RMSLE')
 
-def pycaret_predict(model,train_set):
+def pycaret_predict(model,test_set):
     model_py_1 = create_model(model)
     tuned_md = tune_model(model_py_1,optimize = 'RMSLE')
     print(tuned_md)
     final_model = finalize_model(tuned_md)
-    prediction = predict_model(final_model, data = train_set)
+    prediction = predict_model(final_model, data = test_set)
     result = prediction['prediction_label']
     return result
