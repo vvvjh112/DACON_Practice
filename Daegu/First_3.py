@@ -182,9 +182,7 @@ for idx, row in test.iterrows():
 # 결측값 처리
 for i in camera:
     train[i] = train[i].fillna(0)
-    train[i] = train[i].astype(int)
     test[i] = test[i].fillna(0)
-    test[i] = test[i].astype(int)
 
 
 #보안등 정보
@@ -222,14 +220,70 @@ child = child.dropna(subset=['소재지지번주소'])
 child['소재지지번주소'] = child['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
 child['소재지지번주소'] = child['소재지지번주소'].apply(lambda x: x[0:2] if len(x) >= 3 else x)
 child[['구', '동']] = pd.DataFrame(child['소재지지번주소'].to_list(), index=child.index)
+child_group = child.groupby(['동']).size().reset_index(name='개수합계')
 
-print(child)
+dong = child_group['동'].unique()
+
+child_dic = {}
+for idx, row in child_group.iterrows():
+    child_dic[child_group.at[idx,'동']]=child_group.at[idx,'개수합계']
+
+for idx, row in train.iterrows():
+    try:
+        train.at[idx,'어린이'] = child_dic[train.at[idx,'동']]
+    except KeyError:
+        train.at[idx, '어린이'] = 0
+
+for idx, row in test.iterrows():
+    try:
+        test.at[idx,'어린이'] = child_dic[test.at[idx,'동']]
+    except KeyError:
+        test.at[idx, '어린이'] = 0
 
 
 #주차장
 parking = pd.read_csv('external_open/대구 주차장 정보.csv',encoding = 'euc-kr')
+# print(parking.head(55))
+# print(parking[(parking['소재지지번주소'].isnull()) & (parking['소재지도로명주소'].isnull())])
+#도로명주소로 정보입력이 가능하나 우선 생략
+parking = parking.dropna(subset=['소재지지번주소'])
+parking['소재지지번주소'] = parking['소재지지번주소'].str.split().apply(lambda x: x[1:-1])
+parking['소재지지번주소'] = parking['소재지지번주소'].apply(lambda x: x[0:2] if len(x) >= 3 else x)
+parking[['구', '동']] = pd.DataFrame(parking['소재지지번주소'].to_list(), index=parking.index)
+parking_group = parking.groupby(['동']).size().reset_index(name='개수합계')
+level = parking[['동','급지구분']].drop_duplicates()
+level = level.dropna(subset=['동'])
 
+dong = child_group['동'].unique()
 
+parking_dic = {}
+for idx, row in parking_group.iterrows():
+    parking_dic[parking_group.at[idx,'동']]=parking_group.at[idx,'개수합계']
+
+level_dic = {}
+for idx, row in level.iterrows():
+    level_dic[row['동']] = row['급지구분']
+
+for idx, row in train.iterrows():
+    try:
+        train.at[idx,'주차장'] = parking_dic[train.at[idx,'동']]
+        train.at[idx, '급지구분'] = level_dic[train.at[idx, '동']]
+    except KeyError:
+        train.at[idx, '주차장'] = 0
+        train.at[idx, '급지구분'] = 0
+
+for idx, row in test.iterrows():
+    try:
+        test.at[idx,'주차장'] = parking_dic[test.at[idx,'동']]
+        test.at[idx, '급지구분'] = level_dic[test.at[idx, '동']]
+    except KeyError:
+        test.at[idx, '주차장'] = 0
+        test.at[idx,'급지구분'] = 0
+
+tmp_lst = ['속도','신호','불법주정차','기타','불법주정차','보안등','어린이','주차장','급지구분']
+for i in tmp_lst:
+    train[i] = train[i].astype(int)
+    test[i] = test[i].astype(int)
 
 #기상상태, 요일별, 월별, 공휴일 ECLO 시각화해보기
 group_year = train.groupby(['연']).mean('ECLO')
@@ -567,9 +621,9 @@ xgb_param = {
 
 
 #XGB
-# xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
-# xgb_predict = xgb.predict(test_1)
-# submission['ECLO'] = xgb_predict
+xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
+xgb_predict = xgb.predict(test_1)
+submission['ECLO'] = xgb_predict
 # 0.4286
 # 0.4283 / 0.4276
 
@@ -662,7 +716,7 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-title = 'gbr'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+title = 'xgb'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
