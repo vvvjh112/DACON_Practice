@@ -317,6 +317,9 @@ group_road1 = group_road1[['ECLO']]
 group_road2 = train.groupby(['도로형태2']).mean('ECLO')
 group_road2 = group_road2[['ECLO']]
 
+group_dong = train.groupby(['동']).mean('ECLO')
+group_dong = group_dong[['ECLO']]
+
 def return_days(x):
     if x == '월요일':
         return 0
@@ -393,6 +396,9 @@ gr1 = group_road1.plot(title='도로형태1',kind = 'bar')
 gr2 = group_road2.plot(title='도로형태2',kind = 'bar')
 # plt.show()
 
+gdong = group_dong.plot(title='동별', kind = 'bar')
+# plt.show()
+
 #결측값 확인
 # print(train.isna().sum())
 # print(test.isna().sum())
@@ -431,7 +437,7 @@ for i in Label_lst:
 
 # print(train_1.head())
 # print(test_1.head())
-
+print(train_1.info())
 #모델링
 from pycaret.regression import *
 #2024.01.19 pycaret
@@ -621,9 +627,9 @@ xgb_param = {
 
 
 #XGB
-xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
-xgb_predict = xgb.predict(test_1)
-submission['ECLO'] = xgb_predict
+# xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
+# xgb_predict = xgb.predict(test_1)
+# submission['ECLO'] = xgb_predict
 # 0.4286
 # 0.4283 / 0.4276
 
