@@ -743,3 +743,5 @@ import datetime
 
 # 추가데이터 cctv 고려해보자
 #이 상태에서 전국데이터 가져오고 해보자
+
+print(train_1.info())
