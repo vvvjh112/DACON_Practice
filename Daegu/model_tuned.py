@@ -102,7 +102,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
 
   study_xgb = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
   study_xgb.optimize(objective,n_trials=90,show_progress_bar=True)
-
+  print("xgb 최적 파라미터", study_xgb.best_params)
   xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
 

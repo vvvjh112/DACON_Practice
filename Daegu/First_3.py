@@ -77,9 +77,6 @@ def season(x):
 train['계절'] = train.apply(season,axis=1)
 test['계절'] = test.apply(season,axis=1)
 
-#요일
-
-
 #공휴일 체크
 holiday_2019 = ['20190101', '20190204', '20190205', '20190206', '20190301', '20190505', '20190506', '20190512', '20190606', '20190815', '20190912', '20190913', '20190914', '20191003', '20191009', '20191225']
 holiday_2020 = ['20200101', '20200124', '20200125', '20200126', '20200127', '20200301', '20200415', '20200430', '20200505', '20200606', '20200815', '20200817', '20200930', '20201001', '20201002', '20201003', '20201009', '20201225']
@@ -418,7 +415,7 @@ test_1 = test.copy()
 #test에는 없는 컬럼들 삭제해보고 진행해보자 우선.
 lst = ['사고유형 - 세부분류', '경상자수', '피해운전자 상해정도', '사망자수', '부상자수', '중상자수', '가해운전자 차종', '피해운전자 성별', '법규위반', '가해운전자 상해정도', '가해운전자 연령', '피해운전자 연령', '피해운전자 차종', '가해운전자 성별']
 
-#요일, 공휴일은 의미 있으나 연 월 일은 의미 없음
+#요일, 공휴일은 의미 있으나 연 일은 의미 없음
 train_1 = train_1.drop(['연','일','사고일시','ID'],axis=1)
 train_1 = train_1.drop(lst,axis=1)
 test_1 = test_1.drop(['ID','사고일시'],axis=1)
@@ -435,9 +432,7 @@ for i in Label_lst:
     train_1[i] = lb.fit_transform(train[i])
     test_1[i] = lb.fit_transform(test[i])
 
-# print(train_1.head())
-# print(test_1.head())
-print(train_1.info())
+
 #모델링
 from pycaret.regression import *
 #2024.01.19 pycaret
@@ -611,24 +606,24 @@ xgb_param = {
 
 #Optuna 이용
 #huber
-# huber,huber_study = mt.huber_modeling(trainX,trainY,testX,testY)
-# huber_predict = huber.predict(test_1)
+huber,huber_study = mt.huber_modeling(trainX,trainY,testX,testY)
+huber_predict = huber.predict(test_1)
 # submission['ECLO'] = huber_predict
 #1차 0.4371
 #2차 0.4374
 
 
 #LGBM
-# lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
-# lgbm_predict = lgbm.predict(test_1)
+lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+lgbm_predict = lgbm.predict(test_1)
 # submission['ECLO'] = lgbm_predict
 #1차 0.4438
 #0.44383
 
 
 #XGB
-# xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
-# xgb_predict = xgb.predict(test_1)
+xgb , xgb_study = mt.xgb_modeling(trainX,trainY,testX,testY)
+xgb_predict = xgb.predict(test_1)
 # submission['ECLO'] = xgb_predict
 # 0.4286
 # 0.4283 / 0.4276
@@ -639,14 +634,13 @@ xgb_param = {
 #lgbm
 model_lgbm.fit(trainX,trainY)
 model_xgb.fit(trainX,trainY)
-print(model_lgbm.feature_importances_)
+# print(model_lgbm.feature_importances_)
+print(lgbm.feature_importances_)
 print(train_1.columns)
 # print(model_huber.feature_importances_)
-print((model_xgb.feature_importances_)*100)
-# [1403    329      244       707    0    1322    3480    496      1076      280      2663]
-#  요일   기상상태  노면상태   사고유형  도시    구      동    도로형태1  도로형태2   공휴일     시간
-# [ 7.440489   4.2729135  6.7964053 42.735065   3.75589    4.9095335
-#   6.273524   5.5323863  4.342402   5.859895   4.264044   3.817453 ]
+# print((model_xgb.feature_importances_)*100)
+print((xgb.feature_importances_)*100)
+
 
 #모델링 후 예측
 #LGBM
@@ -711,7 +705,7 @@ from supervised.automl import AutoML
 
 
 #XGB, LGBM, Huber 앙상블
-# final = ((pred_lgbm_2*0.3) + (pred_xgb_2*0.3) + (pred_huber_2*0.4))
+# final = ((lgbm_predict*0.2) + (xgb_predict*0.6) + (huber_predict*0.2))
 # submission['ECLO'] = final
 # 0.4365 - ensemble1_29_15_50
 # 2차 0.4370
@@ -722,7 +716,7 @@ from supervised.automl import AutoML
 # csv파일 도출
 import datetime
 # title = str(round(score_huber,5))+'_'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = 'xgb'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = 'ensemble'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.to_csv(title,index=False)
 
 #다른지역 추가 전에 xgb linear 모델링 후 비교해보고 앙상블 해보자
