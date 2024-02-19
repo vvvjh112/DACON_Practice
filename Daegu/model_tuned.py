@@ -8,6 +8,8 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from pycaret.regression import *
 
+from catboost import CatBoostRegressor
+
 # @ignore_warnings(category=ConvergenceWarning)
 def huber_modeling(X_train, y_train, X_valid, y_valid):
     def objective(trial):
@@ -107,6 +109,44 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
 
   return xgb_reg, study_xgb
+
+def cat_modeling(X_train, y_train, X_valid, y_valid):
+  def objective(trial):
+    param = {
+        'iterations':trial.suggest_int("iterations", 1000, 20000),
+        'od_wait':trial.suggest_int('od_wait', 500, 2300),
+        'learning_rate' : trial.suggest_uniform('learning_rate',0.01, 1),
+        'reg_lambda': trial.suggest_uniform('reg_lambda',1e-5,100),
+        'subsample': trial.suggest_uniform('subsample',0,1),
+        'random_strength': trial.suggest_uniform('random_strength',10,50),
+        'depth': trial.suggest_int('depth',1, 15),
+        'min_data_in_leaf': trial.suggest_int('min_data_in_leaf',1,30),
+        'leaf_estimation_iterations': trial.suggest_int('leaf_estimation_iterations',1,15),
+        'bagging_temperature' :trial.suggest_loguniform('bagging_temperature', 0.01, 100.00),
+        'colsample_bylevel':trial.suggest_float('colsample_bylevel', 0.4, 1.0),
+    }
+
+
+    model = CatBoostRegressor(**param, random_state=42)
+    #task_type="GPU",devices='0:1'
+    bst_cat = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
+
+    preds = bst_cat.predict(X_valid)
+    if (preds<0).sum()>0:
+      print('negative')
+      preds = np.where(preds>0,preds,0)
+    loss = msle(y_valid,preds)
+
+    return np.sqrt(loss)
+
+  study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
+  study_cat.optimize(objective,n_trials=30,show_progress_bar=True)
+
+  cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=42)
+  cat_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
+
+  return cat_reg,study_cat
+
 
 
 def grid_search(model, param, trainX, trainY):
