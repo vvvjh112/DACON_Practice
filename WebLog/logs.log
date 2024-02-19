@@ -3917,3 +3917,1361 @@ Increase the number of iterations (max_iter) or scale the data as shown in:
 2024-02-19 18:00:14,627:WARNING:/Users/yujehyeok/Desktop/DACON/DACON_Practice/model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
   'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
 
+2024-02-19 18:04:25,434:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2024-02-19 18:04:25,435:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2024-02-19 18:04:25,435:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2024-02-19 18:04:25,435:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2024-02-19 18:04:25,913:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:04:25,913:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:04:25,913:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:04:25,914:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:04:25,914:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:04:42,923:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:04:42,923:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:04:42,924:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:04:42,924:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:04:42,925:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:04:57,994:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:04:57,994:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:04:57,994:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:04:57,995:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:04:57,995:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:05,440:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:05,440:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:05,440:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:05,441:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:05,442:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:08,748:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:08,748:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:08,749:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:08,749:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:08,750:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:41,334:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:41,334:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:41,334:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:41,335:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:41,335:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:45,559:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:45,559:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:45,559:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:45,560:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:45,560:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:49,226:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:49,226:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:49,226:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:49,227:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:49,227:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:50,588:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:50,588:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:50,588:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:50,588:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:50,589:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:51,460:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:51,460:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:51,460:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:51,460:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:51,461:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:05:54,794:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:05:54,798:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:05:54,803:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:05:54,812:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:05:54,827:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:06:00,699:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:06:00,703:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:06:00,708:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:06:00,717:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:06:00,733:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:06:05,902:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:06:05,907:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:06:05,911:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:06:05,920:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:06:05,936:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:06:11,569:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:06:11,574:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:06:11,578:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:06:11,588:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:06:11,603:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:06:38,944:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:06:38,948:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:06:38,953:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:06:38,962:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:06:38,978:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:06:59,294:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:06:59,299:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:06:59,304:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:06:59,314:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:06:59,329:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:07:17,207:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:07:17,211:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:07:17,216:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:07:17,225:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:07:17,241:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:07:22,914:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:07:22,919:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:07:22,923:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:07:22,933:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:07:22,949:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:08:03,832:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:08:03,836:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:08:03,840:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:08:03,850:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:08:03,862:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:08:11,834:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:08:11,838:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:08:11,843:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:08:11,853:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:08:11,869:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:08:43,858:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:08:43,863:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:08:43,868:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:08:43,877:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:08:43,893:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:09:15,131:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:09:15,135:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:09:15,139:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:09:15,147:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:09:15,161:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:09:34,094:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:09:34,099:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:09:34,104:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:09:34,114:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:09:34,132:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:09:42,072:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:09:42,077:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:09:42,081:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:09:42,092:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:09:42,109:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:09:50,624:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:09:50,628:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:09:50,633:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:09:50,643:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:09:50,660:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:10:06,296:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:10:06,300:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:10:06,305:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:10:06,315:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:10:06,333:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:10:35,996:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:10:36,000:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:10:36,005:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:10:36,015:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:10:36,032:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:10:55,343:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:10:55,348:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:10:55,353:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:10:55,363:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:10:55,382:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:11:03,718:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:11:03,723:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:11:03,727:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:11:03,738:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:11:03,756:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:11:15,824:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:11:15,829:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:11:15,833:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:11:15,843:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:11:15,862:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:11:41,128:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:11:41,133:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:11:41,138:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:11:41,148:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:11:41,166:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:11:48,981:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:11:48,985:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:11:48,990:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:11:49,001:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:11:49,019:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:12:17,280:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:12:17,285:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:12:17,289:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:12:17,298:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:12:17,313:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:12:45,582:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:12:45,586:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:12:45,591:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:12:45,602:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:12:45,619:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:13:28,988:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:13:28,992:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:13:28,995:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:13:29,004:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:13:29,020:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:13:34,391:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:13:34,396:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:13:34,400:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:13:34,411:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:13:34,430:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:13:48,669:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:13:48,674:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:13:48,678:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:13:48,689:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:13:48,708:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:13:59,218:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:13:59,223:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:13:59,228:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:13:59,239:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:13:59,258:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:14:27,010:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:14:27,015:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:14:27,020:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:14:27,030:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:14:27,049:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:14:33,342:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:14:33,346:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:14:33,351:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:14:33,362:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:14:33,381:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:15:03,730:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:15:03,733:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:15:03,738:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:15:03,748:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:15:03,765:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:15:09,660:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:15:09,665:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:15:09,670:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:15:09,681:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:15:09,700:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:15:39,209:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:15:39,213:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:15:39,219:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:15:39,230:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:15:39,246:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:15:53,782:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:15:53,787:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:15:53,792:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:15:53,803:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:15:53,823:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:16:06,548:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:16:06,553:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:16:06,558:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:16:06,569:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:16:06,589:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:16:11,801:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:16:11,806:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:16:11,811:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:16:11,822:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:16:11,842:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:16:29,174:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:16:29,179:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:16:29,184:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:16:29,195:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:16:29,214:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:17:12,090:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:17:12,094:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:17:12,098:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:17:12,108:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:17:12,123:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:17:15,451:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:17:15,456:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:17:15,461:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:17:15,473:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:17:15,493:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:17:17,156:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:17:17,161:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:17:17,166:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:17:17,177:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:17:17,198:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:17:36,300:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:17:36,305:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:17:36,310:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:17:36,321:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:17:36,342:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:17:45,503:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:17:45,508:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:17:45,514:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:17:45,525:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:17:45,546:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:18:17,334:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:18:17,338:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:18:17,342:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:18:17,351:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:18:17,369:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:18:36,308:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:18:36,313:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:18:36,318:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:18:36,330:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:18:36,351:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:18:49,304:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:18:49,309:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:18:49,314:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:18:49,326:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:18:49,347:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:18:58,032:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:18:58,037:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:18:58,043:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:18:58,054:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:18:58,075:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:19:02,997:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:19:03,002:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:19:03,007:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:19:03,018:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:19:03,039:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:19:19,099:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:19:19,105:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:19:19,110:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:19:19,121:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:19:19,142:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:19:33,436:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:19:33,441:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:19:33,446:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:19:33,458:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:19:33,480:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:19:40,086:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:19:40,091:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:19:40,096:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:19:40,108:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:19:40,129:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:19:56,523:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:19:56,528:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:19:56,533:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:19:56,545:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:19:56,566:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:20:11,207:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:20:11,212:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:20:11,217:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:20:11,229:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:20:11,252:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:20:22,824:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:20:22,829:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:20:22,836:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:20:22,848:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:20:22,870:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:20:31,157:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:20:31,162:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:20:31,167:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:20:31,179:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:20:31,201:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:20:35,671:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:20:35,676:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:20:35,681:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:20:35,692:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:20:35,715:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:20:45,498:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:20:45,503:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:20:45,508:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:20:45,519:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:20:45,542:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:20:56,159:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:20:56,164:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:20:56,169:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:20:56,180:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:20:56,202:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:21:10,329:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:21:10,334:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:21:10,339:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:21:10,351:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:21:10,372:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:21:36,527:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:21:36,532:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:21:36,537:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:21:36,549:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:21:36,572:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:21:42,664:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:21:42,669:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:21:42,674:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:21:42,685:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:21:42,709:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:22:13,915:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:22:13,920:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:22:13,926:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:22:13,936:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:22:13,955:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:22:20,193:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:22:20,198:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:22:20,204:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:22:20,215:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:22:20,238:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:22:28,890:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:22:28,895:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:22:28,900:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:22:28,912:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:22:28,935:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:22:38,533:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:22:38,538:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:22:38,543:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:22:38,555:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:22:38,578:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:22:56,797:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:22:56,802:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:22:56,808:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:22:56,819:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:22:56,844:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:23:08,085:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:23:08,090:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:23:08,095:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:23:08,107:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:23:08,130:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:23:17,719:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:23:17,724:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:23:17,730:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:23:17,741:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:23:17,766:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:23:34,451:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:23:34,457:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:23:34,463:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:23:34,474:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:23:34,498:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:23:52,432:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:23:52,437:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:23:52,443:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:23:52,455:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:23:52,477:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:24:28,830:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:24:28,835:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:24:28,841:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:24:28,854:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:24:28,876:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:24:46,640:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:24:46,645:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:24:46,651:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:24:46,663:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:24:46,686:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:25:01,164:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:25:01,169:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:25:01,174:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:25:01,187:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:25:01,210:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:25:29,917:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:25:29,922:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:25:29,927:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:25:29,938:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:25:29,957:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:25:45,690:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:25:45,695:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:25:45,700:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:25:45,712:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:25:45,736:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:26:09,490:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:26:09,495:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:26:09,501:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:26:09,513:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:26:09,536:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:26:25,423:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:26:25,428:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:26:25,433:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:26:25,445:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:26:25,468:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:26:44,915:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:26:44,921:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:26:44,926:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:26:44,938:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:26:44,966:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:27:03,723:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:27:03,728:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:27:03,733:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:27:03,745:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:27:03,770:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:27:38,542:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:27:38,547:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:27:38,552:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:27:38,564:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:27:38,586:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
+2024-02-19 18:27:58,882:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:48: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'colsample_bytree': trial.suggest_uniform('colsample_bytree', 0.7, 1.0),
+
+2024-02-19 18:27:58,887:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:49: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_alpha': trial.suggest_uniform('reg_alpha', 0.0, 1.0),
+
+2024-02-19 18:27:58,893:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:50: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  'reg_lambda': trial.suggest_uniform('reg_lambda', 0.0, 10.0),
+
+2024-02-19 18:27:58,905:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:52: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'learning_rate': trial.suggest_loguniform("learning_rate", 1e-8, 1e-2),
+
+2024-02-19 18:27:58,929:WARNING:C:\Users\wpgur\PycharmProjects\DACON_Practice\model_tuned.py:55: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
+
