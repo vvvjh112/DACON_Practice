@@ -152,4 +152,4 @@ lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 lgbm_predict = lgbm.predict(test)
 submission['TARGET'] = lgbm_predict
 submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
-submission.to_csv('LGBM_First_1740',index=False)
+submission.to_csv('LGBM_First_1740.csv',index=False)
