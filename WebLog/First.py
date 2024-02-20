@@ -204,11 +204,12 @@ import model_tuned as mt
 hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
 lm = LGBMRegressor(**hp)
 lm.fit(trainX,trainY)
-pred = lm.predict(testX)
-print("점수 ", mean_squared_error(testY,pred,squared=False))
-#1차 2.686622
-# pred = lm.predict(test)
-# submission['TARGET'] = pred
+# pred = lm.predict(testX)
+# print("점수 ", mean_squared_error(testY,pred,squared=False))
+#1차 파생변수 추가 후 2.686622
+#2차 파생변수 추가 후 2.391869
+pred = lm.predict(test)
+submission['TARGET'] = pred
 
 print(trainX.columns)
 
@@ -233,8 +234,8 @@ print(trainX.columns)
 
 #TARGET값 0보다 작은거 0으로 보정하기
 import datetime
-# title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
-# submission.to_csv(title,index=False)
+submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
+submission.to_csv(title,index=False)
 
