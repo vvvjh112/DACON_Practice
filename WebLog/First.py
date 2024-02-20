@@ -73,12 +73,10 @@ for idx, row in sum_browser.iterrows():
 
 for idx, row in train.iterrows():
     try:
-        train.at[idx,'browser'] = dic[train.at[idx,'browser']]
+        train.at[idx,'browser_sum'] = dic[train.at[idx,'browser']]
     except KeyError:
-        train.at[idx, 'browser'] = 0
+        train.at[idx, 'browser_sum'] = 0
 
-print(dic)
-print(train)
 
 #시각화 이전 그룹화
 # 키워드 비율 브라우저 비율
@@ -170,6 +168,7 @@ import model_tuned as mt
 # lgbm_model = LGBMRegressor()
 # lgbm_model.fit(trainX,trainY)
 # print(lgbm_model.feature_importances_)
+
 # 옵튜나
 # lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
