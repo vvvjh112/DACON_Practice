@@ -135,7 +135,7 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
-    loss = msle(y_valid,preds)
+    loss = mean_squared_log_error(y_valid,preds)
 
     return np.sqrt(loss)
 

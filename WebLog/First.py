@@ -23,7 +23,14 @@ import seaborn as sns
 # keyword : 트래픽 소스의 키워드, 일반적으로 traffic_medium이 organic, cpc인 경우에 설정
 # referral_path : traffic_medium이 referral인 경우 설정되는 경로
 
-# 총 거래 수익/세션 시간
+# 총 거래 수익/세션 분당
+# 분당 거래의 수
+# 사용된 브라우저별 총 거래 수익
+# 국가별 총 거래 수익 및 거래 수
+# 총 거래수익 / 총 거래의 수
+# 브라우저별 이탈율
+# test셋어 없는 데이터들 제외
+
 # RMSE
 
 
@@ -146,10 +153,19 @@ from sklearn.metrics import *
 
 
 
-#TARGET값 0보다 작은거 0으로 보정하기
 
-lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
-lgbm_predict = lgbm.predict(test)
-submission['TARGET'] = lgbm_predict
+#옵튜나 모델링
+# lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+# lgbm_predict = lgbm.predict(test)
+# submission['TARGET'] = lgbm_predict
+
+cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
+cat_predict = cat.predict(test)
+submission['TARGET'] = cat_predict
+
+
+
+
+#TARGET값 0보다 작은거 0으로 보정하기
 submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
-submission.to_csv('LGBM_First_1740',index=False)
+submission.to_csv('Cat_First_2133.csv',index=False)

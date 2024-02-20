@@ -26,7 +26,7 @@ def huber_modeling(X_train, y_train, X_valid, y_valid):
         if (preds < 0).sum() > 0:
             print('음수 발생')
             preds = np.where(preds > 0, preds, 0)
-        loss = mean_squared_error(y_valid, preds)
+        loss = mean_squared_error(y_valid,preds,squared=False)
 
         return np.sqrt(loss)
 
@@ -62,7 +62,7 @@ def lgbm_modeling(X_train, y_train, X_valid, y_valid):
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
-    loss = mean_squared_log_error(y_valid,preds)
+    loss = mean_squared_error(y_valid,preds,squared=False)
 
     return np.sqrt(loss)
 
@@ -92,13 +92,13 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
     }
 
     model = XGBRegressor(**params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
-    bst_xgb = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
+    bst_xgb = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmse', early_stopping_rounds=100,verbose=False)
 
     preds = bst_xgb.predict(X_valid)
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
-    loss = mean_squared_log_error(y_valid,preds)
+    loss = mean_squared_error(y_valid,preds,squared=False)
 
     return np.sqrt(loss)
 
@@ -106,7 +106,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
   study_xgb.optimize(objective,n_trials=90,show_progress_bar=True)
   print("xgb 최적 파라미터", study_xgb.best_params)
   xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
-  xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmsle', early_stopping_rounds=100,verbose=False)
+  xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', early_stopping_rounds=100,verbose=False)
 
   return xgb_reg, study_xgb
 
@@ -135,12 +135,12 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
-    loss = msle(y_valid,preds)
+    loss = mean_squared_error(y_valid,preds,squared=False)
 
     return np.sqrt(loss)
 
   study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
-  study_cat.optimize(objective,n_trials=30,show_progress_bar=True)
+  study_cat.optimize(objective,n_trials=90,show_progress_bar=True)
 
   cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=42)
   cat_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
@@ -158,10 +158,10 @@ def grid_search(model, param, trainX, trainY):
 
     return grid
 
-def compare_model(train_set,target):
-    clf = setup(data=train_set, target=target, train_size=0.8)
+def compare_model(train_set):
+    clf = setup(data=train_set, target='ECLO', train_size=0.8)
     best_model = compare_models()
-    compare_models(n_select = 5, sort = 'RMSE')
+    compare_models(n_select = 5, sort = 'RMSLE')
 
 def pycaret_predict(model,test_set):
     model_py_1 = create_model(model)
