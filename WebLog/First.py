@@ -47,7 +47,7 @@ submission = pd.read_csv('Data/sample_submission.csv')
 
 print(train.info())
 
-# 사용된 브라우저별 총 거래 수익
+# 사용된 브라우저별 총 거래 수익 - 완료
 # 국가별 총 거래 수익 및 거래 수
 # 브라우저별 이탈율
 # test셋어 없는 데이터들 제외
@@ -63,19 +63,44 @@ test['분당거래'] = test['transaction'] / (test['duration'].replace(0, 1) / 6
 train['평균거래액'] = train['transaction_revenue'] / train['transaction'].replace(0, 1)
 test['평균거래액'] = test['transaction_revenue'] / test['transaction'].replace(0, 1)
 ########################################################################################2.96903
-
-sum_browser = train[['browser','transaction_revenue']].groupby(['browser']).sum('transaction_revenue')
-sum_browser = sum_browser.reset_index().rename(columns={'transaction_revenue': '합계'})
-browser = sum_browser['browser'].unique()
-dic={}
-for idx, row in sum_browser.iterrows():
-    dic[sum_browser.at[idx,'browser']]=sum_browser.at[idx,'합계']
-
-for idx, row in train.iterrows():
-    try:
-        train.at[idx,'browser_sum'] = dic[train.at[idx,'browser']]
-    except KeyError:
-        train.at[idx, 'browser_sum'] = 0
+#브라우저별 수익 합계 및 거래 수
+# sum_browser = train[['browser','transaction_revenue']].groupby(['browser']).sum('transaction_revenue')
+# sum_browser = sum_browser.reset_index().rename(columns={'transaction_revenue': '합계'})
+# browser = sum_browser['browser'].unique()
+# dic={}
+# for idx, row in sum_browser.iterrows():
+#     dic[sum_browser.at[idx,'browser']]=sum_browser.at[idx,'합계']
+#
+# for idx, row in train.iterrows():
+#     try:
+#         train.at[idx,'browser_sum'] = dic[train.at[idx,'browser']]
+#     except KeyError:
+#         train.at[idx, 'browser_sum'] = 0
+#
+# for idx, row in test.iterrows():
+#     try:
+#         test.at[idx,'browser_sum'] = dic[test.at[idx,'browser']]
+#     except KeyError:
+#         test.at[idx, 'browser_sum'] = 0
+#
+# count_browser = train[['browser','transaction']].groupby(['browser']).sum('transaction')
+# count_browser = count_browser.reset_index().rename(columns={'transaction': '합계'})
+# browser = count_browser['browser'].unique()
+# dic={}
+# for idx, row in count_browser.iterrows():
+#     dic[count_browser.at[idx,'browser']]=count_browser.at[idx,'합계']
+#
+# for idx, row in train.iterrows():
+#     try:
+#         train.at[idx,'browser_count'] = dic[train.at[idx,'browser']]
+#     except KeyError:
+#         train.at[idx, 'browser_count'] = 0
+#
+# for idx, row in test.iterrows():
+#     try:
+#         test.at[idx,'count_sum'] = dic[test.at[idx,'browser']]
+#     except KeyError:
+#         test.at[idx, 'count_sum'] = 0
 
 
 #시각화 이전 그룹화
@@ -136,7 +161,7 @@ print(test.isna().sum())
 
 from sklearn.model_selection import *
 
-#라벨 인코딩
+#인코딩
 # category_cols = train_ft.select_dtypes(include="object").columns.tolist()
 categorical_features = ["browser", "OS", "device", "continent", "subcontinent", "country", "traffic_source", "traffic_medium", "keyword", "referral_path"]
 for i in categorical_features:
@@ -144,6 +169,8 @@ for i in categorical_features:
     # test[i] = LabelEncoder().fit_transform(test[i])
     train[i] = train[i].astype('category')
     test[i] = test[i].astype('category')
+
+#합계는 스케일링 하자
 
 #데이터 분리
 x = train.drop(['sessionID','userID','TARGET'],axis=1)
@@ -158,6 +185,7 @@ trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
 #Catboost / xgboost / LGBM /
 from catboost import CatBoostRegressor, Pool
 from lightgbm import LGBMRegressor
+from sklearn.metrics import *
 import model_tuned as mt
 
 #pycaret
@@ -173,12 +201,14 @@ import model_tuned as mt
 # lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
-hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
-lm = LGBMRegressor(**hp)
-lm.fit(trainX,trainY)
+# hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
+# lm = LGBMRegressor(**hp)
+# lm.fit(trainX,trainY)
 import joblib
-joblib.dump(lm,'lgbm.pkl')
-# loaded_model = joblib.load('lgbm_model.pkl')
+# joblib.dump(lm,'lgbm.pkl')
+lm = joblib.load('lgbm.pkl')
+pred = lm.predict(testX)
+print("점수 ", mean_squared_error(testY,pred,squared=False))
 # pred = lm.predict(test)
 # submission['TARGET'] = pred
 
@@ -209,3 +239,4 @@ import datetime
 # title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
 # submission.to_csv(title,index=False)
+
