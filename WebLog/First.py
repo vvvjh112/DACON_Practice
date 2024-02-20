@@ -221,7 +221,7 @@ print(trainX.columns)
 # print(cat_model.feature_importances_)
 
 #옵튜나
-# cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
+cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
 # cat_predict = cat.predict(test_pool)
 # submission['TARGET'] = cat_predict
 
