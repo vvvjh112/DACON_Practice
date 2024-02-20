@@ -64,43 +64,43 @@ train['평균거래액'] = train['transaction_revenue'] / train['transaction'].r
 test['평균거래액'] = test['transaction_revenue'] / test['transaction'].replace(0, 1)
 ########################################################################################2.96903
 #브라우저별 수익 합계 및 거래 수
-# sum_browser = train[['browser','transaction_revenue']].groupby(['browser']).sum('transaction_revenue')
-# sum_browser = sum_browser.reset_index().rename(columns={'transaction_revenue': '합계'})
-# browser = sum_browser['browser'].unique()
-# dic={}
-# for idx, row in sum_browser.iterrows():
-#     dic[sum_browser.at[idx,'browser']]=sum_browser.at[idx,'합계']
-#
-# for idx, row in train.iterrows():
-#     try:
-#         train.at[idx,'browser_sum'] = dic[train.at[idx,'browser']]
-#     except KeyError:
-#         train.at[idx, 'browser_sum'] = 0
-#
-# for idx, row in test.iterrows():
-#     try:
-#         test.at[idx,'browser_sum'] = dic[test.at[idx,'browser']]
-#     except KeyError:
-#         test.at[idx, 'browser_sum'] = 0
-#
-# count_browser = train[['browser','transaction']].groupby(['browser']).sum('transaction')
-# count_browser = count_browser.reset_index().rename(columns={'transaction': '합계'})
-# browser = count_browser['browser'].unique()
-# dic={}
-# for idx, row in count_browser.iterrows():
-#     dic[count_browser.at[idx,'browser']]=count_browser.at[idx,'합계']
-#
-# for idx, row in train.iterrows():
-#     try:
-#         train.at[idx,'browser_count'] = dic[train.at[idx,'browser']]
-#     except KeyError:
-#         train.at[idx, 'browser_count'] = 0
-#
-# for idx, row in test.iterrows():
-#     try:
-#         test.at[idx,'count_sum'] = dic[test.at[idx,'browser']]
-#     except KeyError:
-#         test.at[idx, 'count_sum'] = 0
+sum_browser = train[['browser','transaction_revenue']].groupby(['browser']).sum('transaction_revenue')
+sum_browser = sum_browser.reset_index().rename(columns={'transaction_revenue': '합계'})
+browser = sum_browser['browser'].unique()
+dic={}
+for idx, row in sum_browser.iterrows():
+    dic[sum_browser.at[idx,'browser']]=sum_browser.at[idx,'합계']
+
+for idx, row in train.iterrows():
+    try:
+        train.at[idx,'browser_sum'] = dic[train.at[idx,'browser']]
+    except KeyError:
+        train.at[idx, 'browser_sum'] = 0
+
+for idx, row in test.iterrows():
+    try:
+        test.at[idx,'browser_sum'] = dic[test.at[idx,'browser']]
+    except KeyError:
+        test.at[idx, 'browser_sum'] = 0
+
+count_browser = train[['browser','transaction']].groupby(['browser']).sum('transaction')
+count_browser = count_browser.reset_index().rename(columns={'transaction': '합계'})
+browser = count_browser['browser'].unique()
+dic={}
+for idx, row in count_browser.iterrows():
+    dic[count_browser.at[idx,'browser']]=count_browser.at[idx,'합계']
+
+for idx, row in train.iterrows():
+    try:
+        train.at[idx,'browser_count'] = dic[train.at[idx,'browser']]
+    except KeyError:
+        train.at[idx, 'browser_count'] = 0
+
+for idx, row in test.iterrows():
+    try:
+        test.at[idx,'count_sum'] = dic[test.at[idx,'browser']]
+    except KeyError:
+        test.at[idx, 'count_sum'] = 0
 
 
 #시각화 이전 그룹화
@@ -206,6 +206,7 @@ lm = LGBMRegressor(**hp)
 lm.fit(trainX,trainY)
 pred = lm.predict(testX)
 print("점수 ", mean_squared_error(testY,pred,squared=False))
+#1차 2.686622
 # pred = lm.predict(test)
 # submission['TARGET'] = pred
 
