@@ -201,12 +201,9 @@ import model_tuned as mt
 # lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
-# hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
-# lm = LGBMRegressor(**hp)
-# lm.fit(trainX,trainY)
-import joblib
-# joblib.dump(lm,'lgbm.pkl')
-lm = joblib.load('lgbm.pkl')
+hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
+lm = LGBMRegressor(**hp)
+lm.fit(trainX,trainY)
 pred = lm.predict(testX)
 print("점수 ", mean_squared_error(testY,pred,squared=False))
 # pred = lm.predict(test)
