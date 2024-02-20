@@ -125,7 +125,6 @@ test.fillna('-',inplace=True)
 # print(train.isna().sum())
 # print(test.isna().sum())
 
-
 from sklearn.model_selection import *
 from sklearn.preprocessing import *
 #라벨 인코딩
