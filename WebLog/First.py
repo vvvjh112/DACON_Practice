@@ -209,7 +209,7 @@ pred = lm.predict(testX)
 print("점수 ", mean_squared_error(testY,pred,squared=False))
 #1차 파생변수 추가 후 2.686622
 #2차 파생변수 추가 후 2.391869 - 스케일링 전 / 옵튜나 전
-#2차 옵튜나 후 ? 2.732848854424877
+#2차 옵튜나 후 ? 2.732848854424877 - 스케일링 전
 #lgbm 최적 파라미터 {'num_leaves': 294, 'colsample_bytree': 0.8463048890782741, 'reg_alpha': 0.30820014520494504, 'reg_lambda': 1.9536106744358568, 'max_depth': 15, 'learning_rate': 0.0037663760814518783, 'n_estimators': 2580, 'min_child_samples': 35, 'subsample': 0.7301038177177746}
 
 # pred = lm.predict(test)
