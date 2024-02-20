@@ -145,7 +145,7 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
 
   study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_cat.optimize(objective,n_trials=30,show_progress_bar=True)
-  print("cat 최적 파라미터 : ",**study_cat.best_params)
+  print("cat 최적 파라미터 : ",study_cat.best_params)
   cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=42)
   cat_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
 

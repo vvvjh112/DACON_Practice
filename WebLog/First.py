@@ -198,44 +198,53 @@ import model_tuned as mt
 # print(lgbm_model.feature_importances_)
 
 # 옵튜나
-lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+# lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
 # hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
-# lm = LGBMRegressor(**hp)
-# lm.fit(trainX,trainY)
-# pred = lm.predict(testX)
-# print("점수 ", mean_squared_error(testY,pred,squared=False))
+hp = {'num_leaves': 294, 'colsample_bytree': 0.8463048890782741, 'reg_alpha': 0.30820014520494504, 'reg_lambda': 1.9536106744358568, 'max_depth': 15, 'learning_rate': 0.0037663760814518783, 'n_estimators': 2580, 'min_child_samples': 35, 'subsample': 0.7301038177177746}
+lm = LGBMRegressor(**hp)
+lm.fit(trainX,trainY)
+pred = lm.predict(testX)
+print("점수 ", mean_squared_error(testY,pred,squared=False))
 #1차 파생변수 추가 후 2.686622
-#2차 파생변수 추가 후 2.391869 - 스케일링 전
+#2차 파생변수 추가 후 2.391869 - 스케일링 전 / 옵튜나 전
+#2차 옵튜나 후 ? 2.732848854424877
+#lgbm 최적 파라미터 {'num_leaves': 294, 'colsample_bytree': 0.8463048890782741, 'reg_alpha': 0.30820014520494504, 'reg_lambda': 1.9536106744358568, 'max_depth': 15, 'learning_rate': 0.0037663760814518783, 'n_estimators': 2580, 'min_child_samples': 35, 'subsample': 0.7301038177177746}
+
 # pred = lm.predict(test)
 # submission['TARGET'] = pred
 
 print(trainX.columns)
 
 
-# train_pool = Pool(data=trainX, label=trainY, cat_features=categorical_features)
-# test_pool = Pool(data = test, cat_features=categorical_features)
+train_pool = Pool(data = trainX, label=trainY, cat_features=categorical_features)
+test_pool = Pool(data = test, cat_features=categorical_features)
+testY_pool = Pool(data = testX, cat_features=categorical_features)
 # cat_model = CatBoostRegressor()
 # cat_model.fit(train_pool)
 # print(cat_model.feature_importances_)
 
 #옵튜나
-cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
+# cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
 # cat_predict = cat.predict(test_pool)
 # submission['TARGET'] = cat_predict
 
-# 'iterations': 5971, 'od_wait': 1305, 'learning_rate': 0.10223435608939285, 'reg_lambda': 58.80594893120358, 'subsample': 0.6930612709955952, 'random_strength': 17.7639310763122, 'depth': 8, 'min_data_in_leaf': 11, 'leaf_estimation_iterations': 5, 'bagging_temperature': 0.23513945991239923, 'colsample_bylevel': 0.7079422421178576
-# cm = CatBoostRegressor(iterations=5971,od_wait=1305,learning_rate=0.10223435608939285,reg_lambda=58.80594893120358,subsample=0.6930612709955952, random_strength=17.7639310763122,depth=8,min_data_in_leaf=11,leaf_estimation_iterations=5, bagging_temperature=0.23513945991239923,colsample_bylevel=0.7079422421178576)
-# cm.fit(train_pool)
-# cat_pre = cm.predict(test_pool)
-# submission['TARGET'] = cat_pre
+# 1차 최적화 'iterations': 5971, 'od_wait': 1305, 'learning_rate': 0.10223435608939285, 'reg_lambda': 58.80594893120358, 'subsample': 0.6930612709955952, 'random_strength': 17.7639310763122, 'depth': 8, 'min_data_in_leaf': 11, 'leaf_estimation_iterations': 5, 'bagging_temperature': 0.23513945991239923, 'colsample_bylevel': 0.7079422421178576
+param = {'iterations': 8769, 'od_wait': 501, 'learning_rate': 0.10526607776351413, 'reg_lambda': 14.1751878095561, 'subsample': 0.4300999921535704, 'random_strength': 49.66986335012443, 'depth': 10, 'min_data_in_leaf': 21, 'leaf_estimation_iterations': 14, 'bagging_temperature': 34.49049196510442, 'colsample_bylevel': 0.6744327714737617}
+cm = CatBoostRegressor(**param)
+cm.fit(train_pool)
+pred = cm.predict(testY_pool)
+print("Cat 점수 : ",mean_squared_error(testY,pred,squared=False))
+# Cat 점수 :  2.800969683434413
+cat_pre = cm.predict(test_pool)
+submission['TARGET'] = cat_pre
 
 
 #TARGET값 0보다 작은거 0으로 보정하기
 import datetime
 # title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
-# submission.to_csv(title,index=False)
+title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
+submission.to_csv(title,index=False)
 
