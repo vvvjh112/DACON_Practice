@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -22,14 +21,6 @@ import seaborn as sns
 # traffic_medium : 트래픽 소스의 매체
 # keyword : 트래픽 소스의 키워드, 일반적으로 traffic_medium이 organic, cpc인 경우에 설정
 # referral_path : traffic_medium이 referral인 경우 설정되는 경로
-
-# 총 거래 수익/세션 분당
-# 분당 거래의 수
-# 사용된 브라우저별 총 거래 수익
-# 국가별 총 거래 수익 및 거래 수
-# 총 거래수익 / 총 거래의 수
-# 브라우저별 이탈율
-# test셋어 없는 데이터들 제외
 
 # RMSE
 
@@ -56,35 +47,37 @@ submission = pd.read_csv('Data/sample_submission.csv')
 
 print(train.info())
 
-#파생변수 출력
-train['perM'] = train['transaction_revenue'] / (train['duration'].replace(0, 1) / 60)
-test['perM'] = test['transaction_revenue'] / (test['duration'].replace(0, 1) / 60)
+# 사용된 브라우저별 총 거래 수익
+# 국가별 총 거래 수익 및 거래 수
+# 브라우저별 이탈율
+# test셋어 없는 데이터들 제외
+
+#파생변수
+train['분당수익'] = train['transaction_revenue'] / (train['duration'].replace(0, 1) / 60)
+test['분당수익'] = test['transaction_revenue'] / (test['duration'].replace(0, 1) / 60)
+
+train['분당거래'] = train['transaction'] / (train['duration'].replace(0, 1) / 60)
+test['분당거래'] = test['transaction'] / (test['duration'].replace(0, 1) / 60)
+
+train['평균거래액'] = train['transaction_revenue'] / train['transaction'].replace(0, 1)
+test['평균거래액'] = test['transaction_revenue'] / test['transaction'].replace(0, 1)
 
 
-
-#시각화 이전 그룹
-# OS별, 브라우저별, 디바이스별, 첫방문별, 이탈여부, 나라별, 소스별
+#시각화 이전 그룹화
 group_os = train.groupby(['OS']).mean('TARGET')
-# group_os = group_os[['TARGET']]
 
 group_browser = train.groupby(['browser']).mean('TARGET')[['TARGET']].reset_index('browser')
 group_browser = group_browser[~group_browser['browser'].str.startswith(';__CT_JOB_ID__:')]
 
-
 group_device = train.groupby(['device']).mean('TARGET')
-# group_device = group_device[['TARGET']]
 
 group_new = train.groupby(['new']).mean('TARGET')
-# group_new = group_new[['TARGET']]
 
 group_bounced = train.groupby(['bounced']).mean('TARGET')
-# group_bounced = group_bounced[['TARGET']]
 
 group_country = train.groupby(['country']).mean('TARGET')
-# group_country = group_country[['TARGET']]
 
 group_source = train.groupby(['traffic_source']).mean('TARGET')
-# group_source = group_source[['TARGET']]
 
 plt.title('OS별 평균 조회수')
 plt.xticks(fontsize = 7, rotation = 45, ha = 'right')
@@ -119,19 +112,21 @@ sns.lineplot(x=group_source.index, y= 'TARGET', data=group_source, marker = 'o')
 # plt.show()
 
 #결측값
-
 train.fillna('-',inplace=True)
 test.fillna('-',inplace=True)
 # print(train.isna().sum())
-# print(test.isna().sum())
+print(test.isna().sum())
 
 from sklearn.model_selection import *
-from sklearn.preprocessing import *
+
 #라벨 인코딩
+# category_cols = train_ft.select_dtypes(include="object").columns.tolist()
 categorical_features = ["browser", "OS", "device", "continent", "subcontinent", "country", "traffic_source", "traffic_medium", "keyword", "referral_path"]
 for i in categorical_features:
-    train[i] = LabelEncoder().fit_transform(train[i])
-    test[i] = LabelEncoder().fit_transform(test[i])
+    # train[i] = LabelEncoder().fit_transform(train[i])
+    # test[i] = LabelEncoder().fit_transform(test[i])
+    train[i] = train[i].astype('category')
+    test[i] = test[i].astype('category')
 
 #데이터 분리
 x = train.drop(['sessionID','userID','TARGET'],axis=1)
@@ -141,30 +136,55 @@ test= test.drop(['sessionID','userID'],axis =1)
 
 trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
 
-#Catboost / xgboost / LGBM /
-import model_tuned as mt
-from catboost import CatBoostRegressor
-from xgboost import XGBRegressor
-from lightgbm import LGBMRegressor
-from sklearn.metrics import *
 
+
+#Catboost / xgboost / LGBM /
+from catboost import CatBoostRegressor, Pool
+from lightgbm import LGBMRegressor
+import model_tuned as mt
+
+#pycaret
 # mt.compare_model(train.drop(['sessionID','userID'],axis=1),'TARGET')
 
 
-
-
-#옵튜나 모델링
+#LGBM
+# lgbm_model = LGBMRegressor()
+# lgbm_model.fit(trainX,trainY)
+# print(lgbm_model.feature_importances_)
+# 옵튜나
 # lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
+# hp = {'num_leaves': 741, 'colsample_bytree': 0.9497960333038377, 'reg_alpha': 0.31953049619109103, 'reg_lambda': 2.976008557172993, 'max_depth': 15, 'learning_rate': 0.002312138094213604, 'n_estimators': 2516, 'min_child_samples': 98, 'subsample': 0.6945329803389395}
+# lm = LGBMRegressor(**hp)
+# lm.fit(trainX,trainY)
+# pred = lm.predict(test)
+# submission['TARGET'] = pred
 
-cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
-cat_predict = cat.predict(test)
-submission['TARGET'] = cat_predict
+print(trainX.columns)
 
 
+# train_pool = Pool(data=trainX, label=trainY, cat_features=categorical_features)
+# test_pool = Pool(data = test, cat_features=categorical_features)
+# cat_model = CatBoostRegressor()
+# cat_model.fit(train_pool)
+# print(cat_model.feature_importances_)
+
+#옵튜나
+# cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
+# cat_predict = cat.predict(test_pool)
+# submission['TARGET'] = cat_predict
+
+# 'iterations': 5971, 'od_wait': 1305, 'learning_rate': 0.10223435608939285, 'reg_lambda': 58.80594893120358, 'subsample': 0.6930612709955952, 'random_strength': 17.7639310763122, 'depth': 8, 'min_data_in_leaf': 11, 'leaf_estimation_iterations': 5, 'bagging_temperature': 0.23513945991239923, 'colsample_bylevel': 0.7079422421178576
+# cm = CatBoostRegressor(iterations=5971,od_wait=1305,learning_rate=0.10223435608939285,reg_lambda=58.80594893120358,subsample=0.6930612709955952, random_strength=17.7639310763122,depth=8,min_data_in_leaf=11,leaf_estimation_iterations=5, bagging_temperature=0.23513945991239923,colsample_bylevel=0.7079422421178576)
+# cm.fit(train_pool)
+# cat_pre = cm.predict(test_pool)
+# submission['TARGET'] = cat_pre
 
 
 #TARGET값 0보다 작은거 0으로 보정하기
-submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
-submission.to_csv('Cat_First_2133.csv',index=False)
+import datetime
+# title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
+# submission.to_csv(title,index=False)

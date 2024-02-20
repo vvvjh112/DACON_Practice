@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from pycaret.regression import *
 
-from catboost import CatBoostRegressor
+from catboost import CatBoostRegressor, Pool
 
 # @ignore_warnings(category=ConvergenceWarning)
 def huber_modeling(X_train, y_train, X_valid, y_valid):
@@ -31,7 +31,7 @@ def huber_modeling(X_train, y_train, X_valid, y_valid):
         return np.sqrt(loss)
 
     study_huber = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
-    study_huber.optimize(objective, n_trials=90, show_progress_bar=True)
+    study_huber.optimize(objective, n_trials=30, show_progress_bar=True)
     print("퓨버 최적 파라미터", study_huber.best_params)
     huber_reg = HuberRegressor(**study_huber.best_params)
     huber_reg.fit(X_train, y_train)
@@ -103,7 +103,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
     return np.sqrt(loss)
 
   study_xgb = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
-  study_xgb.optimize(objective,n_trials=90,show_progress_bar=True)
+  study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
   print("xgb 최적 파라미터", study_xgb.best_params)
   xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', early_stopping_rounds=100,verbose=False)
@@ -129,9 +129,13 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
 
     model = CatBoostRegressor(**param, random_state=42)
     #task_type="GPU",devices='0:1'
-    bst_cat = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
+    categorical_features = ["browser", "OS", "device", "continent", "subcontinent", "country", "traffic_source",
+                            "traffic_medium", "keyword", "referral_path"]
+    train_pool = Pool(data=X_train, label=y_train, cat_features=categorical_features)
+    test_pool = Pool(data=X_valid, label=y_valid, cat_features=categorical_features)
+    bst_cat = model.fit(train_pool, eval_set = test_pool, early_stopping_rounds=100,verbose=False)
 
-    preds = bst_cat.predict(X_valid)
+    preds = bst_cat.predict(test_pool)
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
@@ -140,8 +144,8 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
     return np.sqrt(loss)
 
   study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
-  study_cat.optimize(objective,n_trials=90,show_progress_bar=True)
-
+  study_cat.optimize(objective,n_trials=30,show_progress_bar=True)
+  print("cat 최적 파라미터 : ",**study_cat.best_params)
   cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=42)
   cat_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
 
@@ -161,11 +165,11 @@ def grid_search(model, param, trainX, trainY):
 def compare_model(train_set):
     clf = setup(data=train_set, target='ECLO', train_size=0.8)
     best_model = compare_models()
-    compare_models(n_select = 5, sort = 'RMSLE')
+    compare_models(n_select = 5, sort = 'RMSE')
 
 def pycaret_predict(model,test_set):
     model_py_1 = create_model(model)
-    tuned_md = tune_model(model_py_1,optimize = 'RMSLE')
+    tuned_md = tune_model(model_py_1,optimize = 'RMSE')
     print(tuned_md)
     final_model = finalize_model(tuned_md)
     prediction = predict_model(final_model, data = test_set)
