@@ -167,26 +167,26 @@ print(train.info())
 # print("디바이스별 수익 합계 생성완료")
 
 #
-# sum_referral_path = train[['referral_path','duration']].groupby(['referral_path']).sum('duration')
-# sum_referral_path = sum_referral_path.reset_index().rename(columns={'duration': '합계'})
-# referral_path = sum_referral_path['referral_path'].unique()
-# dic={}
-# for idx, row in sum_referral_path.iterrows():
-#     dic[sum_referral_path.at[idx,'referral_path']]=sum_referral_path.at[idx,'합계']
-#
-# for idx, row in train.iterrows():
-#     try:
-#         train.at[idx,'referral_path_sum'] = dic[train.at[idx,'referral_path']]
-#     except KeyError:
-#         train.at[idx, 'referral_path_sum'] = 0
-#
-# for idx, row in test.iterrows():
-#     try:
-#         test.at[idx,'referral_path_sum'] = dic[test.at[idx,'referral_path']]
-#     except KeyError:
-#         test.at[idx, 'referral_path_sum'] = 0
-#
-# print("referral_path별 수익 합계 생성완료")
+sum_referral_path = train[['referral_path','duration']].groupby(['referral_path']).sum('duration')
+sum_referral_path = sum_referral_path.reset_index().rename(columns={'duration': '합계'})
+referral_path = sum_referral_path['referral_path'].unique()
+dic={}
+for idx, row in sum_referral_path.iterrows():
+    dic[sum_referral_path.at[idx,'referral_path']]=sum_referral_path.at[idx,'합계']
+
+for idx, row in train.iterrows():
+    try:
+        train.at[idx,'referral_path_sum'] = dic[train.at[idx,'referral_path']]
+    except KeyError:
+        train.at[idx, 'referral_path_sum'] = 0
+
+for idx, row in test.iterrows():
+    try:
+        test.at[idx,'referral_path_sum'] = dic[test.at[idx,'referral_path']]
+    except KeyError:
+        test.at[idx, 'referral_path_sum'] = 0
+
+print("referral_path별 수익 합계 생성완료")
 
 
 #시각화 이전 그룹화
@@ -306,6 +306,7 @@ lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # 점수 1차파라미터 2.6227267475546223 - referral_path 이거 안한거
 # 점수 2차파라미터 2.6250732905173737
 # 점수 3차파라미터 2.6243851304787915
+# 점수  2.6220830964404067 - {'num_leaves': 478, 'colsample_bytree': 0.9492639648519403, 'reg_alpha': 0.9179981126869732, 'reg_lambda': 8.094244985897125, 'max_depth': 14, 'learning_rate': 0.006737673246556161, 'n_estimators': 1561, 'min_child_samples': 51, 'subsample': 0.42278712603172836}
 
 # lgbm.fit(trainX,trainY)
 print(lgbm.feature_importances_)
