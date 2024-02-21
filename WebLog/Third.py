@@ -314,6 +314,7 @@ print("점수 ", mean_squared_error(testY,pred,squared=False))
 best_params = lgbm_study.best_params
 print("최적 하이퍼파라미터:", best_params)
 
+#### 분포를 확인해보고 로그를 취하거나 / 강조하고싶은 변수에 제곱을 하자
 
 # pred = lm.predict(test)
 # submission['TARGET'] = pred
