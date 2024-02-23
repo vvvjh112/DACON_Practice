@@ -66,6 +66,9 @@ test['분당거래'] = test['transaction'] / (test['duration'].replace(0, 1) / 6
 train['평균거래액'] = train['transaction_revenue'] / train['transaction'].replace(0, 1)
 test['평균거래액'] = test['transaction_revenue'] / test['transaction'].replace(0, 1)
 
+train['퀄리티지수'] = train['quality'] * train['duration']
+test['퀄리티지수'] = test['quality'] * test['duration']
+
 #브라우저별 수익 합계 및 거래 수
 # sum_browser = train[['browser','duration']].groupby(['browser']).sum('duration')
 # sum_browser = sum_browser.reset_index().rename(columns={'duration': '합계'})
@@ -297,19 +300,21 @@ import model_tuned as mt
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
 #1차
-hp = {'num_leaves': 343, 'colsample_bytree': 0.8799056412183298, 'reg_alpha': 0.9188535423836559, 'reg_lambda': 0.5661962662592113, 'max_depth': 13, 'learning_rate': 0.0022962143663780715, 'n_estimators': 2574, 'min_child_samples': 38, 'subsample': 0.9721091518154885}
+# hp = {'num_leaves': 343, 'colsample_bytree': 0.8799056412183298, 'reg_alpha': 0.9188535423836559, 'reg_lambda': 0.5661962662592113, 'max_depth': 13, 'learning_rate': 0.0022962143663780715, 'n_estimators': 2574, 'min_child_samples': 38, 'subsample': 0.9721091518154885}
 #2차
 # hp = {'num_leaves': 404, 'colsample_bytree': 0.9377495335743863, 'reg_alpha': 0.6142721774372236, 'reg_lambda': 8.3820609781652, 'max_depth': 15, 'learning_rate': 0.005010070176666739, 'n_estimators': 1482, 'min_child_samples': 40, 'subsample': 0.5787753232602044}
 #3차
 #hp = {'num_leaves': 348, 'colsample_bytree': 0.900619801022049, 'reg_alpha': 0.8271994248623358, 'reg_lambda': 5.138851956599097, 'max_depth': 15, 'learning_rate': 0.004766001636474496, 'n_estimators': 2282, 'min_child_samples': 52, 'subsample': 0.46028479657631527}
 #4차
 # hp = {'num_leaves': 478, 'colsample_bytree': 0.9492639648519403, 'reg_alpha': 0.9179981126869732, 'reg_lambda': 8.094244985897125, 'max_depth': 14, 'learning_rate': 0.006737673246556161, 'n_estimators': 1561, 'min_child_samples': 51, 'subsample': 0.42278712603172836}
-lm = LGBMRegressor(**hp)
-lm.fit(trainX,trainY)
-print(lm.feature_importances_)
-print(trainX.columns)
-pred = lm.predict(testX)
-print("점수 ", mean_squared_error(testY,pred,squared=False))
+#5차
+# hp = {'num_leaves': 756, 'colsample_bytree': 0.9917827054696812, 'reg_alpha': 0.08200919219935648, 'reg_lambda': 4.019262655548264, 'max_depth': 12, 'learning_rate': 0.0030562625465867838, 'n_estimators': 2944, 'min_child_samples': 13, 'subsample': 0.8236072752722311}
+# lm = LGBMRegressor(**hp)
+# lm.fit(trainX,trainY)
+# print(lm.feature_importances_)
+# print(trainX.columns)
+# pred = lm.predict(testX)
+# print("점수 ", mean_squared_error(testY,pred,squared=False))
 # print((trainX[numeric.append('TARGET')]).corr())
 # 점수 1차파라미터 2.6227267475546223 - referral_path 이거 안한거
 # 점수 2차파라미터 2.6250732905173737
@@ -328,15 +333,15 @@ print("점수 ", mean_squared_error(testY,pred,squared=False))
 # submission['TARGET'] = pred
 
 
-train_pool = Pool(data = trainX, label=trainY, cat_features=categorical_features)
-test_pool = Pool(data = test, cat_features=categorical_features)
-testY_pool = Pool(data = testX, cat_features=categorical_features)
-cat_model = CatBoostRegressor(random_state=2000)
-cat_model.fit(train_pool)
-print(cat_model.feature_importances_)
-print("점수는 : ",mean_squared_error(testY,cat_model.predict(testY_pool),squared=False))
-cat_predict = cat_model.predict(test_pool)
-submission['TARGET'] = cat_predict
+# train_pool = Pool(data = trainX, label=trainY, cat_features=categorical_features)
+# test_pool = Pool(data = test, cat_features=categorical_features)
+# testY_pool = Pool(data = testX, cat_features=categorical_features)
+# cat_model = CatBoostRegressor(random_state=2000)
+# cat_model.fit(train_pool)
+# print(cat_model.feature_importances_)
+# print("점수는 : ",mean_squared_error(testY,cat_model.predict(testY_pool),squared=False))
+# cat_predict = cat_model.predict(test_pool)
+# submission['TARGET'] = cat_predict
 
 
 #옵튜나
@@ -366,3 +371,4 @@ import datetime
 #### 분포를 확인해보고 로그를 취하거나 / 강조하고싶은 변수에 제곱을 하자
 # 현재까진 catboost (random 2000)으로 파생변수 분당3가지 넣은거와 조회수 합계들 - 2.3485293369289479 -> 2.93468
 # 같은 조건으로 2.33398496 나옴 LGBM 1차 파라미터로
+# 퀄리티지수 추가하고 LGBM 2.3319800399778257  1차 파라미터
