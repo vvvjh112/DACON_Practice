@@ -156,7 +156,6 @@ train['거래확률'] = train['quality'] / train['transaction']
 test['거래확률'] = test['quality'] / test['transaction']
 
 
-
 #데이터 분리
 x = train.drop(['sessionID','userID','TARGET'],axis=1)
 y = train['TARGET']
