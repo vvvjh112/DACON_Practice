@@ -131,11 +131,11 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
     #task_type="GPU",devices='0:1'
     categorical_features = ["browser", "OS", "device", "continent", "subcontinent", "country", "traffic_source",
                             "traffic_medium", "keyword", "referral_path"]
-    train_pool = Pool(data=X_train, label=y_train, cat_features=categorical_features)
-    test_pool = Pool(data=X_valid, label=y_valid, cat_features=categorical_features)
-    bst_cat = model.fit(train_pool, eval_set = test_pool, early_stopping_rounds=100,verbose=False)
+    train_pool1 = Pool(data=X_train, label=y_train, cat_features=categorical_features)
+    test_pool1 = Pool(data=X_valid, label=y_valid, cat_features=categorical_features)
+    bst_cat = model.fit(train_pool1, eval_set = test_pool1, early_stopping_rounds=100,verbose=False)
 
-    preds = bst_cat.predict(test_pool)
+    preds = bst_cat.predict(test_pool1)
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
