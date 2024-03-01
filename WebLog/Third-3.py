@@ -72,7 +72,6 @@ train['퀄리티지수'] = train['quality'] * train['duration']
 test['퀄리티지수'] = test['quality'] * test['duration']
 
 
-
 # train['거래지수'] = train['transaction'] * train['duration']
 # test['거래지수'] = test['transaction'] * test['duration']
 
@@ -135,25 +134,41 @@ test.fillna('-',inplace=True)
 # print(train.isna().sum())
 print(test.isna().sum())
 
+
 from sklearn.model_selection import *
 from sklearn.preprocessing import *
+from category_encoders import TargetEncoder
+
 #인코딩
-# category_cols = train_ft.select_dtypes(include="object").columns.tolist()
-categorical_features = ["browser", "OS", 'new','bounced', "device", "continent", "subcontinent", "country", "traffic_source", "traffic_medium", "keyword", "referral_path"]
-for i in categorical_features:
+train['new'] = train['new'].astype(object)
+train['bounced'] = train['bounced'].astype(object)
+test['new'] = test['new'].astype(object)
+test['bounced'] = test['bounced'].astype(object)
+category_features = train.select_dtypes(include="object").columns.tolist()
+mask = train[category_features].nunique()<=10
+category_enc = train[category_features].nunique().loc[mask].index.tolist()
+target_enc = train[category_features].nunique().loc[-mask].index.tolist()
+
+for i in category_enc:
     # train[i] = LabelEncoder().fit_transform(train[i])
     # test[i] = LabelEncoder().fit_transform(test[i])
     train[i] = train[i].astype('category')
     test[i] = test[i].astype('category')
 
+for i in target_enc:
+    te = TargetEncoder(cols = i)
+    train[i] = te.fit_transform(train[i], train['TARGET'])
+    test[i] = te.transform(test[i])
+
 #합계는 스케일링 하자
 mm = StandardScaler()
 numeric = train.select_dtypes(exclude=["object", "category"]).drop(['TARGET'], axis=1).columns.tolist()
 train[numeric] = mm.fit_transform(train[numeric])
-test[numeric] = mm.fit_transform(test[numeric])
+test[numeric] = mm.transform(test[numeric])
 
 train['거래확률'] = train['quality'] / train['transaction']
 test['거래확률'] = test['quality'] / test['transaction']
+
 
 
 #데이터 분리
@@ -258,3 +273,4 @@ submission.to_csv(title,index=False)
 # 파생변수 transaction * quality 2.3299864
 # 파생변수 거래확률 추가했을 때 1차파라미터로 2.3266463  - 2.92915
 # 분당거래 추가해서 2.3249634 - 2.9247839215
+# 유니크 값 10 초과되는거 타겟인코딩으로 변경 2.303577 - 2.91257
