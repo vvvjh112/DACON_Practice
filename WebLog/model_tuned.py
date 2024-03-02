@@ -55,7 +55,7 @@ def lgbm_modeling(X_train, y_train, X_valid, y_valid):
         'subsample': trial.suggest_loguniform('subsample', 0.4, 1),
     }
 
-    model = LGBMRegressor(**param, random_state=42, n_jobs=-1)
+    model = LGBMRegressor(**param,  n_jobs=-1)
     bst_lgbm = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmse',callbacks=[early_stopping(stopping_rounds=100)])
 
     preds = bst_lgbm.predict(X_valid)
@@ -69,7 +69,7 @@ def lgbm_modeling(X_train, y_train, X_valid, y_valid):
   study_lgbm = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_lgbm.optimize(objective,n_trials=90,show_progress_bar=True)
   print("lgbm 최적 파라미터",study_lgbm.best_params)
-  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, random_state=42, n_jobs=-1)
+  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, n_jobs=-1)
   lgbm_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', callbacks=[early_stopping(stopping_rounds=100)])
 
   return lgbm_reg,study_lgbm
@@ -91,7 +91,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
         'colsample_bylevel': trial.suggest_discrete_uniform('colsample_bylevel', 0.4, 0.9, 0.1),
     }
 
-    model = XGBRegressor(**params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
+    model = XGBRegressor(**params, random_state=2000, n_jobs=-1, objective='reg:squaredlogerror')
     bst_xgb = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], eval_metric='rmse', early_stopping_rounds=100,verbose=False)
 
     preds = bst_xgb.predict(X_valid)
@@ -105,37 +105,32 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
   study_xgb = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
   study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
   print("xgb 최적 파라미터", study_xgb.best_params)
-  xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
+  xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=2000, n_jobs=-1, objective='reg:squaredlogerror')
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', early_stopping_rounds=100,verbose=False)
 
   return xgb_reg, study_xgb
 
-def cat_modeling(X_train, y_train, X_valid, y_valid):
+def cat_modeling(X_train, y_train, X_valid, y_valid,category_lst):
   def objective(trial):
     param = {
         'iterations':trial.suggest_int("iterations", 1000, 20000),
         'od_wait':trial.suggest_int('od_wait', 500, 2300),
         'learning_rate' : trial.suggest_uniform('learning_rate',0.01, 1),
         'reg_lambda': trial.suggest_uniform('reg_lambda',1e-5,100),
-        'subsample': trial.suggest_uniform('subsample',0,1),
+
         'random_strength': trial.suggest_uniform('random_strength',10,50),
         'depth': trial.suggest_int('depth',1, 15),
         'min_data_in_leaf': trial.suggest_int('min_data_in_leaf',1,30),
         'leaf_estimation_iterations': trial.suggest_int('leaf_estimation_iterations',1,15),
         'bagging_temperature' :trial.suggest_loguniform('bagging_temperature', 0.01, 100.00),
-        'colsample_bylevel':trial.suggest_float('colsample_bylevel', 0.4, 1.0),
     }
 
+    model = CatBoostRegressor(**param, random_state=2000,task_type='GPU', cat_features=category_lst)
 
-    model = CatBoostRegressor(**param, random_state=42)
-    #task_type="GPU",devices='0:1'
-    categorical_features = ["browser", "OS", "device", "continent", "subcontinent", "country", "traffic_source",
-                            "traffic_medium", "keyword", "referral_path"]
-    train_pool1 = Pool(data=X_train, label=y_train, cat_features=categorical_features)
-    test_pool1 = Pool(data=X_valid, label=y_valid, cat_features=categorical_features)
-    bst_cat = model.fit(train_pool1, eval_set = test_pool1, early_stopping_rounds=100,verbose=False)
 
-    preds = bst_cat.predict(test_pool1)
+    bst_cat = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
+
+    preds = bst_cat.predict(X_valid)
     if (preds<0).sum()>0:
       print('negative')
       preds = np.where(preds>0,preds,0)
@@ -146,8 +141,9 @@ def cat_modeling(X_train, y_train, X_valid, y_valid):
   study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_cat.optimize(objective,n_trials=30,show_progress_bar=True)
   print("cat 최적 파라미터 : ",study_cat.best_params)
-  cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=42)
-  cat_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
+  cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=2000,task_type='GPU',cat_features=category_lst)
+
+  cat_reg.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
 
   return cat_reg,study_cat
 

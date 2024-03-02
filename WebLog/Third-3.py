@@ -1,6 +1,11 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from tqdm.auto import tqdm
+import joblib
+import torch
+import random
 
 # sessionID : 세션 ID
 # userID : 사용자 ID
@@ -26,14 +31,14 @@ import seaborn as sns
 
 
 #plt 한글출력
-# plt.rcParams['font.family'] ='Malgun Gothic'
-# plt.rcParams['axes.unicode_minus'] =False
+plt.rcParams['font.family'] ='Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] =False
 
 # 한글 폰트 경로 지정
 font_path = '/Library/Fonts/AppleGothic.ttf'  # 예시로 AppleGothic 폰트 사용
 
 # 한글 폰트 설정
-plt.rcParams['font.family'] = 'AppleGothic'
+# plt.rcParams['font.family'] = 'AppleGothic'
 
 # row 생략 없이 출력
 pd.set_option('display.max_rows', None)
@@ -193,68 +198,119 @@ import model_tuned as mt
 
 #LGBM
 # 옵튜나
-# lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
+# lgbm.fit(trainX,trainY)
+print(lgbm.feature_importances_)
+pred = lgbm.predict(testX)
+print("점수 ", mean_squared_error(testY,pred,squared=False))
+best_params = lgbm_study.best_params
+print("최적 하이퍼파라미터:", best_params)
+
 #1차
 hp = {'num_leaves': 343, 'colsample_bytree': 0.8799056412183298, 'reg_alpha': 0.9188535423836559, 'reg_lambda': 0.5661962662592113, 'max_depth': 13, 'learning_rate': 0.0022962143663780715, 'n_estimators': 2574, 'min_child_samples': 38, 'subsample': 0.9721091518154885}
-#2차
-# hp = {'num_leaves': 404, 'colsample_bytree': 0.9377495335743863, 'reg_alpha': 0.6142721774372236, 'reg_lambda': 8.3820609781652, 'max_depth': 15, 'learning_rate': 0.005010070176666739, 'n_estimators': 1482, 'min_child_samples': 40, 'subsample': 0.5787753232602044}
-#3차
-#hp = {'num_leaves': 348, 'colsample_bytree': 0.900619801022049, 'reg_alpha': 0.8271994248623358, 'reg_lambda': 5.138851956599097, 'max_depth': 15, 'learning_rate': 0.004766001636474496, 'n_estimators': 2282, 'min_child_samples': 52, 'subsample': 0.46028479657631527}
-#4차
-# hp = {'num_leaves': 478, 'colsample_bytree': 0.9492639648519403, 'reg_alpha': 0.9179981126869732, 'reg_lambda': 8.094244985897125, 'max_depth': 14, 'learning_rate': 0.006737673246556161, 'n_estimators': 1561, 'min_child_samples': 51, 'subsample': 0.42278712603172836}
-#5차
-# hp = {'num_leaves': 756, 'colsample_bytree': 0.9917827054696812, 'reg_alpha': 0.08200919219935648, 'reg_lambda': 4.019262655548264, 'max_depth': 12, 'learning_rate': 0.0030562625465867838, 'n_estimators': 2944, 'min_child_samples': 13, 'subsample': 0.8236072752722311}
-lm = LGBMRegressor(**hp)
-lm.fit(trainX,trainY)
-print(lm.feature_importances_)
-print(trainX.columns)
-pred = lm.predict(testX)
-print("점수 ", mean_squared_error(testY,pred,squared=False))
-# print((trainX[numeric.append('TARGET')]).corr())
-# 점수 1차파라미터 2.6227267475546223 - referral_path 이거 안한거
-# 점수 2차파라미터 2.6250732905173737
-# 점수 3차파라미터 2.6243851304787915
-# 점수 4차파라미터 2.629485088623766
-
-# lgbm.fit(trainX,trainY)
-# print(lgbm.feature_importances_)
-# pred = lgbm.predict(testX)
+# lm = LGBMRegressor(**hp)
+# lm.fit(trainX,trainY)
+# print(lm.feature_importances_)
+# print(trainX.columns)
+# pred = lm.predict(testX)
 # print("점수 ", mean_squared_error(testY,pred,squared=False))
-# best_params = lgbm_study.best_params
-# print("최적 하이퍼파라미터:", best_params)
+# print((trainX[numeric.append('TARGET')]).corr())
+
+# pred = lm.predict(test)
+# submission['TARGET'] = pred
+
+#Cat
+# cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY,category_enc)
+# cat.save_model('cat_optuna.bin')
+chp = {'iterations': 17324, 'od_wait': 1638, 'learning_rate': 0.11197043807190474, 'reg_lambda': 76.4152624339764, 'random_strength': 26.281635365200945, 'depth': 13, 'min_data_in_leaf': 20, 'leaf_estimation_iterations': 3, 'bagging_temperature': 1.0080089583639982}
+# iterations 12384
+# cat = CatBoostRegressor(**chp)
+# cat.fit(train_pool)
+# cat.save_model('cat.bin')
+# cat = CatBoostRegressor().load_model('cat.bin')
 
 
-pred = lm.predict(test)
-submission['TARGET'] = pred
+# print("점수는 : ",mean_squared_error(testY,cat.predict(testX),squared=False))
+# 2.3203520016255856
+# print("베스트 파라미터~!~",cat_study.best_params)
+# cat_pred = cat.predict(test)
+
+# submission['TARGET'] = cat_pred
+
+import os
+# 모델 저장할 폴더 생성
+cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=2000)
+lgbm_scores = []
+for i, (tri , vai) in tqdm(enumerate(cv.split(x, y)), total=10):
+    x_train = x.iloc[tri]
+    y_train = y.iloc[tri]
+
+    x_valid = x.iloc[vai]
+    y_valid = y.iloc[vai]
+
+    lgbm_model = LGBMRegressor(**hp, objective='rmse', metric='rmse', verbosity=-1, n_jobs=-1)
+    lgbm_model.fit(x_train, y_train)
+
+    pred = lgbm_model.predict(x_valid)
+    score = mean_squared_error(y_valid,pred,squared=False)
+    lgbm_scores.append(score)
+    # 모델 저장
+    joblib.dump(lgbm_model, f"model/lgbm_model/{i}_lgbm_model.pkl")
 
 
-# train_pool = Pool(data = trainX, label=trainY, cat_features=categorical_features)
-# test_pool = Pool(data = test, cat_features=categorical_features)
-# testY_pool = Pool(data = testX, cat_features=categorical_features)
-# cat_model = CatBoostRegressor(random_state=2000)
-# cat_model.fit(train_pool)
-# print(cat_model.feature_importances_)
-# print("점수는 : ",mean_squared_error(testY,cat_model.predict(testY_pool),squared=False))
-# cat_predict = cat_model.predict(test_pool)
-# submission['TARGET'] = cat_predict
+lgbm_pred_list = []
+for i in range(10):
+    model = joblib.load(f"model/lgbm_model/{i}_lgbm_model.pkl")
+    pred = model.predict(testX)
+    print(mean_squared_error(testY,pred,squared=False))
+    pred = model.predict(test)
+    lgbm_pred_list.append(pred)
+    submission[str(i)] = pred
+    print(i)
+
+for i in range(10):
+    submission['TARGET'] =submission['TARGET']+submission[str(i)]
+submission['TARGET'] = submission['TARGET']/10
+submission = submission[['sessionID','TARGET']]
 
 
-#옵튜나
-# cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY)
-# cat_predict = cat.predict(test_pool)
-# submission['TARGET'] = cat_predict
+#cat
+# cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=2000)
+# cat_scores = []
+# for i, (tri , vai) in tqdm(enumerate(cv.split(x, y)), total=10):
+#     x_train = x.iloc[tri]
+#     y_train = y.iloc[tri]
+#
+#     x_valid = x.iloc[vai]
+#     y_valid = y.iloc[vai]
+#     chp = {'od_wait': 1638, 'learning_rate': 0.11197043807190474, 'reg_lambda': 76.4152624339764, 'random_strength': 26.281635365200945,
+#            'depth': 13, 'min_data_in_leaf': 20, 'leaf_estimation_iterations': 3, 'bagging_temperature': 1.0080089583639982}
+#     cat_model = CatBoostRegressor(**chp,random_state= 2000,eval_metric='RMSE', cat_features=category_enc,task_type='GPU')
+#     cat_model.fit(x_train, y_train)
+#
+#     pred = cat_model.predict(x_valid)
+#     score = mean_squared_error(y_valid,pred,squared=False)
+#     cat_scores.append(score)
+#     # 모델 저장
+#     joblib.dump(cat_model, f"model/cat_model/{i}_cat_model.pkl")
+#
+# cat_pred_list = []
+# for i in range(10):
+#     model = joblib.load(f"model/cat_model/{i}_cat_model.pkl")
+#     pred = model.predict(testX)
+#     print(mean_squared_error(testY,pred,squared=False))
+#     pred = model.predict(test)
+#     cat_pred_list.append(pred)
+#     submission[str(i)] = pred
+#     print(i)
+#
+# for i in range(10):
+#     submission['TARGET'] =submission['TARGET']+submission[str(i)]
+# submission['TARGET'] = submission['TARGET']/10
+# submission = submission[['sessionID','TARGET']]
 
-# 1차 최적화 'iterations': 5971, 'od_wait': 1305, 'learning_rate': 0.10223435608939285, 'reg_lambda': 58.80594893120358, 'subsample': 0.6930612709955952, 'random_strength': 17.7639310763122, 'depth': 8, 'min_data_in_leaf': 11, 'leaf_estimation_iterations': 5, 'bagging_temperature': 0.23513945991239923, 'colsample_bylevel': 0.7079422421178576
-# param = {'iterations': 8769, 'od_wait': 501, 'learning_rate': 0.10526607776351413, 'reg_lambda': 14.1751878095561, 'subsample': 0.4300999921535704, 'random_strength': 49.66986335012443, 'depth': 10, 'min_data_in_leaf': 21, 'leaf_estimation_iterations': 14, 'bagging_temperature': 34.49049196510442, 'colsample_bylevel': 0.6744327714737617}
-# cm = CatBoostRegressor(**param)
-# cm.fit(train_pool)
-# pred = cm.predict(testY_pool)
-# print("Cat 점수 : ",mean_squared_error(testY,pred,squared=False))
-# Cat 점수 :  2.800969683434413
-# cat_pre = cm.predict(test_pool)
-# submission['TARGET'] = cat_pre
 
 
 #TARGET값 0보다 작은거 0으로 보정하기
@@ -274,3 +330,9 @@ submission.to_csv(title,index=False)
 # 파생변수 거래확률 추가했을 때 1차파라미터로 2.3266463  - 2.92915
 # 분당거래 추가해서 2.3249634 - 2.9247839215
 # 유니크 값 10 초과되는거 타겟인코딩으로 변경 2.303577 - 2.91257
+# kfold 적용하고 점수 미세하게 올라감 2.91196 -> random_state 안준거
+# 2.054163016161751
+# 0
+# 2.032664352344181
+# 1
+
