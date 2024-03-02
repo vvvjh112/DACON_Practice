@@ -336,3 +336,6 @@ submission.to_csv(title,index=False)
 # 2.032664352344181
 # 1
 
+
+# 일요일에 {'num_leaves': 355, 'colsample_bytree': 0.8474389094719293, 'reg_alpha': 0.7592006668666332, 'reg_lambda': 7.225166341237797, 'max_depth': 12, 'learning_rate': 0.003945880517624002, 'n_estimators': 1417, 'min_child_samples': 28, 'subsample': 0.6070270926393032}
+# 3_2_20_58 이거로 제출 해보고 안되면 앙상블 0.5씩 곱해서
