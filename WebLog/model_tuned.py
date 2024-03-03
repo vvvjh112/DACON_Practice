@@ -113,7 +113,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
 def cat_modeling(X_train, y_train, X_valid, y_valid,category_lst):
   def objective(trial):
     param = {
-        'iterations':trial.suggest_int("iterations", 1000, 20000),
+        # 'iterations':trial.suggest_int("iterations", 1000, 20000),
         'od_wait':trial.suggest_int('od_wait', 500, 2300),
         'learning_rate' : trial.suggest_uniform('learning_rate',0.01, 1),
         'reg_lambda': trial.suggest_uniform('reg_lambda',1e-5,100),

@@ -198,18 +198,19 @@ import model_tuned as mt
 
 #LGBM
 # 옵튜나
-lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+# lgbm , lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # lgbm_predict = lgbm.predict(test)
 # submission['TARGET'] = lgbm_predict
 # lgbm.fit(trainX,trainY)
-print(lgbm.feature_importances_)
-pred = lgbm.predict(testX)
-print("점수 ", mean_squared_error(testY,pred,squared=False))
-best_params = lgbm_study.best_params
-print("최적 하이퍼파라미터:", best_params)
+# print(lgbm.feature_importances_)
+# pred = lgbm.predict(testX)
+# print("점수 ", mean_squared_error(testY,pred,squared=False))
+# best_params = lgbm_study.best_params
+# print("최적 하이퍼파라미터:", best_params)
 
 #1차
-hp = {'num_leaves': 343, 'colsample_bytree': 0.8799056412183298, 'reg_alpha': 0.9188535423836559, 'reg_lambda': 0.5661962662592113, 'max_depth': 13, 'learning_rate': 0.0022962143663780715, 'n_estimators': 2574, 'min_child_samples': 38, 'subsample': 0.9721091518154885}
+# hp = {'num_leaves': 343, 'colsample_bytree': 0.8799056412183298, 'reg_alpha': 0.9188535423836559, 'reg_lambda': 0.5661962662592113, 'max_depth': 13, 'learning_rate': 0.0022962143663780715, 'n_estimators': 2574, 'min_child_samples': 38, 'subsample': 0.9721091518154885}
+hp = {'num_leaves': 355, 'colsample_bytree': 0.8474389094719293, 'reg_alpha': 0.7592006668666332, 'reg_lambda': 7.225166341237797, 'max_depth': 12, 'learning_rate': 0.003945880517624002, 'n_estimators': 1417, 'min_child_samples': 28, 'subsample': 0.6070270926393032}
 # lm = LGBMRegressor(**hp)
 # lm.fit(trainX,trainY)
 # print(lm.feature_importances_)
@@ -224,7 +225,7 @@ hp = {'num_leaves': 343, 'colsample_bytree': 0.8799056412183298, 'reg_alpha': 0.
 #Cat
 # cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY,category_enc)
 # cat.save_model('cat_optuna.bin')
-chp = {'iterations': 17324, 'od_wait': 1638, 'learning_rate': 0.11197043807190474, 'reg_lambda': 76.4152624339764, 'random_strength': 26.281635365200945, 'depth': 13, 'min_data_in_leaf': 20, 'leaf_estimation_iterations': 3, 'bagging_temperature': 1.0080089583639982}
+# chp = {'iterations': 17324, 'od_wait': 1638, 'learning_rate': 0.11197043807190474, 'reg_lambda': 76.4152624339764, 'random_strength': 26.281635365200945, 'depth': 13, 'min_data_in_leaf': 20, 'leaf_estimation_iterations': 3, 'bagging_temperature': 1.0080089583639982}
 # iterations 12384
 # cat = CatBoostRegressor(**chp)
 # cat.fit(train_pool)
@@ -241,39 +242,41 @@ chp = {'iterations': 17324, 'od_wait': 1638, 'learning_rate': 0.1119704380719047
 
 import os
 # 모델 저장할 폴더 생성
-cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=2000)
-lgbm_scores = []
-for i, (tri , vai) in tqdm(enumerate(cv.split(x, y)), total=10):
-    x_train = x.iloc[tri]
-    y_train = y.iloc[tri]
-
-    x_valid = x.iloc[vai]
-    y_valid = y.iloc[vai]
-
-    lgbm_model = LGBMRegressor(**hp, objective='rmse', metric='rmse', verbosity=-1, n_jobs=-1)
-    lgbm_model.fit(x_train, y_train)
-
-    pred = lgbm_model.predict(x_valid)
-    score = mean_squared_error(y_valid,pred,squared=False)
-    lgbm_scores.append(score)
-    # 모델 저장
-    joblib.dump(lgbm_model, f"model/lgbm_model/{i}_lgbm_model.pkl")
-
-
+# cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=2000)
+# lgbm_scores = []
+# for i, (tri , vai) in tqdm(enumerate(cv.split(x, y)), total=10):
+#     x_train = x.iloc[tri]
+#     y_train = y.iloc[tri]
+#
+#     x_valid = x.iloc[vai]
+#     y_valid = y.iloc[vai]
+#
+#     lgbm_model = LGBMRegressor(**hp, objective='rmse', metric='rmse', verbosity=-1, n_jobs=-1)
+#     lgbm_model.fit(x_train, y_train)
+#
+#     pred = lgbm_model.predict(x_valid)
+#     score = mean_squared_error(y_valid,pred,squared=False)
+#     lgbm_scores.append(score)
+#     # 모델 저장
+#     joblib.dump(lgbm_model, f"model/lgbm_model/{i}_lgbm_model.pkl")
+#
+#
 lgbm_pred_list = []
+lgbm_score_list = []
 for i in range(10):
     model = joblib.load(f"model/lgbm_model/{i}_lgbm_model.pkl")
     pred = model.predict(testX)
-    print(mean_squared_error(testY,pred,squared=False))
+    lgbm_score_list.append(mean_squared_error(testY,pred,squared=False))
     pred = model.predict(test)
     lgbm_pred_list.append(pred)
-    submission[str(i)] = pred
-    print(i)
+    submission['lgbm'+str(i)] = pred
 
-for i in range(10):
-    submission['TARGET'] =submission['TARGET']+submission[str(i)]
-submission['TARGET'] = submission['TARGET']/10
-submission = submission[['sessionID','TARGET']]
+print("LGBM pred 리스트 : ", lgbm_score_list)
+
+# for i in range(10):
+#    submission['TARGET1'] =submission['TARGET1']+submission['lgbm'+str(i)]
+# submission['TARGET1'] = submission['TARGET1']/10
+# submission = submission[['sessionID','TARGET']]
 
 
 #cat
@@ -285,38 +288,54 @@ submission = submission[['sessionID','TARGET']]
 #
 #     x_valid = x.iloc[vai]
 #     y_valid = y.iloc[vai]
-#     chp = {'od_wait': 1638, 'learning_rate': 0.11197043807190474, 'reg_lambda': 76.4152624339764, 'random_strength': 26.281635365200945,
-#            'depth': 13, 'min_data_in_leaf': 20, 'leaf_estimation_iterations': 3, 'bagging_temperature': 1.0080089583639982}
+#     chp = {'od_wait': 1968, 'learning_rate': 0.1434520185514101, 'reg_lambda': 38.281084288725815, 'random_strength': 12.867710796532581,
+#     'depth': 12, 'min_data_in_leaf': 24,
+#     'leaf_estimation_iterations': 7, 'bagging_temperature': 0.45930339623048033}
 #     cat_model = CatBoostRegressor(**chp,random_state= 2000,eval_metric='RMSE', cat_features=category_enc,task_type='GPU')
 #     cat_model.fit(x_train, y_train)
-#
+#     # 2.337508400777979
 #     pred = cat_model.predict(x_valid)
 #     score = mean_squared_error(y_valid,pred,squared=False)
 #     cat_scores.append(score)
 #     # 모델 저장
 #     joblib.dump(cat_model, f"model/cat_model/{i}_cat_model.pkl")
-#
-# cat_pred_list = []
-# for i in range(10):
-#     model = joblib.load(f"model/cat_model/{i}_cat_model.pkl")
-#     pred = model.predict(testX)
-#     print(mean_squared_error(testY,pred,squared=False))
-#     pred = model.predict(test)
-#     cat_pred_list.append(pred)
-#     submission[str(i)] = pred
-#     print(i)
+
+cat_pred_list = []
+cat_score_list = []
+for i in range(10):
+    model = joblib.load(f"model/cat_model/{i}_cat_model.pkl")
+    pred = model.predict(testX)
+    cat_score_list.append(mean_squared_error(testY,pred,squared=False))
+    pred = model.predict(test)
+    cat_pred_list.append(pred)
+    submission['cat'+str(i)] = pred
+
+print("cat pred 리스트 : ",cat_score_list)
 #
 # for i in range(10):
 #     submission['TARGET'] =submission['TARGET']+submission[str(i)]
 # submission['TARGET'] = submission['TARGET']/10
 # submission = submission[['sessionID','TARGET']]
 
+print(submission.head(5))
+submission['TARGET1'] = 0
+submission['TARGET2'] = 0
+#앙상블
+for i in range(10):
+    submission['TARGET1'] = submission['TARGET1']+submission['cat'+str(i)]
+    submission['TARGET2'] = submission['TARGET2'] + submission['lgbm' + str(i)]
+
+submission['TARGET1'] = submission['TARGET1']/10
+submission['TARGET2'] = submission['TARGET2']/10
+submission['TARGET'] = submission['TARGET1']*0.3 + submission['TARGET2']*0.7
+submission = submission[['sessionID','TARGET']]
 
 
 #TARGET값 0보다 작은거 0으로 보정하기
 import datetime
-title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 # title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+title = 'ENSEMBLE'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
 submission.to_csv(title,index=False)
 
@@ -338,4 +357,5 @@ submission.to_csv(title,index=False)
 
 
 # 일요일에 {'num_leaves': 355, 'colsample_bytree': 0.8474389094719293, 'reg_alpha': 0.7592006668666332, 'reg_lambda': 7.225166341237797, 'max_depth': 12, 'learning_rate': 0.003945880517624002, 'n_estimators': 1417, 'min_child_samples': 28, 'subsample': 0.6070270926393032}
-# 3_2_20_58 이거로 제출 해보고 안되면 앙상블 0.5씩 곱해서
+# 3_2_20_58 이거로 제출 해보고 안되면 앙상블 0.5씩 곱해서 -> 2.9090 ---- LGBM 저 파라미터로 10fold random 안줌
+# 10폴드 앙상블 cat(randomstate 2000) * 0.3 + lgbm * 0.7 - 2.88769
