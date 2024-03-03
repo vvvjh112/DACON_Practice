@@ -264,7 +264,7 @@ import os
 lgbm_pred_list = []
 lgbm_score_list = []
 for i in range(10):
-    model = joblib.load(f"model/lgbm_model/{i}_lgbm_model.pkl")
+    model = joblib.load(f"model/lgbm_model/best/{i}_lgbm_model.pkl")
     pred = model.predict(testX)
     lgbm_score_list.append(mean_squared_error(testY,pred,squared=False))
     pred = model.predict(test)
@@ -303,7 +303,7 @@ print("LGBM pred 리스트 : ", lgbm_score_list)
 cat_pred_list = []
 cat_score_list = []
 for i in range(10):
-    model = joblib.load(f"model/cat_model/{i}_cat_model.pkl")
+    model = joblib.load(f"model/cat_model/best/{i}_cat_model.pkl")
     pred = model.predict(testX)
     cat_score_list.append(mean_squared_error(testY,pred,squared=False))
     pred = model.predict(test)
@@ -317,7 +317,7 @@ print("cat pred 리스트 : ",cat_score_list)
 # submission['TARGET'] = submission['TARGET']/10
 # submission = submission[['sessionID','TARGET']]
 
-print(submission.head(5))
+# print(submission.head(5))
 submission['TARGET1'] = 0
 submission['TARGET2'] = 0
 #앙상블
@@ -327,7 +327,7 @@ for i in range(10):
 
 submission['TARGET1'] = submission['TARGET1']/10
 submission['TARGET2'] = submission['TARGET2']/10
-submission['TARGET'] = submission['TARGET1']*0.3 + submission['TARGET2']*0.7
+submission['TARGET'] = submission['TARGET1']*0.5 + submission['TARGET2']*0.5
 submission = submission[['sessionID','TARGET']]
 
 
@@ -359,3 +359,12 @@ submission.to_csv(title,index=False)
 # 일요일에 {'num_leaves': 355, 'colsample_bytree': 0.8474389094719293, 'reg_alpha': 0.7592006668666332, 'reg_lambda': 7.225166341237797, 'max_depth': 12, 'learning_rate': 0.003945880517624002, 'n_estimators': 1417, 'min_child_samples': 28, 'subsample': 0.6070270926393032}
 # 3_2_20_58 이거로 제출 해보고 안되면 앙상블 0.5씩 곱해서 -> 2.9090 ---- LGBM 저 파라미터로 10fold random 안줌
 # 10폴드 앙상블 cat(randomstate 2000) * 0.3 + lgbm * 0.7 - 2.88769
+# 10폴드 앙상블 cat(randomstate 2000) * 0.5 + lgbm * 0.5 - 2.88287
+
+# 거래지수 추가한거
+# LGBM pred 리스트 :  [2.0582841553150115, 2.0474506439635443, 2.0554619230734743, 2.0737051592670426, 2.067120451937934, 2.05349359475045, 2.0647940860115495, 2.0604713449347836, 2.0542843824840964, 2.055631298823072]
+# cat pred 리스트 :  [1.724911391120229, 1.6274775553243577, 1.6361485706635073, 1.695098060623455, 1.6817830938334575, 1.6349693170089903, 1.6655808747324166, 1.640391710877164, 1.6697469291043257, 1.627725729717484]
+
+# 거래지수 추가 안한거
+# LGBM pred 리스트 :  [2.0583462705387308, 2.0445648587698835, 2.050186533331076, 2.074643395682001, 2.0670479172523026, 2.0532032131989006, 2.067437046106775, 2.058081177740565, 2.0555337486251783, 2.0580238149671066]
+# cat pred 리스트 :  [1.6982026171470224, 1.6275310143238024, 1.6272505218106543, 1.6808082065930543, 1.6941476340618242, 1.6221042280099807, 1.6496311222020559, 1.6328456953697037, 1.6738964325869656, 1.6220761641524304]
