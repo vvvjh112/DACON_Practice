@@ -52,14 +52,6 @@ submission = pd.read_csv('Data/sample_submission.csv')
 
 print(train.info())
 
-# 사용된 브라우저별 총 거래 수익 - 완료
-# 브라우저별 평균 거래
-# 국가별 총 거래 수익 및 거래 수
-# 브라우저별 이탈율
-# 디바이스별
-# OS별
-# test셋어 없는 데이터들 제외
-# 전체 데이터셋의 세션유지시간 비율
 
 #파생변수
 train['분당수익'] = train['transaction_revenue'] / (train['duration'].replace(0, 1) / 60)
@@ -74,55 +66,6 @@ test['평균거래액'] = test['transaction_revenue'] / test['transaction'].repl
 train['퀄리티지수'] = train['quality'] * train['duration']
 test['퀄리티지수'] = test['quality'] * test['duration']
 
-#시각화 이전 그룹화
-# 키워드 비율 브라우저 비율
-
-group_os = train.groupby(['OS']).mean('TARGET')
-
-group_browser = train.groupby(['browser']).mean('TARGET')[['TARGET']].reset_index('browser')
-group_browser = group_browser[~group_browser['browser'].str.startswith(';__CT_JOB_ID__:')]
-
-group_device = train.groupby(['device']).mean('TARGET')
-
-group_new = train.groupby(['new']).mean('TARGET')
-
-group_bounced = train.groupby(['bounced']).mean('TARGET')
-
-group_country = train.groupby(['country']).mean('TARGET')
-
-group_source = train.groupby(['traffic_source']).mean('TARGET')
-
-plt.title('OS별 평균 조회수')
-plt.xticks(fontsize = 7, rotation = 45, ha = 'right')
-sns.lineplot(x=group_os.index, y= 'TARGET', data=group_os, marker = 'o')
-# plt.show()
-
-plt.title('브라우저별 평균 조회수')
-plt.xticks(fontsize = 7, rotation = 45, ha = 'right')
-sns.lineplot(x='browser', y='TARGET', data=group_browser, marker='o')
-# plt.show()
-
-plt.title('디바이스별 평균 조회수')
-sns.lineplot(x=group_device.index, y= 'TARGET', data=group_device, marker = 'o')
-# plt.show()
-
-plt.title('신규여부별 평균 조회수')
-sns.barplot(x=group_new.index, y= 'TARGET', data=group_new)
-# plt.show()
-
-plt.title('이탈여부별 평균 조회수')
-sns.barplot(x=group_bounced.index, y= 'TARGET', data=group_bounced)
-# plt.show()
-
-plt.title('나라별 평균 조회수')
-plt.xticks(fontsize = 7, rotation = 45, ha = 'right')
-sns.lineplot(x=group_country.index, y= 'TARGET', data=group_country, marker = 'o')
-# plt.show()
-
-plt.title('소스별 평균 조회수')
-plt.xticks(fontsize = 7, rotation = 45, ha = 'right')
-sns.lineplot(x=group_source.index, y= 'TARGET', data=group_source, marker = 'o')
-# plt.show()
 
 #결측값
 train.fillna('-',inplace=True)
@@ -140,14 +83,13 @@ train['new'] = train['new'].astype(object)
 train['bounced'] = train['bounced'].astype(object)
 test['new'] = test['new'].astype(object)
 test['bounced'] = test['bounced'].astype(object)
+
 category_features = train.select_dtypes(include="object").columns.tolist()
 mask = train[category_features].nunique()<=10
 category_enc = train[category_features].nunique().loc[mask].index.tolist()
 target_enc = train[category_features].nunique().loc[-mask].index.tolist()
 
 for i in category_enc:
-    # train[i] = LabelEncoder().fit_transform(train[i])
-    # test[i] = LabelEncoder().fit_transform(test[i])
     train[i] = train[i].astype('category')
     test[i] = test[i].astype('category')
 
@@ -162,6 +104,7 @@ numeric = train.select_dtypes(exclude=["object", "category"]).drop(['TARGET'], a
 train[numeric] = mm.fit_transform(train[numeric])
 test[numeric] = mm.transform(test[numeric])
 
+# 숫자가 커서 스케일링 후 파생변수 생성
 train['거래확률'] = train['quality'] / train['transaction']
 test['거래확률'] = test['quality'] / test['transaction']
 
@@ -285,8 +228,6 @@ submission = submission[['sessionID','TARGET']]
 
 #TARGET값 0보다 작은거 0으로 보정하기
 import datetime
-# title = 'LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# title = 'CAT'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 title = 'ENSEMBLE'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.loc[submission['TARGET'] < 0.0, 'TARGET'] = 0.0
 submission.to_csv(title,index=False)
