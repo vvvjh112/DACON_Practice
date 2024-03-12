@@ -18,12 +18,13 @@ train = pd.read_csv('dataset/train.csv').drop('ID',axis = 1)
 test = pd.read_csv('dataset/test.csv').drop('ID',axis = 1)
 submission = pd.read_csv('dataset/sample_submission.csv')
 
+test = test.fillna('Child 18+ never marr Not in a subfamily')
 print(train.isna().sum())
 print(test.isna().sum())
 # 0 1
 
 # 비슷한 조건에서 train 데이터셋에 해당 값이 빈도 수가 제일 많음
-test = test.fillna('Child 18+ never marr Not in a subfamily')
+
 
 
 train = train.loc[train['Gains'] < 99999]
@@ -35,8 +36,21 @@ standardscale_columns = [x for x in numeric_columns if x not in logscale_columns
 
 #스케일링
 train[logscale_columns] = np.log1p(train[logscale_columns])
-test[logscale_columns] = np.log1p(test[logscale_columns])
+test[['Gains', 'Losses', 'Dividends']] = np.log1p(test[['Gains', 'Losses', 'Dividends']])
 
 ss = StandardScaler()
 train[standardscale_columns] = ss.fit_transform(train[standardscale_columns])
 test[standardscale_columns] = ss.transform(test[standardscale_columns])
+
+#인코딩
+le = LabelEncoder()
+te = TargetEncoder()
+
+
+#파생변수
+#부모가 출생지가 같음
+train['Same_Country'] = train.apply(lambda x: 1 if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 0, axis=1)
+test['Same_Country'] = test.apply(lambda x: 1 if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 0, axis=1)
+
+
+#예측하고 exp1 해줘야함!!!!!!!!!!
