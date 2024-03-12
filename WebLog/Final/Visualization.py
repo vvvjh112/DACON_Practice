@@ -43,6 +43,7 @@ print(train.info())
 numeric_columns = train.select_dtypes(include=['int64', 'float64']).columns
 category_columns = train.select_dtypes(exclude=['int64', 'float64']).columns
 
+
 #상관계수 (수치)
 # 'TARGET'과 다른 수치형 열 간의 상관 계수 계산
 correlation_with_target = train[numeric_columns].corr()['TARGET'].drop('TARGET')
