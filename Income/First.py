@@ -10,6 +10,7 @@ from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor, early_stopping
 from catboost import CatBoostRegressor
 from category_encoders import TargetEncoder
+from sklearn.ensemble import VotingRegressor
 
 RANDOM_SEED = 42
 os.environ['PYTHONHASHSEED'] = str(RANDOM_SEED)
@@ -100,6 +101,9 @@ trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2,random_state=R
 # submission['Income'] = pred
 #
 # print(mean_squared_error(testY,cat.predict(testX),squared=False))
+cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
+#581.45770
+
 
 # lgbm, lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
 # print(lgbm.feature_importances_)
@@ -117,38 +121,40 @@ lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_al
 # lgbm.fit(trainX,trainY)
 # pred = lgbm.predict(test)
 
-kf = KFold(n_splits=5)
-models = []
+
+# kf = KFold(n_splits=5)
+# models = []
+# #
+# #
+# for train_index, test_index in kf.split(x):
+#     # model = LGBMRegressor(random_state=RANDOM_SEED, **lgbm_param, verbose = -1)
+#     model = VotingRegressor(estimators=[('lgbm',LGBMRegressor(random_state=RANDOM_SEED,**lgbm_param)), ('catboost',CatBoostRegressor(random_state=RANDOM_SEED,**cat_param,cat_features=list(category_columns)))])
+#     ktrainX, ktrainY = x.iloc[train_index], y.iloc[train_index]
+#     ktestX, ktestY = x.iloc[test_index], y.iloc[test_index]
+#     model.fit(ktrainX, ktrainY)
+#     models.append(model)
+#
+# pred_list = []
+# score_list = []
+# for model in models:
+#     pred_list.append(model.predict(test))
+#     score_list.append(model.predict(testX))
+#
+# pred = np.mean(pred_list, axis=0)
+# score = np.mean(score_list, axis = 0)
+# print("평균 점수 : ", mean_squared_error(testY, score,squared=False))
+#
+# test['Income'] = pred
+# test['Age'] = test_age
+# test.loc[(test['Education_Status'] == 'children') | (test['Age'] <= 14) | (test['Employment_Status'] == 'not working'), 'Income'] = 0
+# submission['Income'] = test['Income']
+# title = 'Voting_CAT+LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+# submission.loc[submission['Income'] < 0.0, 'Income'] = 0.0
+# submission.to_csv(title,index=False)
 
 
-for train_index, test_index in kf.split(x):
-    model = LGBMRegressor(random_state=RANDOM_SEED, **lgbm_param, verbose = -1)
-    ktrainX, ktrainY = x.iloc[train_index], y.iloc[train_index]
-    ktestX, ktestY = x.iloc[test_index], y.iloc[test_index]
-    model.fit(ktrainX, ktrainY)
-    models.append(model)
 
-pred_list = []
-score_list = []
-for model in models:
-    pred_list.append(model.predict(test))
-    score_list.append(model.predict(testX))
-
-pred = np.mean(pred_list, axis=0)
-score = np.mean(score_list, axis = 0)
-print("평균 점수 : ", mean_squared_error(testY, score,squared=False))
-
-test['Income'] = pred
-test['Age'] = test_age
-test.loc[(test['Education_Status'] == 'children') | (test['Age'] <= 14) | (test['Employment_Status'] == 'not working'), 'Income'] = 0
-submission['Income'] = test['Income']
-title = 'LGBM_5Fold'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-submission.loc[submission['Income'] < 0.0, 'Income'] = 0.0
-submission.to_csv(title,index=False)
-
-
-
-# lgbm , br (베이지안회귀)
+# lgbm , cat
 
 
 
@@ -161,3 +167,9 @@ submission.to_csv(title,index=False)
 #5Fold 적용해서
 #lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #랜덤42로 평균 522.2806 -> 539.11004
+
+
+#5Fold Cat+LGBM VotingRegressor
+#cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
+#lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
+# 537.8688 -> 537.93272

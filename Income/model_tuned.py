@@ -71,7 +71,7 @@ def lgbm_modeling(X_train, y_train, X_valid, y_valid):
   study_lgbm = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_lgbm.optimize(objective,n_trials=120,show_progress_bar=True)
   print("lgbm 최적 파라미터",study_lgbm.best_params)
-  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, n_jobs=-1,random_state=42)
+  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, n_jobs=-1)
   lgbm_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', callbacks=[early_stopping(stopping_rounds=100)])
 
   return lgbm_reg,study_lgbm
@@ -91,6 +91,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
         'subsample': trial.suggest_discrete_uniform('subsample', 0.3, 1, 0.1),
         'colsample_bytree': trial.suggest_discrete_uniform('colsample_bytree', 0.4, 0.9, 0.1),
         'colsample_bylevel': trial.suggest_discrete_uniform('colsample_bylevel', 0.4, 0.9, 0.1),
+        'random_state' : 42
     }
 
     model = XGBRegressor(**params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
@@ -130,6 +131,7 @@ def cat_modeling(X_train, y_train, X_valid, y_valid,category_lst):
           "random_state": 42,
           "verbose": 0,
           "loss_function": "RMSE",
+
     }
     # param = {
     #     'iterations':trial.suggest_int("iterations", 1000, 20000),
@@ -159,7 +161,7 @@ def cat_modeling(X_train, y_train, X_valid, y_valid,category_lst):
   study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_cat.optimize(objective,n_trials=90,show_progress_bar=True)
   print("cat 최적 파라미터 : ",study_cat.best_params)
-  cat_reg = CatBoostRegressor(**study_cat.best_params, random_state=42,task_type='GPU',cat_features=category_lst)
+  cat_reg = CatBoostRegressor(**study_cat.best_params,task_type='GPU',cat_features=category_lst)
 
   cat_reg.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
 
