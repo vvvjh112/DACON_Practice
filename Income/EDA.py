@@ -25,12 +25,22 @@ import seaborn as sns
 # Losses (손실): 가능한 값: 경제적 손실을 나타내는 연속형 변수
 # Dividends (배당금): 가능한 값: 배당금 수입을 나타내는 연속형 변수
 # Incom_Status (소득 상태): 가능한 값: 소득 수준의 범주 또는 소득 대비 생활비 비율 등
+# Income : 목표변수 , 1시간당 소득
 
-
+# row 생략 없이 출력
+pd.set_option('display.max_rows', None)
+# col 생략 없이 출력
+pd.set_option('display.max_columns', None)
 
 
 train = pd.read_csv('dataset/train.csv').drop('ID',axis = 1)
 test = pd.read_csv('dataset/test.csv').drop('ID',axis = 1)
+
+# train = train.loc[train['Gains'] < 99999]
+# train = train.loc[train['Losses'] < 4356]
+# train = train.loc[train['Dividends']<45000]
+
+
 
 # print(train.info())
 # print(test.info())
@@ -40,14 +50,14 @@ category_columns = train.select_dtypes(exclude=['int64', 'float64']).columns
 print("수치형 컬럼 : ",numeric_columns)
 print("카테고리 컬럼 : ",category_columns)
 
-
+print(train[train['Income']==0].head(500))
 
 #상관계수 (수치)
-# correlation_with_target = train[numeric_columns].corr()['Income'].drop('Income')
+# correlation_with_target = train[numeric_columns].corr()
 
 # 상관 계수 히트맵 그리기
 # plt.figure(figsize=(8, 6))
-# sns.heatmap(correlation_with_target.to_frame(), annot=True, cmap='coolwarm', fmt=".2f", cbar=False)
+# sns.heatmap(correlation_with_target, annot=True, cmap='coolwarm', fmt=".2f", cbar=False)
 # plt.title('Correlation with Income Heatmap')
 # plt.show()
 
@@ -441,9 +451,14 @@ def plot_category_count(df, category_column):
 # Over Median     0.03685
 
 
-for i in category_columns:
-    group = train.groupby([i]).mean('Income')
-    plt.title(f'{i}_Mean of Imcome')
-    plt.xticks(fontsize=7, rotation=45, ha='right')
-    sns.lineplot(x=group.index, y='Income', data=group, marker='o')
-    plt.show()
+# for i in category_columns:
+#     group = train.groupby([i]).mean('Income')
+#     plt.title(f'{i}_Mean of Imcome')
+#     plt.xticks(fontsize=7, rotation=45, ha='right')
+#     sns.lineplot(x=group.index, y='Income', data=group, marker='o')
+#     plt.show()
+
+
+#14살까지는 소득 0
+#에듀케이션이 child면 소득 0
+#employment_status 가 not working 이면 0
