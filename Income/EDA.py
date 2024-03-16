@@ -53,13 +53,13 @@ print("카테고리 컬럼 : ",category_columns)
 print(train[train['Income']==0].head(500))
 
 #상관계수 (수치)
-# correlation_with_target = train[numeric_columns].corr()
+correlation_with_target = train[numeric_columns].corr()
 
 # 상관 계수 히트맵 그리기
-# plt.figure(figsize=(8, 6))
-# sns.heatmap(correlation_with_target, annot=True, cmap='coolwarm', fmt=".2f", cbar=False)
-# plt.title('Correlation with Income Heatmap')
-# plt.show()
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_with_target, annot=True, cmap='coolwarm', fmt=".2f", cbar=False)
+plt.title('Correlation with Income Heatmap')
+plt.show()
 
 #Working_Week 0.42로 가장 상관계수가 높으며 나머지는 영향이 거의 없다고 봐도 무방하다
 
@@ -83,9 +83,9 @@ def plot_distribution(data, column):
     plt.show()
 
 #
-# for i in numeric_columns:
-#     print(train[i].describe())
-#     plot_distribution(train, i)
+for i in numeric_columns:
+    print(train[i].describe())
+    plot_distribution(train, i)
 
 #Gains 이상치 처리 필요 99999
 
@@ -94,9 +94,9 @@ columns_to_transform = ['Gains', 'Losses', 'Dividends', 'Income']
 train[columns_to_transform] = np.log1p(train[columns_to_transform])
 
 
-# for i in numeric_columns:
-#     print(train[i].describe())
-#     plot_distribution(train, i)
+for i in numeric_columns:
+    print(train[i].describe())
+    plot_distribution(train, i)
 
 def scatter_plot(df, target_column, feature_column):
     plt.figure(figsize=(8, 6))
@@ -106,12 +106,12 @@ def scatter_plot(df, target_column, feature_column):
     plt.ylabel(target_column)
     plt.show()
 
-# for i in numeric_columns:
-#     scatter_plot(train,'Income',i)
+for i in numeric_columns:
+    scatter_plot(train,'Income',i)
 #
-# for column in category_columns:
-#     unique_count = train[column].nunique()
-#     print(f"{column}: {unique_count}")
+for column in category_columns:
+    unique_count = train[column].nunique()
+    print(f"{column}: {unique_count}")
 
 # Gender: 2
 # Education_Status: 17
@@ -144,8 +144,8 @@ def plot_category_count(df, category_column):
     plt.xticks(rotation=45,fontsize = 8)  # x 축 레이블 회전
     plt.show()
 
-# for i in category_columns:
-#     plot_category_count(train,i)
+for i in category_columns:
+    plot_category_count(train,i)
 
 #Gender
 # F    0.5236
