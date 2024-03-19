@@ -45,119 +45,209 @@ train = train.loc[train['Gains'] < 99999]
 train = train.loc[train['Losses'] < 4356]
 # train = train.loc[train['Dividends']<45000]
 
+# 모델별 학습데이터 생성
+lgbm_train = train.copy()
+lgbm_test = test.copy()
+
+cat_train = train.copy()
+cat_test = test.copy()
+
+#추후 돌려놓기 위함
+test_age = test['Age']
+
 #파생변수
 
 #부모가 출생지가 같음
-# train['Same_Country'] = train.apply(lambda x: 'True' if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 'False', axis=1)
-# test['Same_Country'] = test.apply(lambda x: 'True' if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 'False', axis=1)
-
-# print(train.info())
+# train['Same_Country'] = train.apply(lambda x: 1 if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 0, axis=1)
+# test['Same_Country'] = test.apply(lambda x: 1 if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 0, axis=1)
 
 #고용상태 및 교육수준 조합
 # train['Employment_and_Education'] = train['Employment_Status'] + '_' + train['Education_Status']
 # test['Employment_and_Education'] = test['Employment_Status'] + '_' + test['Education_Status']
 
-train = train.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
-test = test.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
-
-#소득 - 지출
-train['final_Losses'] = train['Gains']-train['Losses']
-test['final_Losses'] = test['Gains']-test['Losses']
-
 
 logscale_columns = ['Gains', 'Losses', 'Dividends', 'Income']
-numeric_columns = train.select_dtypes(include=['int64', 'float64']).columns
-standardscale_columns = [x for x in numeric_columns if x not in logscale_columns]
 
-category_columns = train.select_dtypes(exclude=['int64', 'float64']).columns
-mask = train[category_columns].nunique()<=10
-category_enc = train[category_columns].nunique().loc[mask].index.tolist()
-target_enc = train[category_columns].nunique().loc[-mask].index.tolist()
+#lgbm
+#파생변수
+
+
+lgbm_train = lgbm_train.drop(['Race'],axis =1)
+lgbm_test = lgbm_test.drop(['Race'],axis =1)
+
+
+lgbm_numeric_columns = lgbm_train.select_dtypes(include=['int64', 'float64']).columns
+lgbm_standardscale_columns = [x for x in lgbm_numeric_columns if x not in logscale_columns]
+
+lgbm_category_columns = lgbm_train.select_dtypes(exclude=['int64', 'float64']).columns
+mask = lgbm_train[lgbm_category_columns].nunique()<=10
+lgbm_category_enc = lgbm_train[lgbm_category_columns].nunique().loc[mask].index.tolist()
+lgbm_target_enc = lgbm_train[lgbm_category_columns].nunique().loc[-mask].index.tolist()
 
 #스케일링
-train[['Gains', 'Losses', 'Dividends']] = np.log1p(train[['Gains', 'Losses', 'Dividends']])
-test[['Gains', 'Losses', 'Dividends']] = np.log1p(test[['Gains', 'Losses', 'Dividends']])
+lgbm_train[['Gains', 'Losses', 'Dividends']] = np.log1p(lgbm_train[['Gains', 'Losses', 'Dividends']])
+lgbm_test[['Gains', 'Losses', 'Dividends']] = np.log1p(lgbm_test[['Gains', 'Losses', 'Dividends']])
 
-#추후 돌려놓기 위함
-test_age = test['Age']
 
 ss = StandardScaler()
-train[standardscale_columns] = ss.fit_transform(train[standardscale_columns])
-test[standardscale_columns] = ss.transform(test[standardscale_columns])
+lgbm_train[lgbm_standardscale_columns] = ss.fit_transform(lgbm_train[lgbm_standardscale_columns])
+lgbm_test[lgbm_standardscale_columns] = ss.transform(lgbm_test[lgbm_standardscale_columns])
 
 #인코딩
-le = LabelEncoder()
+lgbm_train[lgbm_category_columns] = lgbm_train[lgbm_category_columns].astype('category')
+lgbm_test[lgbm_category_columns] = lgbm_test[lgbm_category_columns].astype('category')
 
-# for i in target_enc:
-#     te = TargetEncoder(cols = i)
-#     train[i] = te.fit_transform(train[i], train['Income'])
-#     test[i] = te.transform(test[i])
-#
-# train[category_enc] = train[category_enc].astype('category')
-# test[category_enc] = test[category_enc].astype('category')
-train[category_columns] = train[category_columns].astype('category')
-test[category_columns] = test[category_columns].astype('category')
 
-x = train.drop('Income',axis = 1)
+
+
+#cat
+#파생변수
+
+cat_train = cat_train.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
+cat_test = cat_test.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
+
+
+cat_numeric_columns = cat_train.select_dtypes(include=['int64', 'float64']).columns
+cat_standardscale_columns = [x for x in cat_numeric_columns if x not in logscale_columns]
+
+cat_category_columns = cat_train.select_dtypes(exclude=['int64', 'float64']).columns
+mask = cat_train[cat_category_columns].nunique()<=10
+cat_category_enc = cat_train[cat_category_columns].nunique().loc[mask].index.tolist()
+cat_target_enc = cat_train[cat_category_columns].nunique().loc[-mask].index.tolist()
+
+#스케일링
+cat_train[['Gains', 'Losses', 'Dividends']] = np.log1p(cat_train[['Gains', 'Losses', 'Dividends']])
+cat_test[['Gains', 'Losses', 'Dividends']] = np.log1p(cat_test[['Gains', 'Losses', 'Dividends']])
+
+
+ss = StandardScaler()
+cat_train[cat_standardscale_columns] = ss.fit_transform(cat_train[cat_standardscale_columns])
+cat_test[cat_standardscale_columns] = ss.transform(cat_test[cat_standardscale_columns])
+
+#인코딩
+cat_train[cat_category_columns] = cat_train[cat_category_columns].astype('category')
+cat_test[cat_category_columns] = cat_test[cat_category_columns].astype('category')
+
+
+
+
+lgbm_x = lgbm_train.drop('Income', axis = 1)
+cat_x = cat_train.drop('Income', axis = 1)
+
 y = train['Income']
 
-trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2,random_state=RANDOM_SEED)
+
+ltrainX, ltestX, ltrainY, ltestY = train_test_split(lgbm_x,y,test_size=0.2,random_state=RANDOM_SEED)
+ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random_state=RANDOM_SEED)
 
 
-# cat, cat_study = mt.cat_modeling(trainX,trainY,testX,testY,list(category_columns))
+# cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
 # cat = CatBoostRegressor(**cat_param,cat_features=list(category_columns))
 # cat.fit(trainX,trainY)
 # pred = cat.predict(test)
 # submission['Income'] = pred
 #
 # print(mean_squared_error(testY,cat.predict(testX),squared=False))
+
 cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
 #581.45770
-# cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
 
-# lgbm, lgbm_study = mt.lgbm_modeling(trainX,trainY,testX,testY)
+#테스트
+# cat_param = cat_study.best_params
+# cat_param = {'depth': 8, 'learning_rate': 0.11216982465584385, 'random_strength': 0.0023564488582662898, 'border_count': 32, 'l2_leaf_reg': 11.1759933888682, 'leaf_estimation_iterations': 7, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bernoulli', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 11, 'one_hot_max_size': 0}
+
+
+# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
 
-# lgbm_param = {'num_leaves': 14, 'colsample_bytree': 0.812193189553036, 'reg_alpha': 0.4930962498343851, 'reg_lambda': 0.8673443634562641, 'max_depth': 11, 'learning_rate': 0.006791051445122969, 'n_estimators': 1828, 'min_child_samples': 27, 'subsample': 0.4522636111143746}
-# 579.2563185183457 파생변수 있을 때
 
 #lgbm 최적 파라미터
 lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
+# lgbm_param = lgbm_study.best_params
+# lgbm_param = {'num_leaves': 20, 'colsample_bytree': 0.7224997997564243, 'reg_alpha': 0.3219883075007543, 'reg_lambda': 7.597573312662526, 'max_depth': 13, 'learning_rate': 0.009059439086491773, 'n_estimators': 1257, 'min_child_samples': 37, 'subsample': 0.9851855728869738}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
 # pred = lgbm.predict(test)
 
-# lgbm_param = {'num_leaves': 20, 'colsample_bytree': 0.7224997997564243, 'reg_alpha': 0.3219883075007543, 'reg_lambda': 7.597573312662526, 'max_depth': 13, 'learning_rate': 0.009059439086491764, 'n_estimators': 1257, 'min_child_samples': 37, 'subsample': 0.9851855728869738}
 
 kf = KFold(n_splits=5)
 models = []
-#
-#
-for train_index, test_index in tqdm(kf.split(x), total=kf.get_n_splits()):
-    # model = LGBMRegressor(random_state=RANDOM_SEED, **lgbm_param, verbose = -1)
-    model = VotingRegressor(estimators=[('lgbm',LGBMRegressor(random_state=RANDOM_SEED,**lgbm_param,verbose = -1)), ('catboost',CatBoostRegressor(random_state=RANDOM_SEED,**cat_param,cat_features=list(category_columns),verbose = False))])
-    ktrainX, ktrainY = x.iloc[train_index], y.iloc[train_index]
-    ktestX, ktestY = x.iloc[test_index], y.iloc[test_index]
-    model.fit(ktrainX, ktrainY)
-    models.append(model)
+lgbm_models = []
+cat_models = []
 
+for train_index, test_index in tqdm(kf.split(lgbm_x), total=kf.get_n_splits()):
+    model = LGBMRegressor(random_state=RANDOM_SEED, **lgbm_param, verbose = -1)
+    # model = VotingRegressor(estimators=[('lgbm',LGBMRegressor(random_state=RANDOM_SEED,**lgbm_param,verbose = -1)), ('catboost',CatBoostRegressor(random_state=RANDOM_SEED,**cat_param,cat_features=list(category_columns),verbose = False))])
+    lktrainX, lktrainY = lgbm_x.iloc[train_index], y.iloc[train_index]
+    lktestX, lktestY = lgbm_x.iloc[test_index], y.iloc[test_index]
+    model.fit(lktrainX, lktrainY)
+    lgbm_models.append(model)
+
+for train_index, test_index in tqdm(kf.split(cat_x), total=kf.get_n_splits()):
+    model = CatBoostRegressor(random_state=RANDOM_SEED, **cat_param, cat_features=list(cat_category_columns),verbose=False)
+    # model = VotingRegressor(estimators=[('lgbm',LGBMRegressor(random_state=RANDOM_SEED,**lgbm_param,verbose = -1)), ('catboost',CatBoostRegressor(random_state=RANDOM_SEED,**cat_param,cat_features=list(category_columns),verbose = False))])
+    cktrainX, cktrainY = cat_x.iloc[train_index], y.iloc[train_index]
+    cktestX, cktestY = cat_x.iloc[test_index], y.iloc[test_index]
+    model.fit(cktrainX, cktrainY)
+    cat_models.append(model)
+#
 pred_list = []
+lgbm_pred_list = []
+cat_pred_list = []
 score_list = []
+lgbm_score_list = []
+cat_score_list = []
 test_list = []
-for model in models:
-    pred_list.append(model.predict(test))
-    score_list.append(model.predict(ktestX))
-    test_list.append(model.predict(testX))
+lgbm_test_list = []
+cat_test_list = []
+lgbm_feature_importances = []
+cat_feature_importances = []
+for model in lgbm_models:
+    lgbm_pred_list.append(model.predict(lgbm_test))
+    lgbm_score_list.append(model.predict(lktestX))
+    lgbm_test_list.append(model.predict(ltestX))
+    lgbm_feature_importances.append(model.feature_importances_)
 
-pred = np.mean(pred_list, axis=0)
-score = np.mean(score_list, axis = 0)
-test_score = np.mean(test_list, axis = 0)
-print("평균 점수 : ", mean_squared_error(ktestY, score,squared=False))
-print("평균 점수 : ", mean_squared_error(testY, test_score,squared=False))
+for model in cat_models:
+    cat_pred_list.append(model.predict(cat_test))
+    cat_score_list.append(model.predict(cktestX))
+    cat_test_list.append(model.predict(ctestX))
+    cat_feature_importances.append(model.feature_importances_)
+
+
+lgbm_pred = np.mean(lgbm_pred_list, axis=0)
+cat_pred = np.mean(cat_pred_list, axis = 0)
+lgbm_score = np.mean(lgbm_score_list, axis = 0)
+cat_score = np.mean(cat_score_list, axis = 0)
+lgbm_test_score = np.mean(lgbm_test_list, axis = 0)
+cat_test_score = np.mean(cat_test_list, axis = 0)
+average_lgbm_feature_importance = np.mean(lgbm_feature_importances, axis=0)
+average_catboost_feature_importance = np.mean(cat_feature_importances, axis=0)
+
+print("lgbm ktestY 평균 점수 : ", mean_squared_error(lktestY, lgbm_score,squared=False))
+print("lgbm testY 평균 점수 : ", mean_squared_error(ltestY, lgbm_test_score,squared=False))
+
+print("cat ktestY 평균 점수 : ", mean_squared_error(cktestY, cat_score,squared=False))
+print("cat testY 평균 점수 : ", mean_squared_error(ctestY, cat_test_score,squared=False))
+
+print("ktestY 평균 점수 : ", mean_squared_error(cktestY, (cat_score*0.5)+(lgbm_score*0.5),squared=False))
+print("testY 평균 점수 : ", mean_squared_error(ctestY, (cat_test_score*0.5)+(lgbm_test_score*0.5),squared=False))
+
+print("총 ktest 평균 점수 : ", (mean_squared_error(cktestY, cat_score,squared=False) + mean_squared_error(lktestY, lgbm_score,squared=False))/2 )
+print("총 testY 평균 점수 : ", (mean_squared_error(ctestY, cat_test_score,squared=False)+mean_squared_error(ltestY, lgbm_test_score,squared=False))/2)
+
+#피처중요도
+for column_name, lgbm_importance, catboost_importance in zip(train.columns, average_lgbm_feature_importance, average_catboost_feature_importance):
+    print("피처(컬럼) 이름:", column_name)
+    print("LGBM 중요도:", lgbm_importance)
+    print("CatBoost 중요도:", catboost_importance)
+    print()
+
+pred = (lgbm_pred * 0.5) + (cat_pred * 0.5)
 
 test['Income'] = pred
 test['Age'] = test_age
@@ -166,6 +256,7 @@ submission['Income'] = test['Income']
 title = 'Voting_CAT+LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.loc[submission['Income'] < 0.0, 'Income'] = 0.0
 submission.to_csv(title,index=False)
+
 
 
 
@@ -188,5 +279,3 @@ submission.to_csv(title,index=False)
 #cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
 #lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 # 537.8688 -> 537.93272
-
-# Income 이상치 처리..

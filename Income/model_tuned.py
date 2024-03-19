@@ -6,7 +6,8 @@ from xgboost import XGBRegressor
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
-from pycaret.regression import *
+# from pycaret.regression import *
+import pycaret.regression
 
 from catboost import CatBoostRegressor, Pool
 
@@ -144,8 +145,10 @@ def cat_modeling(X_train, y_train, X_valid, y_valid,category_lst):
     #     'leaf_estimation_iterations': trial.suggest_int('leaf_estimation_iterations', 1, 15),
     #     'bagging_temperature': trial.suggest_loguniform('bagging_temperature', 0.01, 100.00),
     # }
-
-    model = CatBoostRegressor(**param, cat_features=category_lst)
+    if category_lst == 0:
+        model = CatBoostRegressor(**param)
+    else:
+        model = CatBoostRegressor(**param, cat_features=category_lst)
 
 
     bst_cat = model.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
@@ -179,15 +182,15 @@ def grid_search(model, param, trainX, trainY):
     return grid
 
 def compare_model(train_set):
-    clf = setup(data=train_set, target='Income', train_size=0.8)
-    best_model = compare_models()
-    compare_models(n_select = 5, sort = 'RMSE')
+    clf = pycaret.regression.setup(data=train_set, target='Income', train_size=0.8)
+    best_model = pycaret.regression.compare_models()
+    pycaret.regression.compare_models(n_select = 5, sort = 'RMSE')
 
 def pycaret_predict(model,test_set):
-    model_py_1 = create_model(model)
-    tuned_md = tune_model(model_py_1,optimize = 'RMSE')
+    model_py_1 = pycaret.regression.create_model(model)
+    tuned_md = pycaret.regression.tune_model(model_py_1,optimize = 'RMSE')
     print(tuned_md)
-    final_model = finalize_model(tuned_md)
-    prediction = predict_model(final_model, data = test_set)
+    final_model = pycaret.regression.finalize_model(tuned_md)
+    prediction = pycaret.regression.predict_model(final_model, data = test_set)
     result = prediction['prediction_label']
     return result

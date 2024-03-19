@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import model_tuned as mt
 import os, random, optuna, datetime
+from tqdm import tqdm
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import *
 from sklearn.preprocessing import StandardScaler,LabelEncoder
@@ -122,35 +123,61 @@ lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_al
 # pred = lgbm.predict(test)
 
 
-# kf = KFold(n_splits=5)
-# models = []
-# #
-# #
-# for train_index, test_index in kf.split(x):
-#     # model = LGBMRegressor(random_state=RANDOM_SEED, **lgbm_param, verbose = -1)
-#     model = VotingRegressor(estimators=[('lgbm',LGBMRegressor(random_state=RANDOM_SEED,**lgbm_param)), ('catboost',CatBoostRegressor(random_state=RANDOM_SEED,**cat_param,cat_features=list(category_columns)))])
-#     ktrainX, ktrainY = x.iloc[train_index], y.iloc[train_index]
-#     ktestX, ktestY = x.iloc[test_index], y.iloc[test_index]
-#     model.fit(ktrainX, ktrainY)
-#     models.append(model)
+kf = KFold(n_splits=5)
+models = []
 #
-# pred_list = []
-# score_list = []
-# for model in models:
-#     pred_list.append(model.predict(test))
-#     score_list.append(model.predict(testX))
 #
-# pred = np.mean(pred_list, axis=0)
-# score = np.mean(score_list, axis = 0)
-# print("평균 점수 : ", mean_squared_error(testY, score,squared=False))
+for train_index, test_index in tqdm(kf.split(x), total=kf.get_n_splits()):
+    # model = LGBMRegressor(random_state=RANDOM_SEED, **lgbm_param, verbose = -1)
+    model = VotingRegressor(estimators=[('lgbm',LGBMRegressor(random_state=RANDOM_SEED,**lgbm_param,verbose = -1)), ('catboost',CatBoostRegressor(random_state=RANDOM_SEED,**cat_param,cat_features=list(category_columns),verbose = False))])
+    ktrainX, ktrainY = x.iloc[train_index], y.iloc[train_index]
+    ktestX, ktestY = x.iloc[test_index], y.iloc[test_index]
+    model.fit(ktrainX, ktrainY)
+    models.append(model)
 #
-# test['Income'] = pred
-# test['Age'] = test_age
-# test.loc[(test['Education_Status'] == 'children') | (test['Age'] <= 14) | (test['Employment_Status'] == 'not working'), 'Income'] = 0
-# submission['Income'] = test['Income']
-# title = 'Voting_CAT+LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
-# submission.loc[submission['Income'] < 0.0, 'Income'] = 0.0
+pred_list = []
+score_list = []
+test_list = []
+lgbm_feature_importances = []
+cat_feature_importances = []
+for model in models:
+    pred_list.append(model.predict(test))
+    score_list.append(model.predict(ktestX))
+    test_list.append(model.predict(testX))
+
+    lgbm_model = model.named_estimators_['lgbm']
+    catboost_model = model.named_estimators_['catboost']
+
+    lgbm_importance = lgbm_model.feature_importances_
+    catboost_importance = catboost_model.feature_importances_
+
+    lgbm_feature_importances.append(lgbm_importance)
+    cat_feature_importances.append(catboost_importance)
+
+pred = np.mean(pred_list, axis=0)
+score = np.mean(score_list, axis = 0)
+test_score = np.mean(test_list, axis = 0)
+average_lgbm_feature_importance = np.mean(lgbm_feature_importances, axis=0)
+average_catboost_feature_importance = np.mean(cat_feature_importances, axis=0)
+
+print("평균 점수 : ", mean_squared_error(ktestY, score,squared=False))
+print("평균 점수 : ", mean_squared_error(testY, test_score,squared=False))
+
+#피처중요도
+for column_name, lgbm_importance, catboost_importance in zip(train.columns, average_lgbm_feature_importance, average_catboost_feature_importance):
+    print("피처(컬럼) 이름:", column_name)
+    print("LGBM 중요도:", lgbm_importance)
+    print("CatBoost 중요도:", catboost_importance)
+    print()
+
+test['Income'] = pred
+test['Age'] = test_age
+test.loc[(test['Education_Status'] == 'children') | (test['Age'] <= 14) | (test['Employment_Status'] == 'not working'), 'Income'] = 0
+submission['Income'] = test['Income']
+title = 'Voting_CAT+LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
+submission.loc[submission['Income'] < 0.0, 'Income'] = 0.0
 # submission.to_csv(title,index=False)
+
 
 
 
