@@ -164,7 +164,7 @@ def cat_modeling(X_train, y_train, X_valid, y_valid,category_lst):
   study_cat = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_cat.optimize(objective,n_trials=90,show_progress_bar=True)
   print("cat 최적 파라미터 : ",study_cat.best_params)
-  cat_reg = CatBoostRegressor(**study_cat.best_params,task_type='GPU',cat_features=category_lst)
+  cat_reg = CatBoostRegressor(**study_cat.best_params, task_type='GPU',cat_features=category_lst)
 
   cat_reg.fit(X_train,y_train, eval_set = [(X_valid,y_valid)], early_stopping_rounds=100,verbose=False)
 

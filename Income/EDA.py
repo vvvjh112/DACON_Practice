@@ -40,7 +40,7 @@ test = pd.read_csv('dataset/test.csv').drop('ID',axis = 1)
 # train = train.loc[train['Losses'] < 4356]
 # train = train.loc[train['Dividends']<45000]
 
-
+print(train.head())
 
 # print(train.info())
 # print(test.info())
