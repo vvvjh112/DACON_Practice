@@ -44,7 +44,7 @@ train = train.drop_duplicates()
 train = train.loc[train['Gains'] < 99999]
 train = train.loc[train['Losses'] < 4356]
 # train = train.loc[train['Dividends']<40000]
-train = train.loc[train['Income'] < 9500]
+# train = train.loc[train['Income'] < 9500]
 
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
@@ -128,8 +128,8 @@ lgbm_test[lgbm_category_columns] = lgbm_test[lgbm_category_columns].astype('cate
 # cat_train = cat_train.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
 # cat_test = cat_test.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
 
-# cat_train['AgeGroup'] = cat_train['Age'].apply(create_age_group)
-# cat_test['AgeGroup'] = cat_test['Age'].apply(create_age_group)
+cat_train['AgeGroup'] = cat_train['Age'].apply(create_age_group)
+cat_test['AgeGroup'] = cat_test['Age'].apply(create_age_group)
 
 # cat_train['ESI'] = cat_train['Gains'] - cat_train['Losses']
 # cat_test['ESI'] = cat_test['Gains'] - cat_test['Losses']
@@ -168,7 +168,7 @@ ltrainX, ltestX, ltrainY, ltestY = train_test_split(lgbm_x,y,test_size=0.2,rando
 ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random_state=RANDOM_SEED)
 
 
-cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
+# cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
 # cat = CatBoostRegressor(**cat_param,cat_features=list(category_columns))
 # cat.fit(trainX,trainY)
 # pred = cat.predict(test)
@@ -180,11 +180,11 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 #581.45770
 
 #테스트
-cat_param = cat_study.best_params
+# cat_param = cat_study.best_params
+cat_param = {'depth': 9, 'learning_rate': 0.04096786549820662, 'random_strength': 0.001909776423304203, 'border_count': 233, 'l2_leaf_reg': 34.8632852909244, 'leaf_estimation_iterations': 1, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'Depthwise', 'min_data_in_leaf': 60, 'one_hot_max_size': 17}
 
 
-
-lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
@@ -194,14 +194,14 @@ lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
-lgbm_param = lgbm_study.best_params
+# lgbm_param = lgbm_study.best_params
 # lgbm_param = {'num_leaves': 20, 'colsample_bytree': 0.7224997997564243, 'reg_alpha': 0.3219883075007543, 'reg_lambda': 7.597573312662526, 'max_depth': 13, 'learning_rate': 0.009059439086491773, 'n_estimators': 1257, 'min_child_samples': 37, 'subsample': 0.9851855728869738}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
 # pred = lgbm.predict(test)
 
 
-kf = KFold(n_splits=5)
+kf = KFold(n_splits=2)
 models = []
 lgbm_models = []
 cat_models = []
