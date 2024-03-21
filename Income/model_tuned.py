@@ -72,7 +72,7 @@ def lgbm_modeling(X_train, y_train, X_valid, y_valid):
   study_lgbm = optuna.create_study(direction='minimize',sampler=optuna.samplers.TPESampler(seed=100))
   study_lgbm.optimize(objective,n_trials=90,show_progress_bar=True)
   print("lgbm 최적 파라미터",study_lgbm.best_params)
-  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, n_jobs=-1)
+  lgbm_reg = LGBMRegressor(**study_lgbm.best_params, n_jobs=-1, verbose = -1)
   lgbm_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', callbacks=[early_stopping(stopping_rounds=100)])
 
   return lgbm_reg,study_lgbm
