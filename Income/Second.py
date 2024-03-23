@@ -46,6 +46,13 @@ train = train.loc[train['Losses'] < 4356]
 # train = train.loc[train['Dividends']<40000]
 # train = train.loc[train['Income'] < 9500]
 
+# train['G-L'] = train['Gains'] - train['Losses']
+# test['G-L'] = test['Gains'] - test['Losses']
+
+# train = train.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
+# test = test.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
+
+
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
 lgbm_test = test.copy()
@@ -75,9 +82,7 @@ def create_age_group(age):
         return '70대 이상'
 
 
-#부모가 출생지가 같음
-# train['Same_Country'] = train.apply(lambda x: 1 if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 0, axis=1)
-# test['Same_Country'] = test.apply(lambda x: 1 if x['Birth_Country (Father)'] == x['Birth_Country (Mother)'] else 0, axis=1)
+
 
 #고용상태 및 교육수준 조합
 # train['Employment_and_Education'] = train['Employment_Status'] + '_' + train['Education_Status']
@@ -118,16 +123,16 @@ lgbm_train[lgbm_standardscale_columns] = ss.fit_transform(lgbm_train[lgbm_standa
 lgbm_test[lgbm_standardscale_columns] = ss.transform(lgbm_test[lgbm_standardscale_columns])
 
 #인코딩
-for i in lgbm_target_enc:
-    te = TargetEncoder(cols = i)
-    lgbm_train[i] = te.fit_transform(lgbm_train[i], lgbm_train['Income'])
-    lgbm_test[i] = te.transform(lgbm_test[i])
-#
-lgbm_train[lgbm_category_enc] = train[lgbm_category_enc].astype('category')
-lgbm_test[lgbm_category_enc] = test[lgbm_category_enc].astype('category')
+# for i in lgbm_target_enc:
+#     te = TargetEncoder(cols = i)
+#     lgbm_train[i] = te.fit_transform(lgbm_train[i], lgbm_train['Income'])
+#     lgbm_test[i] = te.transform(lgbm_test[i])
+# #
+# lgbm_train[lgbm_category_enc] = train[lgbm_category_enc].astype('category')
+# lgbm_test[lgbm_category_enc] = test[lgbm_category_enc].astype('category')
 
-# lgbm_train[lgbm_category_columns] = lgbm_train[lgbm_category_columns].astype('category')
-# lgbm_test[lgbm_category_columns] = lgbm_test[lgbm_category_columns].astype('category')
+lgbm_train[lgbm_category_columns] = lgbm_train[lgbm_category_columns].astype('category')
+lgbm_test[lgbm_category_columns] = lgbm_test[lgbm_category_columns].astype('category')
 
 
 
@@ -194,7 +199,7 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 # cat_param = {'depth': 5, 'learning_rate': 0.31492513848365683, 'random_strength': 0.0057060247689775375, 'border_count': 92, 'l2_leaf_reg': 41.669616771302195, 'leaf_estimation_iterations': 2, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 61, 'one_hot_max_size': 5}
 
 
-lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
@@ -204,7 +209,7 @@ lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
-lgbm_param = lgbm_study.best_params
+# lgbm_param = lgbm_study.best_params
 # lgbm_param = {'num_leaves': 20, 'colsample_bytree': 0.7224997997564243, 'reg_alpha': 0.3219883075007543, 'reg_lambda': 7.597573312662526, 'max_depth': 13, 'learning_rate': 0.009059439086491773, 'n_estimators': 1257, 'min_child_samples': 37, 'subsample': 0.9851855728869738}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
