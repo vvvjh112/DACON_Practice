@@ -52,6 +52,11 @@ train = train.loc[train['Losses'] < 4356]
 # train = train.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
 # test = test.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
 
+train = train.drop(['Losses'],axis = 1)
+test = test.drop(['Losses'], axis = 1)
+
+train['working_time/Dividends'] = train['Working_Week (Yearly)'] / (train['Dividends'].replace(0,1))
+test['working_time/Dividends'] = test['Working_Week (Yearly)'] / (test['Dividends'].replace(0,1))
 
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
@@ -114,8 +119,8 @@ lgbm_target_enc = lgbm_train[lgbm_category_columns].nunique().loc[-mask].index.t
 
 
 #스케일링
-lgbm_train[['Gains', 'Losses', 'Dividends']] = np.log1p(lgbm_train[['Gains', 'Losses', 'Dividends']])
-lgbm_test[['Gains', 'Losses', 'Dividends']] = np.log1p(lgbm_test[['Gains', 'Losses', 'Dividends']])
+lgbm_train[['Gains' ,'Dividends']] = np.log1p(lgbm_train[[ 'Gains' ,'Dividends']])
+lgbm_test[['Gains' ,'Dividends']] = np.log1p(lgbm_test[[ 'Gains' ,'Dividends']])
 
 
 ss = StandardScaler()
@@ -158,8 +163,8 @@ cat_category_enc = cat_train[cat_category_columns].nunique().loc[mask].index.tol
 cat_target_enc = cat_train[cat_category_columns].nunique().loc[-mask].index.tolist()
 
 #스케일링
-cat_train[['Gains', 'Losses', 'Dividends']] = np.log1p(cat_train[['Gains', 'Losses', 'Dividends']])
-cat_test[['Gains', 'Losses', 'Dividends']] = np.log1p(cat_test[['Gains', 'Losses', 'Dividends']])
+cat_train[['Gains' , 'Dividends']] = np.log1p(cat_train[['Gains', 'Dividends']])
+cat_test[['Gains'  ,'Dividends']] = np.log1p(cat_test[['Gains','Dividends']])
 
 
 ss = StandardScaler()
@@ -183,7 +188,7 @@ ltrainX, ltestX, ltrainY, ltestY = train_test_split(lgbm_x,y,test_size=0.2,rando
 ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random_state=RANDOM_SEED)
 
 
-# cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
+cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
 # cat = CatBoostRegressor(**cat_param,cat_features=list(category_columns))
 # cat.fit(trainX,trainY)
 # pred = cat.predict(test)
@@ -195,11 +200,11 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 #581.45770
 
 #테스트
-# cat_param = cat_study.best_params
+cat_param = cat_study.best_params
 # cat_param = {'depth': 5, 'learning_rate': 0.31492513848365683, 'random_strength': 0.0057060247689775375, 'border_count': 92, 'l2_leaf_reg': 41.669616771302195, 'leaf_estimation_iterations': 2, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 61, 'one_hot_max_size': 5}
 
 
-# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
@@ -209,7 +214,7 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
-# lgbm_param = lgbm_study.best_params
+lgbm_param = lgbm_study.best_params
 # lgbm_param = {'num_leaves': 20, 'colsample_bytree': 0.7224997997564243, 'reg_alpha': 0.3219883075007543, 'reg_lambda': 7.597573312662526, 'max_depth': 13, 'learning_rate': 0.009059439086491773, 'n_estimators': 1257, 'min_child_samples': 37, 'subsample': 0.9851855728869738}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
