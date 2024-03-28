@@ -55,6 +55,11 @@ train = train.loc[train['Losses'] < 4356]
 train = train.drop(['Losses'],axis = 1)
 test = test.drop(['Losses'], axis = 1)
 
+
+
+train['work*age'] = train['Working_Week (Yearly)'] * train['Age']
+test['work*age'] = test['Working_Week (Yearly)'] * test['Age']
+
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
 lgbm_test = test.copy()
@@ -212,7 +217,7 @@ lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_al
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
 # lgbm_param = lgbm_study.best_params
-# lgbm_param = {'num_leaves': 20, 'colsample_bytree': 0.7224997997564243, 'reg_alpha': 0.3219883075007543, 'reg_lambda': 7.597573312662526, 'max_depth': 13, 'learning_rate': 0.009059439086491773, 'n_estimators': 1257, 'min_child_samples': 37, 'subsample': 0.9851855728869738}
+# lgbm_param = {'num_leaves': 105, 'colsample_bytree': 0.9163250369725171, 'reg_alpha': 0.07015790934229604, 'reg_lambda': 4.5848292864145, 'max_depth': 9, 'learning_rate': 0.002522269237296201, 'n_estimators': 2649, 'min_child_samples': 24, 'subsample': 0.8060558494343618}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
 # pred = lgbm.predict(test)
