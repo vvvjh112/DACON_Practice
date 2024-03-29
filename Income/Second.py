@@ -60,6 +60,10 @@ test = test.drop(['Losses'], axis = 1)
 train['work*age'] = train['Working_Week (Yearly)'] * train['Age']
 test['work*age'] = test['Working_Week (Yearly)'] * test['Age']
 
+train['Gain*Div'] = train['Gains'] * train['Dividends']
+test['Gain*Div'] = test['Gains'] * test['Dividends']
+
+
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
 lgbm_test = test.copy()
@@ -190,7 +194,7 @@ ltrainX, ltestX, ltrainY, ltestY = train_test_split(lgbm_x,y,test_size=0.2,rando
 ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random_state=RANDOM_SEED)
 
 
-# cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
+cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
 # cat = CatBoostRegressor(**cat_param,cat_features=list(category_columns))
 # cat.fit(trainX,trainY)
 # pred = cat.predict(test)
@@ -202,11 +206,11 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 #581.45770
 
 #테스트
-# cat_param = cat_study.best_params
+cat_param = cat_study.best_params
 # cat_param = {'depth': 5, 'learning_rate': 0.31492513848365683, 'random_strength': 0.0057060247689775375, 'border_count': 92, 'l2_leaf_reg': 41.669616771302195, 'leaf_estimation_iterations': 2, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 61, 'one_hot_max_size': 5}
 
 
-# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
@@ -216,7 +220,7 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
-# lgbm_param = lgbm_study.best_params
+lgbm_param = lgbm_study.best_params
 # lgbm_param = {'num_leaves': 105, 'colsample_bytree': 0.9163250369725171, 'reg_alpha': 0.07015790934229604, 'reg_lambda': 4.5848292864145, 'max_depth': 9, 'learning_rate': 0.002522269237296201, 'n_estimators': 2649, 'min_child_samples': 24, 'subsample': 0.8060558494343618}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
