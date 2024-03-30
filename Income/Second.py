@@ -194,7 +194,7 @@ ltrainX, ltestX, ltrainY, ltestY = train_test_split(lgbm_x,y,test_size=0.2,rando
 ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random_state=RANDOM_SEED)
 
 
-cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
+# cat, cat_study = mt.cat_modeling(ctrainX,ctrainY,ctestX,ctestY,list(cat_category_columns))
 # cat = CatBoostRegressor(**cat_param,cat_features=list(category_columns))
 # cat.fit(trainX,trainY)
 # pred = cat.predict(test)
@@ -206,11 +206,12 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 #581.45770
 
 #테스트
-cat_param = cat_study.best_params
-# cat_param = {'depth': 5, 'learning_rate': 0.31492513848365683, 'random_strength': 0.0057060247689775375, 'border_count': 92, 'l2_leaf_reg': 41.669616771302195, 'leaf_estimation_iterations': 2, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 61, 'one_hot_max_size': 5}
+# cat_param = cat_study.best_params
+cat_param = {'depth': 10, 'learning_rate': 0.0652656152760965, 'random_strength': 0.007341434434236114, 'border_count': 88, 'l2_leaf_reg': 65.0880164606795, 'leaf_estimation_iterations': 1, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'Depthwise', 'min_data_in_leaf': 75, 'one_hot_max_size': 12}
 
 
-lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+
+# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
@@ -220,8 +221,8 @@ lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
-lgbm_param = lgbm_study.best_params
-# lgbm_param = {'num_leaves': 105, 'colsample_bytree': 0.9163250369725171, 'reg_alpha': 0.07015790934229604, 'reg_lambda': 4.5848292864145, 'max_depth': 9, 'learning_rate': 0.002522269237296201, 'n_estimators': 2649, 'min_child_samples': 24, 'subsample': 0.8060558494343618}
+# lgbm_param = lgbm_study.best_params
+lgbm_param =  {'num_leaves': 31, 'colsample_bytree': 0.7063786613941212, 'reg_alpha': 0.1778611972915727, 'reg_lambda': 2.5344151521248777, 'max_depth': 15, 'learning_rate': 0.0030214198890544507, 'n_estimators': 1382, 'min_child_samples': 57, 'subsample': 0.43661686519156695}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
 # pred = lgbm.predict(test)
@@ -305,6 +306,7 @@ pred = (lgbm_pred * 0.5) + (cat_pred * 0.5)
 test['Income'] = pred
 test['Age'] = test_age
 test.loc[(test['Education_Status'] == 'children') | (test['Age'] <= 14) | (test['Employment_Status'] == 'not working'), 'Income'] = 0
+test.loc[(test['Industry_Status'] == 'Not in universe or children') | (test['Industry_Status'] == 'Armed Forces') | (test['Occupation_Status'] == 'Unknown'), 'Income'] = 0
 submission['Income'] = test['Income']
 title = 'Voting_CAT+LGBM'+str(datetime.datetime.now().month)+'_'+str(datetime.datetime.now().day)+'_'+str(datetime.datetime.now().hour)+'_'+str(datetime.datetime.now().minute)+'.csv'
 submission.loc[submission['Income'] < 0.0, 'Income'] = 0.0
