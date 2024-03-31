@@ -63,6 +63,8 @@ test['work*age'] = test['Working_Week (Yearly)'] * test['Age']
 train['Gain*Div'] = train['Gains'] * train['Dividends']
 test['Gain*Div'] = test['Gains'] * test['Dividends']
 
+train = train.drop(['Gains'],axis = 1)
+test = test.drop(['Gains'], axis = 1)
 
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
@@ -125,8 +127,8 @@ lgbm_target_enc = lgbm_train[lgbm_category_columns].nunique().loc[-mask].index.t
 
 
 #스케일링
-lgbm_train[['Gains', 'Dividends']] = np.log1p(lgbm_train[['Gains',  'Dividends']])
-lgbm_test[['Gains', 'Dividends']] = np.log1p(lgbm_test[['Gains',  'Dividends']])
+lgbm_train[['Dividends']] = np.log1p(lgbm_train[[ 'Dividends']])
+lgbm_test[['Dividends']] = np.log1p(lgbm_test[[ 'Dividends']])
 
 
 ss = StandardScaler()
@@ -169,8 +171,8 @@ cat_category_enc = cat_train[cat_category_columns].nunique().loc[mask].index.tol
 cat_target_enc = cat_train[cat_category_columns].nunique().loc[-mask].index.tolist()
 
 #스케일링
-cat_train[['Gains',  'Dividends']] = np.log1p(cat_train[['Gains',  'Dividends']])
-cat_test[['Gains',  'Dividends']] = np.log1p(cat_test[['Gains', 'Dividends']])
+cat_train[[ 'Dividends']] = np.log1p(cat_train[[ 'Dividends']])
+cat_test[['Dividends']] = np.log1p(cat_test[[ 'Dividends']])
 
 
 ss = StandardScaler()
@@ -207,7 +209,7 @@ cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength'
 
 #테스트
 # cat_param = cat_study.best_params
-cat_param = {'depth': 10, 'learning_rate': 0.0652656152760965, 'random_strength': 0.007341434434236114, 'border_count': 88, 'l2_leaf_reg': 65.0880164606795, 'leaf_estimation_iterations': 1, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'Bayesian', 'grow_policy': 'Depthwise', 'min_data_in_leaf': 75, 'one_hot_max_size': 12}
+cat_param = {'depth': 4, 'learning_rate': 0.3780882464586928, 'random_strength': 0.018017309563986762, 'border_count': 181, 'l2_leaf_reg': 57.55942688579224, 'leaf_estimation_iterations': 5, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 97, 'one_hot_max_size': 1}
 
 
 
@@ -218,11 +220,11 @@ cat_param = {'depth': 10, 'learning_rate': 0.0652656152760965, 'random_strength'
 
 
 #lgbm 최적 파라미터
-lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
+# lgbm_param = {'num_leaves': 472, 'colsample_bytree': 0.7367140734280581, 'reg_alpha': 0.5235571646798937, 'reg_lambda': 3.04295394947452, 'max_depth': 9, 'learning_rate': 0.004382890500796395, 'n_estimators': 1464, 'min_child_samples': 27, 'subsample': 0.5414477150306246}
 #577.0274964472734 파생변수 없을 때 -- > 541.86065
 
 # lgbm_param = lgbm_study.best_params
-lgbm_param =  {'num_leaves': 31, 'colsample_bytree': 0.7063786613941212, 'reg_alpha': 0.1778611972915727, 'reg_lambda': 2.5344151521248777, 'max_depth': 15, 'learning_rate': 0.0030214198890544507, 'n_estimators': 1382, 'min_child_samples': 57, 'subsample': 0.43661686519156695}
+lgbm_param =  {'num_leaves': 1002, 'colsample_bytree': 0.823235304584475, 'reg_alpha': 0.03917551797755455, 'reg_lambda': 9.600923728838367, 'max_depth': 9, 'learning_rate': 0.007434521362412546, 'n_estimators': 1415, 'min_child_samples': 37, 'subsample': 0.4909937758395281}
 # lgbm = LGBMRegressor(**lgbm_param,random_state=42)
 # lgbm.fit(trainX,trainY)
 # pred = lgbm.predict(test)
