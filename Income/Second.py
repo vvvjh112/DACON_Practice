@@ -52,10 +52,6 @@ train = train.loc[train['Losses'] < 4356]
 # train = train.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
 # test = test.drop(['Birth_Country (Father)','Birth_Country (Mother)'],axis = 1)
 
-train = train.drop(['Losses'],axis = 1)
-test = test.drop(['Losses'], axis = 1)
-
-
 
 train['work*age'] = train['Working_Week (Yearly)'] * train['Age']
 test['work*age'] = test['Working_Week (Yearly)'] * test['Age']
@@ -63,8 +59,13 @@ test['work*age'] = test['Working_Week (Yearly)'] * test['Age']
 train['Gain*Div'] = train['Gains'] * train['Dividends']
 test['Gain*Div'] = test['Gains'] * test['Dividends']
 
-train = train.drop(['Gains'],axis = 1)
-test = test.drop(['Gains'], axis = 1)
+train['Losses-Div'] = train['Losses'] - train['Dividends']
+test['Losses-Div'] = test['Losses'] - test['Dividends']
+
+
+
+train = train.drop(['Gains','Losses'],axis = 1)
+test = test.drop(['Gains','Losses'], axis = 1)
 
 # 모델별 학습데이터 생성
 lgbm_train = train.copy()
@@ -115,6 +116,9 @@ logscale_columns = ['Gains', 'Losses', 'Dividends', 'Income']
 
 # lgbm_train['ESI'] = lgbm_train['Gains'] - lgbm_train['Losses']
 # lgbm_test['ESI'] = lgbm_test['Gains'] - lgbm_test['Losses']
+
+lgbm_train = lgbm_train.drop(['Losses-Div'],axis=1)
+lgbm_test = lgbm_test.drop(['Losses-Div'],axis = 1)
 
 lgbm_numeric_columns = lgbm_train.select_dtypes(include=['int64', 'float64']).columns
 lgbm_standardscale_columns = [x for x in lgbm_numeric_columns if x not in logscale_columns]
@@ -204,13 +208,13 @@ ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random
 #
 # print(mean_squared_error(testY,cat.predict(testX),squared=False))
 
-cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
+# cat_param = {'depth': 4, 'learning_rate': 0.07476093452252774, 'random_strength': 0.019414095664808752, 'border_count': 12, 'l2_leaf_reg': 0.020185588392668135, 'leaf_estimation_iterations': 6, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 78, 'one_hot_max_size': 2}
 #581.45770
 
 #테스트
 # cat_param = cat_study.best_params
-cat_param = {'depth': 4, 'learning_rate': 0.3780882464586928, 'random_strength': 0.018017309563986762, 'border_count': 181, 'l2_leaf_reg': 57.55942688579224, 'leaf_estimation_iterations': 5, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 97, 'one_hot_max_size': 1}
-
+# cat_param = {'depth': 4, 'learning_rate': 0.3780882464586928, 'random_strength': 0.018017309563986762, 'border_count': 181, 'l2_leaf_reg': 57.55942688579224, 'leaf_estimation_iterations': 5, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 97, 'one_hot_max_size': 1}
+cat_param = {'depth': 8, 'learning_rate': 0.05891535596662352, 'random_strength': 0.013037605369033879, 'border_count': 138, 'l2_leaf_reg': 1.0645707429462432, 'leaf_estimation_iterations': 7, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 93, 'one_hot_max_size': 1}
 
 
 # lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
