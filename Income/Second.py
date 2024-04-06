@@ -59,9 +59,16 @@ test['work*age'] = test['Working_Week (Yearly)'] * test['Age']
 train['Gain*Div'] = train['Gains'] * train['Dividends']
 test['Gain*Div'] = test['Gains'] * test['Dividends']
 
+#cat에만 있음
 train['Losses-Div'] = train['Losses'] - train['Dividends']
 test['Losses-Div'] = test['Losses'] - test['Dividends']
 
+train.loc[(train['Hispanic_Origin'] == 'NA'), 'Hispanic_Origin'] = 'Do not know'
+test.loc[(test['Hispanic_Origin'] == 'NA'), 'Hispanic_Origin'] = 'Do not know'
+
+train.loc[(train['Household_Status'] == 'Other Relative <18 never married child of subfamily Responsible Person') | (train['Household_Status'] == 'Grandchild <18 never married child of subfamily Responsible Person') | (train['Household_Status'] == 'Grandchild <18 never marr not in subfamily') | (train['Household_Status'] == 'Child under 18 of Responsible Person of unrelated subfamily') | (train['Household_Status'] == 'Child <18 never marr not in subfamily'), 'Household_Status'] = 'etc'
+test.loc[(test['Household_Status'] == 'Other Relative <18 never married child of subfamily Responsible Person') | (test['Household_Status'] == 'Grandchild <18 never married child of subfamily Responsible Person') | (test['Household_Status'] == 'Grandchild <18 never marr not in subfamily') | (test['Household_Status'] == 'Child under 18 of Responsible Person of unrelated subfamily') | (test['Household_Status'] == 'Child <18 never marr not in subfamily'), 'Household_Status'] = 'etc'
+# train = train.loc[(train['Household_Status'] != 'Grandchild 18+ spouse of subfamily Responsible Person') & (train['Household_Status'] != 'Grandchild 18+ ever married Responsible Person of subfamily') & (train['Household_Status'] != 'Child <18 ever married Responsible Person of subfamily') & (train['Household_Status'] != 'Other Relative <18 ever married Responsible Person of subfamily')]
 
 
 train = train.drop(['Gains','Losses'],axis = 1)
@@ -213,11 +220,12 @@ ctrainX, ctestX, ctrainY, ctestY = train_test_split(cat_x,y,test_size=0.2,random
 
 #테스트
 # cat_param = cat_study.best_params
-# cat_param = {'depth': 4, 'learning_rate': 0.3780882464586928, 'random_strength': 0.018017309563986762, 'border_count': 181, 'l2_leaf_reg': 57.55942688579224, 'leaf_estimation_iterations': 5, 'leaf_estimation_method': 'Newton', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 97, 'one_hot_max_size': 1}
 cat_param = {'depth': 8, 'learning_rate': 0.05891535596662352, 'random_strength': 0.013037605369033879, 'border_count': 138, 'l2_leaf_reg': 1.0645707429462432, 'leaf_estimation_iterations': 7, 'leaf_estimation_method': 'Gradient', 'bootstrap_type': 'MVS', 'grow_policy': 'SymmetricTree', 'min_data_in_leaf': 93, 'one_hot_max_size': 1}
 
 
-# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+
+
+lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)

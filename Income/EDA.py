@@ -108,8 +108,8 @@ def scatter_plot(df, target_column, feature_column):
     plt.ylabel(target_column)
     plt.show()
 
-# for i in numeric_columns:
-#     scatter_plot(train,'Income',i)
+for i in numeric_columns:
+    scatter_plot(train,'Income',i)
 #
 for column in category_columns:
     unique_count = train[column].nunique()
