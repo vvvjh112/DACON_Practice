@@ -63,6 +63,9 @@ test['Gain*Div'] = test['Gains'] * test['Dividends']
 train['Losses-Div'] = train['Losses'] - train['Dividends']
 test['Losses-Div'] = test['Losses'] - test['Dividends']
 
+train['work+Gain'] = train['Working_Week (Yearly)'] + train['Gains']
+test['work+Gain'] = test['Working_Week (Yearly)'] + test['Gains']
+
 train.loc[(train['Hispanic_Origin'] == 'NA'), 'Hispanic_Origin'] = 'Do not know'
 test.loc[(test['Hispanic_Origin'] == 'NA'), 'Hispanic_Origin'] = 'Do not know'
 
@@ -124,8 +127,8 @@ logscale_columns = ['Gains', 'Losses', 'Dividends', 'Income']
 # lgbm_train['ESI'] = lgbm_train['Gains'] - lgbm_train['Losses']
 # lgbm_test['ESI'] = lgbm_test['Gains'] - lgbm_test['Losses']
 
-lgbm_train = lgbm_train.drop(['Losses-Div'],axis=1)
-lgbm_test = lgbm_test.drop(['Losses-Div'],axis = 1)
+lgbm_train = lgbm_train.drop(['Losses-Div','work+Gain'],axis=1)
+lgbm_test = lgbm_test.drop(['Losses-Div','work+Gain'],axis = 1)
 
 lgbm_numeric_columns = lgbm_train.select_dtypes(include=['int64', 'float64']).columns
 lgbm_standardscale_columns = [x for x in lgbm_numeric_columns if x not in logscale_columns]
@@ -225,7 +228,7 @@ cat_param = {'depth': 8, 'learning_rate': 0.05891535596662352, 'random_strength'
 
 
 
-lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
+# lgbm, lgbm_study = mt.lgbm_modeling(ltrainX,ltrainY,ltestX,ltestY)
 # print(lgbm.feature_importances_)
 # print(mean_squared_error(testY,lgbm.predict(testX),squared=False))
 # pred = lgbm.predict(test)
