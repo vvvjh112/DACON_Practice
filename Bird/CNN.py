@@ -120,12 +120,12 @@ class BaseModel(nn.Module):
     def __init__(self, num_classes=len(le.classes_)):
         super(BaseModel, self).__init__()
         # EfficientNet B0 아키텍처를 사용하여 사전 훈련된 백본 설정. 특성 추출기 역함
-        # self.backbone = models.efficientnet_b0(pretrained=True)
+        self.backbone = models.efficientnet_b0(pretrained=True)
         # 백본 모델의 출력을 받아 최종적으로 클래스 수에 맞는 출력을 생성하는 선형 분류기
         self.classifier = nn.Linear(1000, num_classes)  # 기본 출력크기 1,000으로 정의
         #다른 모델
-        self.backbone = models.resnet50(pretrained=True)
-        self.num_features = self.backbone.fc.in_features
+        # self.backbone = models.resnet50(pretrained=True)
+        # self.num_features = self.backbone.fc.in_features
     def forward(self, x):
         x = self.backbone(x)  # backbone을 거쳐 특성이 추출
         x = self.classifier(x)  # 분류기에 전달되어 최종 출력 생성
