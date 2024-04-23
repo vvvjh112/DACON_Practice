@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import model_tuned as mt
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -459,12 +458,22 @@ def plot_category_count(df, category_column):
 # Over Median     0.03685
 
 
-for i in category_columns:
-    group = train.groupby([i]).mean('Income')
-    plt.title(f'{i}_Mean of Imcome')
+# for i in category_columns:
+#     group = train.groupby([i]).mean('Income')
+#     plt.title(f'{i}_Mean of Imcome')
+#     plt.xticks(fontsize=7, rotation=45, ha='right')
+#     sns.lineplot(x=group.index, y='Income', data=group, marker='o')
+#     plt.show()
+
+def category_Mean_of_Target(df,target,category_column):
+    group = df.groupby([category_column]).mean(target)
+    plt.title(f'{i}_Mean of {target}')
     plt.xticks(fontsize=7, rotation=45, ha='right')
-    sns.lineplot(x=group.index, y='Income', data=group, marker='o')
+    sns.lineplot(x=group.index, y=target, data=group, marker='o')
     plt.show()
+
+for i in category_columns:
+    category_Mean_of_Target(train,'Income',i)
 
 
 #14살까지는 소득 0

@@ -109,7 +109,7 @@ def xgb_modeling(X_train, y_train, X_valid, y_valid):
   study_xgb = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=100))
   study_xgb.optimize(objective,n_trials=30,show_progress_bar=True)
   print("xgb 최적 파라미터", study_xgb.best_params)
-  xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squaredlogerror')
+  xgb_reg = XGBRegressor(**study_xgb.best_params, random_state=42, n_jobs=-1, objective='reg:squarederror')
   xgb_reg.fit(X_train,y_train,eval_set = [(X_valid,y_valid)], eval_metric='rmse', early_stopping_rounds=100,verbose=False)
 
   return xgb_reg, study_xgb
@@ -181,8 +181,8 @@ def grid_search(model, param, trainX, trainY):
 
     return grid
 
-def compare_model(train_set):
-    clf = pycaret.regression.setup(data=train_set, target='Income', train_size=0.8)
+def compare_model(train_set,target):
+    clf = pycaret.regression.setup(data=train_set, target=target, train_size=0.8)
     best_model = pycaret.regression.compare_models()
     pycaret.regression.compare_models(n_select = 5, sort = 'RMSE')
 
