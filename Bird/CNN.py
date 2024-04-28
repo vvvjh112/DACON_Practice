@@ -23,9 +23,13 @@ from sklearn.metrics import classification_report
 from tqdm import tqdm
 
 import warnings
+import timm
+efficient= timm.create_model('efficientnet_b0', pretrained=True)
 warnings.filterwarnings(action='ignore')
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+device = torch.device("mps")
 print(device)
 CFG = {
     'IMG_SIZE': 224,
@@ -120,7 +124,8 @@ class BaseModel(nn.Module):
     def __init__(self, num_classes=len(le.classes_)):
         super(BaseModel, self).__init__()
         # EfficientNet B0 아키텍처를 사용하여 사전 훈련된 백본 설정. 특성 추출기 역함
-        self.backbone = models.efficientnet_b0(pretrained=True)
+        # self.backbone = models.efficientnet_b0(pretrained=True)
+        self.backbone = timm.create_model('efficientnet_b0', pretrained=True)
         # 백본 모델의 출력을 받아 최종적으로 클래스 수에 맞는 출력을 생성하는 선형 분류기
         self.classifier = nn.Linear(1000, num_classes)  # 기본 출력크기 1,000으로 정의
         #다른 모델
